@@ -6,7 +6,7 @@ import Pcanvas from "./Pcanvas";
 class App extends Component {
   render() {
     return (
-      <div className="App">
+      <div className="App test">
         <Pcanvas/>
       </div>
     );
