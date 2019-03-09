@@ -7,7 +7,8 @@ class App extends Component {
   render() {
     return (
       <div className="App test">
-        <Pcanvas/>
+        <Pcanvas module="Dominik"/>
+        <Pcanvas module="Robo"/>
       </div>
     );
   }

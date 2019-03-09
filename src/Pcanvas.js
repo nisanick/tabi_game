@@ -1,14 +1,19 @@
 import * as PIXI from "pixi.js";
 import React, { Component } from 'react';
+import Dominik from "./Dominik/Dominik";
+import Robo from "./Robo/Robo";
 
 export default class Pcanvas extends Component {
     constructor(props) {
         super(props);
         this.pixi_cnt = null;
-        this.loader = new PIXI.Loader();
-        this.resources = this.loader.resources;
-        this.app = new PIXI.Application({width: 600, height: 600, transparent: false, antialias: true, resolution: 1});
-        this.imgPath = "public/assets/characters/boar.png";
+        this.app = new PIXI.Application({width: 900, height: 900, transparent: false, antialias: true, resolution: 1});
+        this.model = {};
+        if(props.module === "Dominik"){
+            this.model = new Dominik(this.app);
+        } else {
+            this.model = new Robo(this.app);
+        }
 
         this.updatePixiCnt = this.updatePixiCnt.bind(this);
     }
@@ -21,33 +26,10 @@ export default class Pcanvas extends Component {
             this.pixi_cnt.appendChild(this.app.view);
             //The setup function is a custom function that we created to add the sprites. We will this below
             //this.setup();
-
-            this.app.renderer.view.style.position = "absolute";
-            this.app.renderer.view.style.display = "block";
-            this.app.renderer.resize(window.innerWidth, window.innerHeight);
-
-            this.initImage();
         }
     };
 
-    initImage(){
-        this.loader.add(this.imgPath)
-            .load(()=>{
-                let boar = new PIXI.Sprite(this.resources[this.imgPath].texture);
-                console.log(boar);
-                //Add the cat to the stage
-                boar.visible = true;
-                boar.x = 10;
-                boar.y = 10;
-                this.app.stage.addChild(boar);
-            });
-    }
-
-    setup(){
-
-    }
-
     render() {
-        return <div ref={this.updatePixiCnt}/>;
+        return <span className="gameWindow" ref={this.updatePixiCnt}/>;
     }
 }
