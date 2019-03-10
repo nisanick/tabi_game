@@ -1,10 +1,13 @@
+import Figure from "./Figure";
+
 export default class Container {
 
-    constructor (width, height){
-        this.figures = {};
-        this.bullets = {};
+    constructor (width, height, stage){
+        this.figures = [];
+        this.bullets = [];
         this.width = width;
         this.height = height;
+        this.stage = stage;
     }
 
     addFigure(/*Figure*/figure){
@@ -24,25 +27,25 @@ export default class Container {
     }
 
     getSize(){
-        let position = {};
-        position.width = this.width;
-        position.height = this.height;
-        return position;
+        let size = {};
+        size.width = this.width;
+        size.height = this.height;
+        return size;
     }
 
-    isOnXWall(coordinateFrom, coordinateTo){
-        if (coordinateFrom > coordinateTo){
-            return !this.width > coordinateTo;
+    isWallOnX(coordinateFrom, coordinateTo){
+        if (coordinateFrom < coordinateTo){
+            return this.width <= coordinateTo;
         } else {
-            return !this.width < coordinateTo;
+            return coordinateTo <= 0;
         }
     }
 
-    isOnYWall(coordinateFrom, coordinateTo){
-        if (coordinateFrom > coordinateTo){
-            return !this.height > coordinateTo
+    isWallOnY(coordinateFrom, coordinateTo){
+        if (coordinateFrom < coordinateTo){
+            return this.height <= coordinateTo
         } else {
-            return !this.height > coordinateTo;
+            return coordinateTo <= 0;
         }
     }
 }
