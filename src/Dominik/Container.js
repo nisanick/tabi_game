@@ -1,4 +1,4 @@
-class Container {
+export default class Container {
 
     constructor (width, height){
         this.figures = {};
