@@ -6,7 +6,7 @@ export default class Bullet {
         this.container = container;
         this.loader = new PIXI.Loader();
         this.bulletTexture = {};
-        this.speed = 5;
+        this.speed = 10;
         this.stage = stage;
 
         this.x = x;
@@ -14,19 +14,20 @@ export default class Bullet {
         this.width = 20;
         this.height = 10;
         this.angle = angle;
+        this.maxReflection = 20;
+        this.actualReflection = 0;
 
         this.initImage();
 
         this.container.addBullet(this);
     }
-
+/*
     initImage(){
         this.loader.add("assets/dominik/bullet-final.png").load(this.setup.bind(this));
     }
-
-    setup(){
-        this.bulletTexture = new PIXI.Sprite(
-            this.loader.resources["assets/dominik/bullet-final.png"].texture);
+*/
+    initImage(){
+        this.bulletTexture = PIXI.Sprite.from("assets/dominik/bullet-final.png");
 
         this.bulletTexture.width = this.width;
         this.bulletTexture.height = this.height;
@@ -44,6 +45,7 @@ export default class Bullet {
     }
 
     removeBulletFromStage(){
+        this.bulletTexture.visible = false;
         this.stage.removeChild(this.bulletTexture);
     }
 
@@ -57,12 +59,14 @@ export default class Bullet {
             newY = this.y + Math.abs(this.speed) * Math.sin(this.angle);
             this.bulletTexture.rotation *= -1;
             this.bulletTexture.scale.x *= -1;
+            this.actualReflection++;
         }
         if (this.container.isWallOnY(this.y, newY)){
             this.angle *= -1;
             newX = this.x + this.speed * Math.cos(this.angle);
             newY = this.y + Math.abs(this.speed) * Math.sin(this.angle);
             this.bulletTexture.rotation *= -1;
+            this.actualReflection++;
         }
 
         this.x = newX;
@@ -70,14 +74,20 @@ export default class Bullet {
 
         this.bulletTexture.x = this.x;
         this.bulletTexture.y = this.y;
+
+        if (this.actualReflection >= this.maxReflection){
+            this.removeBulletFromStage();
+            this.container.removeBullet(this);
+        }
     }
 
     wasHit(figures){
-        figures.forEach((figure)=>{
-            if (this.collision(figure)) {
+        for (let i = 0; i < figures.length; i++) {
+            if (this.collision(figures[i])) {
+                figures[i].wasHit();
                 return true;
             }
-        });
+        }
 
         return false;
     }
