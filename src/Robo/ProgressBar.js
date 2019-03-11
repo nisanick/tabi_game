@@ -25,7 +25,6 @@ export default class ProgressBar {
     setProgress = (percent) => {
         this.progress = percent;
         this.fill.setTransform(1, 0, this.progress, 0, 0, 0);
-        console.log(this.fill.width);
         this.fill.visible = this.progress > 0;
         this.bar.visible = this.progress > 0;
     }
