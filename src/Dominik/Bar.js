@@ -94,7 +94,7 @@ export default class Bar {
             if (this.player.bulletConst > 0) {
                 this.progressBar[angle].visible = true;
             } else {
-                if (angle < 40) {
+                if (angle >= 0 && angle < 40) {
                     this.progressBar[angle].visible = false;
                 }
             }
