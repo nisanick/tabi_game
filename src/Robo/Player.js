@@ -32,15 +32,73 @@ export default class Player {
 
         this.progressBar = new ProgressBar(this.graphic);
 
+        this.graphic.position.set(200,200);
+
         this.canvas.addChild(this.graphic);
     };
 
     repaint = () => {
         this.graphic.position.set(this.graphic.x + this.moveX, this.graphic.y + this.moveY);
+        this.setRotation();
         if (this.charge) {
             this.progress = (this.progress + 1.5) % 100;
         }
         this.progressBar.setProgress(this.progress / 100);
+    };
+
+    setRotation = () => {
+        let sprite  = this.sprite;
+        switch (this.move) {
+            default:
+                break;
+            case 2: //down
+                sprite.pivot.set(0,0);
+                sprite.anchor.set(0,0);
+                sprite.rotation = 0;
+                break;
+
+            case 1: //up
+                sprite.pivot.set(0,0);
+                sprite.anchor.set(1,1);
+                sprite.rotation = Math.PI;
+                break;
+
+            case 4: //left
+                sprite.pivot.set(0,0);
+                sprite.anchor.set(0,1);
+                sprite.rotation = Math.PI/2;
+                break;
+
+            case 8: //right
+                sprite.pivot.set(0,0);
+                sprite.anchor.set(1,0);
+                sprite.rotation = 3*Math.PI/2;
+                break;
+
+            case 5: //up left
+                sprite.pivot.set(0,10);
+                sprite.anchor.set(0.5,1);
+                sprite.rotation = 3*Math.PI/4;
+                break;
+
+            case 9: //up right
+                sprite.pivot.set(10,0);
+                sprite.anchor.set(1,0.5);
+                sprite.rotation = 5*Math.PI/4;
+                break;
+
+            case 6: //down left
+                sprite.pivot.set(-10,0);
+                sprite.anchor.set(0,0.5);
+                sprite.rotation = Math.PI/4;
+                break;
+
+            case 10: //down right
+                sprite.pivot.set(0,-10);
+                sprite.anchor.set(0.5,0);
+                sprite.rotation = 7*Math.PI/4;
+                break;
+        }
     };
 
     handleKeyDown = (event) => {
