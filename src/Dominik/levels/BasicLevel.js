@@ -214,6 +214,10 @@ export default class BasicLevel {
         let isEmpty = true;
 
         this.figures.forEach(figure => {
+            if (figure.hitRectangle) {
+                figure = figure.hitRectangle;
+            }
+
             if (Tools.isBetweenObject(figure.x, figure.x + figure.width, x) && Tools.isBetweenObject(figure.y, figure.y + figure.height, y)) {
                 isEmpty = false;
             } else if (Tools.isBetweenObject(figure.x, figure.x + figure.width, x + width) && Tools.isBetweenObject(figure.y, figure.y + figure.height, y + height)) {
@@ -222,6 +226,10 @@ export default class BasicLevel {
         });
 
         this.objects.forEach(object => {
+            if (object.hitRectangle) {
+                object = object.hitRectangle;
+            }
+
             if (Tools.isBetweenObject(object.x, object.x + object.width, x) && Tools.isBetweenObject(object.y, object.y + object.height, y)) {
                 isEmpty = false;
             } else if (Tools.isBetweenObject(object.x, object.x + object.width, x + width) && Tools.isBetweenObject(object.y, object.y + object.height, y + height)) {

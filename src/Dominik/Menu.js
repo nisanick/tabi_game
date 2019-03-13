@@ -7,6 +7,7 @@ export default class Menu {
         this.menuContainer.zIndex = 100;
         this.mainWindow.panelStage.addChild(this.menuContainer);
         this.startText = {};
+        this.firstTime = true;
         this.initMenu();
         window.addEventListener("keydown", this.handleKeyDown);
     }
@@ -39,8 +40,18 @@ export default class Menu {
         let children = this.menuContainer.children;
         if (this.mainWindow.paused) {
             children.forEach((obj) =>{
-                obj.visible = true;
+                if (this.firstTime){
+                    if (obj.name !== null && obj.name.includes("btnRestart")){
+                        obj.visible = false;
+                    } else {
+                        obj.visible = true;
+                    }
+                } else {
+                    obj.visible = true;
+                }
             });
+
+            this.firstTime = false;
         } else {
             children.forEach((obj) =>{
                 obj.visible = false;
@@ -106,12 +117,14 @@ export default class Menu {
         btnRestart.y = 0;
         btnRestart.visible = false;
         btnRestart.interactive = true;
+        btnRestart.name = "btnRestart";
         btnRestart.on("mousedown", this.restart.bind(this));
         this.menuContainer.addChild(btnRestart);
 
         let btnRestartText = new PIXI.Text("Restart", new PIXI.TextStyle({fill: "black", font: "15px bold"}));
         btnRestartText.position.set(410, 420);
         btnRestartText.visible = false;
+        btnRestartText.name = "btnRestartText";
         this.menuContainer.addChild(btnRestartText);
 
         let btnHideMenu = new PIXI.Graphics();
