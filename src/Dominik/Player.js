@@ -1,10 +1,9 @@
 import Figure from "./Figure";
-import Tools from "./Tools";
 
 export default class Player extends Figure {
 
-    constructor(container, x, y, stage){
-        super(container, x, y, stage, "player");
+    constructor(level, x, y, stage){
+        super(level, x, y, stage, "player");
 
         window.addEventListener("keydown", this.handleKeyDown);
         window.addEventListener("keyup", this.handleKeyUp);
@@ -22,7 +21,6 @@ export default class Player extends Figure {
     }
 
     clearObject(){
-        console.log("here");
         window.removeEventListener("keydown", this.handleKeyDown);
         window.removeEventListener("keyup", this.handleKeyUp);
     }
@@ -85,9 +83,9 @@ export default class Player extends Figure {
     }
 
     shoot(){
-        if (this.bulletCooldown === 0) {
+        if (this.bulletCooldown === 0 || this.noReload) {
             this.angleCounter = 0;
-            this.bulletCooldown = 5;
+            if (!this.noReload) this.bulletCooldown = 5;
             //let angle = (this.angle - 90 + Tools.getRndInteger(-20, 20)) * (Math.PI / 180); //test
             let angle = (this.angle - 90 + this.bulletAngle) * (Math.PI / 180);
             super.shoot(angle);
@@ -95,6 +93,7 @@ export default class Player extends Figure {
             this.bulletAngle = -20;
         }
     }
+
 
     handleKeyUp = (event) => {
         if (event && event.key) {
@@ -120,6 +119,7 @@ export default class Player extends Figure {
                 case " ":
                     this.shoot();
                     this.spacePressed = false;
+                    this.bulletConst = 1;
                     break;
 
                 default:

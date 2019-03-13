@@ -1,10 +1,11 @@
 import * as PIXI from "pixi.js";
 import Bullet from "./Bullet";
+import Tools from "./Tools";
 
 export default class Figure {
 
-    constructor( /*Container*/container, x, y, stage, type) {
-        this.container = container;
+    constructor( /*BasicLevel*/level, x, y, stage, type) {
+        this.level = level;
         this.loader = new PIXI.Loader();
         this.moves = [];// 0-left leg, 1-stay, 2- right leg
         this.moveIndex = 1;
@@ -12,20 +13,32 @@ export default class Figure {
         this.stage = stage;
         this.dead = false;
 
+        this.bonuses = [];
 
-        this.health = 1;
         this.maxHealth = 1;
+        this.health = 1;
 
-        this.x = x;
-        this.y = y;
+        this.shield = false;
+        this.shotgun = false;
+        this.noReload = false;
+
         this.moveX = 0;
         this.moveY = 0;
-        this.width = 90;
-        this.height = 140;
+        this.width = 90 * 0.7;
+        this.height = 140 * 0.7;
+
+        let rndPoint = level.getRandomSpawn(this.width, this.height);
+
+        this.x = rndPoint.x;
+        this.y = rndPoint.y;
 
         this.angle = 0;
         this.speed = 5;
+        this.maxSpeed = 5;
         this.rotation = "";
+        this.type = type;
+
+        this.hitRectangle = {x: 0, y: 0, width: this.width, height: this.width};
 
         this.initImage(type);
     }
@@ -37,10 +50,6 @@ export default class Figure {
         } else {
             texture = PIXI.BaseTexture.from("assets/dominik/enemy.png");
         }
-        let scale = 0.7;
-
-        this.width = this.width * scale;
-        this.height = this.height * scale;
 
         let x = 0;
         for (let i = 0; i < 3; i++) {
@@ -64,6 +73,37 @@ export default class Figure {
             this.stage.addChild(this.moves[i]);
             x += 90;
         }
+        this.hitRectangle.x = this.x - this.width / 2;
+        this.hitRectangle.y = this.y - this.width / 4;
+    }
+
+    addBonus(bonus){
+        this.bonuses.push(bonus);
+    }
+
+    removeBonus(bonus){
+        this.bonuses.splice(bonus);
+    }
+
+    checkBonusesDuration(){
+        this.bonuses.forEach(bonus => {
+            if (bonus.active && bonus.duration <= 0){
+                if (bonus.name === "reload") this.noReload = false;
+                else if (bonus.name === "shield") this.shield = false;
+                else if (bonus.name === "shotgun") this.shotgun = false;
+                else if (bonus.name === "speed") this.speed = this.maxSpeed;
+
+                bonus.active = false;
+            } else if (bonus.active){
+                bonus.durationLoader();
+            }
+        });
+    }
+
+    setVisibility(visible){
+        this.moves.forEach( (move) => {
+            move.visible = visible;
+        })
     }
 
     wasHit() {
@@ -90,15 +130,17 @@ export default class Figure {
         else if (this.moveX > 0 && this.moveY === 0) this.rotation = "R";
         else if (this.moveX < 0 && this.moveY === 0) this.rotation = "L";
 
-        if (this.container.isWallOnX(this.x, this.x + this.moveX)) {
+        let newY = this.y + this.moveY;
+        let newX = this.x + this.moveX;
+        if (this.level.isWallOnX(this.x, this.x + this.moveX, newY)) {
             this.moveX = 0;
         }
-        if (this.container.isWallOnY(this.y, this.y + this.moveY)) {
+        if (this.level.isWallOnY(this.y, this.y + this.moveY, newX)) {
             this.moveY = 0;
         }
     }
 
-    move() {
+    move(delta) {
         if (!this.dead) {
             if (this.moveX === 0 && this.moveY === 0) {
                 for (let i = 0; i < this.moves.length; i++) {
@@ -132,6 +174,32 @@ export default class Figure {
                     }
                     this.moveRepeat++;
                 }
+
+                if (this.rotation === 'U'){
+                    this.hitRectangle.x = this.x - this.width / 2;
+                    this.hitRectangle.y = this.y - this.width / 4;
+                } else if (this.rotation === 'L') {
+                    this.hitRectangle.x = this.x - this.width / 4;
+                    this.hitRectangle.y = this.y - this.width / 2;
+                } else if (this.rotation === 'R'){
+                    this.hitRectangle.x = this.x - this.width / 2 - 10;
+                    this.hitRectangle.y = this.y - this.width / 2;
+                } else if (this.rotation === 'LU') {
+                    this.hitRectangle.x = this.x - this.width / 4;
+                    this.hitRectangle.y = this.y - this.width / 4;
+                } else if (this.rotation === 'RU') {
+                    this.hitRectangle.x = this.x - this.width / 2 - 10;
+                    this.hitRectangle.y = this.y - this.width / 4;
+                } else if (this.rotation === 'LD') {
+                    this.hitRectangle.x = this.x - this.width / 2 + 10;
+                    this.hitRectangle.y = this.y - this.width / 2 - 10;
+                } else if (this.rotation === 'RD') {
+                    this.hitRectangle.x = this.x - this.width / 2 - 10;
+                    this.hitRectangle.y = this.y - this.width / 2 - 10;
+                } else {
+                    this.hitRectangle.x = this.x - this.width / 2;
+                    this.hitRectangle.y = this.y - this.height / 2;
+                }
             }
         }
     }
@@ -149,15 +217,63 @@ export default class Figure {
         move.rotation = this.angle * (Math.PI / 180);
     }
 
+    containsBonus(bonusName){
+        for (let i = 0; i < this.bonuses.length; i++) {
+            if (this.bonuses[i].name === bonusName) {
+                return {contains: true, bonus: this.bonuses[i]}
+            }
+        }
+
+        return {contains: false, bonus: null};
+    }
+
     shoot(angle) {
-        let point = this.getBulletPoint();
-        new Bullet(this.container, point.x, point.y, angle, this.stage);
+        if (this.shotgun){
+            let point = this.getFirstBulletPoint();
+            new Bullet(this.level, point.x, point.y, Tools.toRadians(this.angle - 90 - 20), this.stage, this.type);
+            new Bullet(this.level, point.x, point.y, Tools.toRadians(this.angle - 90), this.stage, this.type);
+            new Bullet(this.level, point.x, point.y, Tools.toRadians(this.angle - 90 + 20), this.stage, this.type);
+        } else {
+            let point = this.getFirstBulletPoint();
+            new Bullet(this.level, point.x, point.y, angle, this.stage, this.type);
+        }
     }
 
     clearObject() {
     }
 
-    getBulletPoint() {
+    bulletLoader(){}
+
+    checkBonuses(){
+        this.bonuses.forEach(bonus => {
+            if (bonus.take) {
+                if (bonus.name === "firstaid") {
+                    this.health = this.maxHealth;
+                } else if (bonus.name === "reload") {
+                    this.noReload = true;
+                    bonus.startDuration();
+                } else if (bonus.name === "shield") {
+                    this.shield = true;
+                    bonus.startDuration();
+                } else if (bonus.name === "shotgun") {
+                    this.shotgun = true;
+                    bonus.startDuration();
+                } else if (bonus.name === "speed") {
+                    bonus.startDuration();
+                    this.speed = this.maxSpeed * 2;
+                }
+
+                bonus.active = true;
+                bonus.take = false;
+            }
+        });
+        //if (this.type === 'player')
+            //console.log(this.bonuses);
+
+        this.checkBonusesDuration();
+    }
+
+    getFirstBulletPoint() {
         let point = {};
         point.x = 0;
         point.y = 0;

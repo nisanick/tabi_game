@@ -5,7 +5,8 @@ export default class Menu {
         this.mainWindow = mainWindow;
         this.menuContainer = new PIXI.Container();
         this.menuContainer.zIndex = 100;
-        this.mainWindow.app.stage.addChild(this.menuContainer);
+        this.mainWindow.panelStage.addChild(this.menuContainer);
+        this.startText = {};
         this.initMenu();
         window.addEventListener("keydown", this.handleKeyDown);
     }
@@ -27,6 +28,14 @@ export default class Menu {
     };
 
     showMenu() {
+        if (!this.mainWindow.gameStarted) {
+            this.startText.text = "New Game";
+            this.startText.position.set(393, 340);
+        } else {
+            this.startText.text = "Continue";
+            this.startText.position.set(400, 340);
+        }
+
         let children = this.menuContainer.children;
         if (this.mainWindow.paused) {
             children.forEach((obj) =>{
@@ -40,8 +49,13 @@ export default class Menu {
     }
 
     continue(){
-        this.mainWindow.pause();
-        this.showMenu();
+        if (!this.mainWindow.gameStarted){
+            this.mainWindow.start();
+            this.showMenu();
+        } else {
+            this.mainWindow.pause();
+            this.showMenu();
+        }
     }
 
     restart(){
@@ -78,10 +92,10 @@ export default class Menu {
         btnContinue.on("mousedown", this.continue.bind(this));
         this.menuContainer.addChild(btnContinue);
 
-        let btnContinueText = new PIXI.Text("Continue", new PIXI.TextStyle({fill: "black", font: "15px bold"}));
-        btnContinueText.position.set(400, 340);
-        btnContinueText.visible = false;
-        this.menuContainer.addChild(btnContinueText);
+        this.startText = new PIXI.Text("Continue", new PIXI.TextStyle({fill: "black", font: "15px bold"}));
+        this.startText.position.set(400, 340);
+        this.startText.visible = false;
+        this.menuContainer.addChild(this.startText);
 
         let btnRestart = new PIXI.Graphics();
         btnRestart.lineStyle(5, 0xa3a3a3, 1);

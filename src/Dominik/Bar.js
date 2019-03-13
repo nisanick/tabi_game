@@ -4,13 +4,16 @@ export default class Bar {
     constructor(/*Dominik*/mainWindow, /*Player*/ player) {
         this.mainWindow = mainWindow;
         this.barContainer = new PIXI.Container();
-        this.mainWindow.app.stage.addChild(this.barContainer);
+        this.mainWindow.panelStage.addChild(this.barContainer);
         this.loader = new PIXI.Loader();
         this.healthImg = [];
         this.player = player;
         this.bulletTimerTime = {};
         this.progressBar = [];
         this.emptyProgressBar = true;
+
+        this.bonusTimers = [];
+
         this.initBar();
     }
 
@@ -68,14 +71,51 @@ export default class Bar {
             x += 3;
         }
 
+        for (let i = 0; i < this.mainWindow.level.bonusesAmount/*bonuses amount with timer*/; i++) {
+            let bonusTimer = new PIXI.Text("0", new PIXI.TextStyle({fill: "white", fontSize: 20}));
+            bonusTimer.position.set(400, 835);
+            bonusTimer.visible = false;
+
+            this.bonusTimers[i] = bonusTimer;
+
+            this.barContainer.addChild(bonusTimer);
+        }
+
+    }
+
+    clearTimers(){
+        this.bonusTimers.forEach(timer => {
+            timer.text = "0";
+            timer.visible = false;
+        });
     }
 
     checkHealthBar() {
-        //if (this.player.health < this.player.maxHealth){
         for (let i = 0; i < this.healthImg.length; i++) {
             this.healthImg[i].visible = (this.player.health >= (i + 1));
         }
-        //}
+    }
+
+    checkBonusesTimer(){
+        let x = 500;
+        let timerIndex = 0;
+        let timerIndex2 = 0;
+        for (let i = 0; i < this.player.bonuses.length; i++) {
+            let bonus = this.player.bonuses[i];
+            if (bonus.name !== "firstaid") {
+                if (bonus.active) {
+                    this.bonusTimers[timerIndex].text = bonus.duration;
+                    this.bonusTimers[timerIndex].x = x;
+                    this.bonusTimers[timerIndex].visible = true;
+                    timerIndex++;
+                    x += 20;
+                }
+                if (this.bonusTimers[timerIndex2].text === '0') {
+                    this.bonusTimers[timerIndex2].visible = false;
+                }
+                timerIndex2++;
+            }
+        }
     }
 
     checkBulletTimer() {

@@ -1,9 +1,10 @@
 import * as PIXI from "pixi.js";
+import Tools from "./Tools";
 
 export default class Bullet {
 
-    constructor( /*Container*/container, x, y, angle, stage){
-        this.container = container;
+    constructor( /*BasicLevel*/level, x, y, angle, stage, type){
+        this.level = level;
         this.loader = new PIXI.Loader();
         this.bulletTexture = {};
         this.speed = 10;
@@ -16,10 +17,11 @@ export default class Bullet {
         this.angle = angle;
         this.maxReflection = 20;
         this.actualReflection = 0;
+        this.shooter = type;
 
         this.initImage();
 
-        this.container.addBullet(this);
+        this.level.addBullet(this);
     }
 /*
     initImage(){
@@ -53,7 +55,7 @@ export default class Bullet {
         let newX = this.x + this.speed * Math.cos(this.angle);
         let newY = this.y + Math.abs(this.speed) * Math.sin(this.angle);
 
-        if (this.container.isWallOnX(this.x, newX)) {
+        if (this.level.isWallOnX(this.x, newX, this.y)) {
             this.speed *= -1;
             newX = this.x + this.speed * Math.cos(this.angle);
             newY = this.y + Math.abs(this.speed) * Math.sin(this.angle);
@@ -61,7 +63,7 @@ export default class Bullet {
             this.bulletTexture.scale.x *= -1;
             this.actualReflection++;
         }
-        if (this.container.isWallOnY(this.y, newY)){
+        if (this.level.isWallOnY(this.y, newY, this.x)){
             this.angle *= -1;
             newX = this.x + this.speed * Math.cos(this.angle);
             newY = this.y + Math.abs(this.speed) * Math.sin(this.angle);
@@ -76,16 +78,31 @@ export default class Bullet {
         this.bulletTexture.y = this.y;
 
         if (this.actualReflection >= this.maxReflection){
-            this.removeBulletFromStage();
-            this.container.removeBullet(this);
+            this.bulletTexture.visible = false;
+            this.level.removeBullet(this);
         }
     }
 
     wasHit(figures){
         for (let i = 0; i < figures.length; i++) {
-            if (this.collision(figures[i])) {
-                figures[i].wasHit();
-                return true;
+            if (figures[i].shield){
+                if (Tools.reflectFromX(figures[i], this)){
+                    this.speed *= -1;
+                    this.bulletTexture.rotation *= -1;
+                    this.bulletTexture.scale.x *= -1;
+                    this.actualReflection++;
+                }
+
+                if (Tools.reflectFromY(figures[i], this)){
+                    this.angle *= -1;
+                    this.bulletTexture.rotation *= -1;
+                    this.actualReflection++;
+                }
+            } else {
+                if (this.collision(figures[i])) {
+                    figures[i].wasHit();
+                    return true;
+                }
             }
         }
 
@@ -93,42 +110,10 @@ export default class Bullet {
     }
 
     collision(figure){
-        let hit, combinedHalfWidths, combinedHalfHeights, vx, vy;
-        let bCenterX, bCenterY, bHalfWidth, bHalfHeight;
-        let fCenterX, fCenterY, fHalfWidth, fHalfHeight;
-        //hit will determine whether there's a collision
-        hit = false;
-
-        //Find the center points of each sprite
-        fCenterX = figure.x + figure.width / 2;
-        fCenterY = figure.y + figure.height / 2;
-        bCenterX = this.x + this.width / 2;
-        bCenterY = this.y + this.height / 2;
-
-        //Find the half-widths and half-heights of each sprite
-        fHalfWidth = figure.width / 2;
-        fHalfHeight = figure.height / 2;
-        bHalfWidth = this.width / 2;
-        bHalfHeight = this.height / 2;
-
-        //Calculate the distance vector between the sprites
-        vx = fCenterX - bCenterX;
-        vy = fCenterY - bCenterY;
-
-        //Figure out the combined half-widths and half-heights
-        combinedHalfWidths = fHalfWidth + bHalfWidth;
-        combinedHalfHeights = fHalfHeight + bHalfHeight;
-
-        //Check for a collision on the x axis
-        if (Math.abs(vx) < combinedHalfWidths) {
-            if (Math.abs(vy) < combinedHalfHeights) {
-                hit = true;
-            } else {
-                hit = false;
-            }
+        if (this.shooter === "player" || this.shooter !== figure.type) {
+            return Tools.collision(figure, this);
         } else {
-            hit = false;
+            return false;
         }
-        return hit;
     }
 }
