@@ -46,6 +46,11 @@ export default class Player {
         this.progressBar.setProgress(this.progress / 100);
     };
 
+    shot = (percentage) => {
+
+    };
+
+    //<editor-fold desc="movement">
     setRotation = () => {
         let sprite  = this.sprite;
         switch (this.move) {
@@ -206,6 +211,7 @@ export default class Player {
                 case " ":
                     this.charge = false;
                     this.progress = 0;
+                    this.shot(this.progress);
                     break;
 
                 default:
@@ -229,4 +235,5 @@ export default class Player {
             this.moveX = -this.moveConstant;
         }
     };
+    //</editor-fold>
 }

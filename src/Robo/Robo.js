@@ -8,9 +8,13 @@ export default class Robo{
         this.player = new Player(this.loader, app.stage);
         this.loader.add("assets/Robo/player.png").load(this.init.bind(this));
 
-
+        this.player.prototype.shot = this.shot;
 
     }
+
+    shot = () => {
+
+    };
 
     init = () => {
         this.player.init();
