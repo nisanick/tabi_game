@@ -2,6 +2,8 @@ import * as PIXI from "pixi.js";
 import Bullet from "./Bullet";
 import Tools from "./Tools";
 
+import "howler";
+
 export default class Figure {
 
     constructor( /*BasicLevel*/level, x, y, stage, type) {
@@ -37,6 +39,22 @@ export default class Figure {
         this.maxSpeed = 5;
         this.rotation = "";
         this.type = type;
+
+        this.shootSound = [];
+        for (let i = 1; i < 9; i++) {
+            this.shootSound.push(new Howl({
+                src: ['assets/dominik/sounds/Shot0' + i + '.wav']
+            }));
+        }
+        this.bonusSound = new Howl({
+            src: ['assets/dominik/sounds/PowerUp01.wav']
+        });
+
+
+        this.moveSound = new Howl({
+            src: ['assets/dominik/sounds/Footstep.wav']
+        });
+
 
         this.hitRectangle = {x: 0, y: 0, width: this.width, height: this.width};
 
@@ -167,6 +185,8 @@ export default class Figure {
                         this.moveIndex++;
                         this.moveRepeat = 0;
                         if (this.moveIndex > 2) this.moveIndex = 0;
+
+                        this.moveSound.play();
                     }
 
                     for (let i = 0; i < this.moves.length; i++) {
@@ -237,6 +257,9 @@ export default class Figure {
             let point = this.getFirstBulletPoint();
             new Bullet(this.level, point.x, point.y, angle, this.stage, this.type);
         }
+
+        let rnd = Tools.getRndInteger(1, 8);
+        this.shootSound[rnd].play();
     }
 
     clearObject() {
@@ -265,6 +288,9 @@ export default class Figure {
 
                 bonus.active = true;
                 bonus.take = false;
+                this.bonusSound.loop(true);
+                this.bonusSound.play();
+
             }
         });
         //if (this.type === 'player')

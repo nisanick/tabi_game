@@ -1,6 +1,5 @@
 import Player from "./Player";
 import Menu from "./Menu";
-import * as PIXI from "pixi.js";
 import Bar from "./Bar";
 import Tools from "./Tools";
 import AI from "./AI";
@@ -8,6 +7,8 @@ import BasicLevel from "./levels/BasicLevel";
 import Level_1 from "./levels/Level_1";
 import Level_2 from "./levels/Level_2";
 
+import * as PIXI from "pixi.js";
+import "howler";
 
 export default class Dominik{
     constructor(app){
@@ -30,6 +31,15 @@ export default class Dominik{
         this.app.stage.addChildAt(this.bgStage, 0);
         this.app.stage.addChildAt(this.gameStage, 1);
         this.app.stage.addChildAt(this.panelStage, 2);
+
+        this.sound = new Howl({
+            src: ['assets/dominik/sounds/test2.wav'],
+            loop: true
+        });
+
+        this.gameOver = new Howl({
+            src: ['assets/dominik/sounds/Death01.wav']
+        });
 
         this.init();
     }
@@ -67,11 +77,14 @@ export default class Dominik{
         } else {
             this.paused = false;
             this.gameStarted = true;
+            this.sound.play();
             this.level.getFigures().forEach(figure => {
                 figure.setVisibility(true);
             });
 
-            this.app.ticker.add(delta => this.gameLoop(delta));
+            //this.app.ticker.add(delta => this.gameLoop(delta));
+            requestAnimationFrame(this.gameLoop.bind(this));
+
             this.threadRunning = true;
         }
     }
@@ -94,9 +107,11 @@ export default class Dominik{
 
     pause(){
         if (this.paused){
+            this.sound.play();
             this.paused = false;
             this.pauseMessage.visible = false;
         } else {
+            this.sound.pause();
             this.paused = true;
             this.pauseMessage.visible = true;
         }
@@ -150,11 +165,19 @@ export default class Dominik{
         }
 
         if (this.player.dead || this.level.figures.length === 1){
+            if (!this.paused && this.player.dead){
+                this.gameOver.play();
+            }
+            if (!this.paused && this.level.figures.length === 1){
+
+            }
             this.paused = true;
             this.gameStarted = false;
+            this.sound.pause();
             this.menu.showMenu();
         }
 
+        requestAnimationFrame(this.gameLoop.bind(this));
     }
 
 
