@@ -1,11 +1,9 @@
-import * as PIXI from "pixi.js";
-import React, { Component } from 'react';
+/*import * as PIXI from "pixi.js";
 import Dominik from "./Dominik/Dominik";
 import Robo from "./Robo/Robo";
 
-export default class Pcanvas extends Component {
-    constructor(props) {
-        super(props);
+export default class Pcanvas{
+    constructor() {
         this.pixi_cnt = null;
         this.app = new PIXI.Application({width: 900, height: 900, transparent: false, antialias: true, resolution: 1});
         this.model = {};
@@ -30,6 +28,6 @@ export default class Pcanvas extends Component {
     };
 
     render() {
-        return <span className="gameWindow" ref={this.updatePixiCnt}/>;
+        //return <span className="gameWindow" ref={this.updatePixiCnt}/>;
     }
-}
+}*/

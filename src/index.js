@@ -1,12 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+require("@babel/polyfill");
+import * as PIXI from "pixi.js";
+import Dominik from "./Dominik/Dominik";
 
-ReactDOM.render(<App />, document.getElementById('root'));
+let pixi_cnt = document.getElementById("Dominik");
+let app = new PIXI.Application({width: 900, height: 900, transparent: false, antialias: true, resolution: 1});
+let model = new Dominik(app);
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+
+if (pixi_cnt && pixi_cnt.children.length <= 0) {
+    pixi_cnt.appendChild(app.view);
+    //The setup function is a custom function that we created to add the sprites. We will this below
+    //this.setup();
+}
