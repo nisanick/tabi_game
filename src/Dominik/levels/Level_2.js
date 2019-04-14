@@ -85,5 +85,7 @@ export default class Level_2 extends BasicLevel {
 
 
         super.bonuses = Tools.getAllBonuses(this);
+
+        this.initDone = true;
     }
 }

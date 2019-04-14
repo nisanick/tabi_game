@@ -20,6 +20,7 @@ export default class BasicBonus {
         this.counter = 0;
         this.durationCounter = 0;
         this.name = "basic";
+        this.design = {};
         this.available = true;
 
         this.active = false;
@@ -40,6 +41,15 @@ export default class BasicBonus {
         this.bonusTexture.y = this.y;
         this.bonusTexture.visible = false;
         this.levelStage.addChild(this.bonusTexture);
+        this.initDesign();
+    }
+
+    initDesign(){}
+
+    showDesign(figure){
+        if (Object.keys(this.design).length > 0) {
+
+        }
     }
 
     setVisiblity(visible){

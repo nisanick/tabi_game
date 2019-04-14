@@ -35,19 +35,28 @@ export default class Figure {
         this.y = rndPoint.y;
 
         this.angle = 0;
-        this.speed = 5;
-        this.maxSpeed = 5;
+        this.speed = 7;
+        this.maxSpeed = 7;
         this.rotation = "";
         this.type = type;
 
+        /*
         this.shootSound = [];
         for (let i = 1; i < 9; i++) {
             this.shootSound.push(new Howl({
                 src: ['assets/dominik/sounds/Shot0' + i + '.wav']
             }));
         }
+        */
+
+        this.shootSound = new Howl({
+            src: ['assets/dominik/songs/shot.mp3']
+        });
         this.bonusSound = new Howl({
-            src: ['assets/dominik/sounds/PowerUp01.wav']
+            src: ['assets/dominik/songs/pickup.mp3']
+        });
+        this.hurt = new Howl({
+            src: ['assets/dominik/songs/hurt.mp3']
         });
 
 
@@ -132,6 +141,7 @@ export default class Figure {
                 move.visible = false;
             })
         }
+        this.hurt.play();
     }
 
     isDead() {
@@ -186,7 +196,7 @@ export default class Figure {
                         this.moveRepeat = 0;
                         if (this.moveIndex > 2) this.moveIndex = 0;
 
-                        this.moveSound.play();
+                        //this.moveSound.play();
                     }
 
                     for (let i = 0; i < this.moves.length; i++) {
@@ -258,8 +268,9 @@ export default class Figure {
             new Bullet(this.level, point.x, point.y, angle, this.stage, this.type);
         }
 
-        let rnd = Tools.getRndInteger(1, 8);
-        this.shootSound[rnd].play();
+        //let rnd = Tools.getRndInteger(1, 8);
+        //this.shootSound[rnd].play();
+        this.shootSound.play();
     }
 
     clearObject() {
@@ -288,9 +299,7 @@ export default class Figure {
 
                 bonus.active = true;
                 bonus.take = false;
-                this.bonusSound.loop(true);
                 this.bonusSound.play();
-
             }
         });
         //if (this.type === 'player')

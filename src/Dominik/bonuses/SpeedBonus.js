@@ -5,8 +5,8 @@ export default class SpeedBonus extends BasicBonus {
         super(level);
 
         this.name = "speed";
-        this.cooldown = 10;
-        this.maxCooldown = 10;
+        this.cooldown = 7;
+        this.maxCooldown = 7;
         this.imgPath = "assets/dominik/bonus/speed.png";
 
         super.init();

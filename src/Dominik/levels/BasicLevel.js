@@ -17,16 +17,19 @@ export default class BasicLevel {
         this.objects = [];
         this.bonuses = [];
         this.bonusesAmount = 0;
+        this.initDone = false;
+
+        this.reflectionSound = new Howl({
+            src: ['assets/dominik/songs/bullet_reflection.mp3']
+        });
     }
 
     init(){
-        this.loader
-            .add(this.bgPath)
-            .load(this.setup.bind(this));
+        this.background = PIXI.Sprite.from(this.bgPath);
+        this.setup();
     }
 
     setup(){
-        this.background = new PIXI.Sprite(this.loader.resources[this.bgPath].texture);
         this.background.width = this.width;
         this.background.height = this.height + 7;
         this.background.x = 0;
@@ -58,7 +61,6 @@ export default class BasicLevel {
         this.bonuses.forEach(bonus => {
             if (bonus.visible && Tools.collision(figure, bonus)){
                 let obj = figure.containsBonus(bonus.name);
-                console.log(obj);
                 if (!obj.contains) {
                     let bonusCopy = bonus.getCopy();
                     bonusCopy.take = true;
@@ -125,7 +127,16 @@ export default class BasicLevel {
         return this.bullets;
     }
 
-    isWallOnX(coordinateFrom, coordinateTo, y){
+    isWallOnX(coordinateFrom, coordinateTo, y, figure){
+        if (figure != undefined){
+            figure = figure.hitRectangle;
+            if (y >= figure.y && y <= figure.y + figure.height) {
+                if (Tools.isBetweenObject(figure.x, figure.x + figure.width, coordinateTo)) {
+                    return true;
+                }
+            }
+        }
+
         if (this.hasObjects() && this.isObjectOnX(coordinateFrom, coordinateTo, y)){
             return true;
         } else {
@@ -137,7 +148,16 @@ export default class BasicLevel {
         }
     }
 
-    isWallOnY(coordinateFrom, coordinateTo, x){
+    isWallOnY(coordinateFrom, coordinateTo, x, figure){
+        if (figure != undefined) {
+            figure = figure.hitRectangle;
+            if (x >= figure.x && x <= figure.x + figure.width) {
+                if (Tools.isBetweenObject(figure.y, figure.y + figure.height, coordinateTo)) {
+                    return true;
+                }
+            }
+        }
+
         if (this.hasObjects() && this.isObjectOnY(coordinateFrom, coordinateTo, x)){
             return true;
         } else {
@@ -224,7 +244,6 @@ export default class BasicLevel {
                 isEmpty = false;
             }
         });
-
         this.objects.forEach(object => {
             if (object.hitRectangle) {
                 object = object.hitRectangle;

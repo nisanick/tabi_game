@@ -5,11 +5,14 @@ export default class ShotgunBonus extends BasicBonus {
         super(level);
 
         this.name = "shotgun";
-        this.cooldown = 20;
-        this.maxCooldown = 20;
+        this.cooldown = 15;
+        this.maxCooldown = 15;
+        this.width = 45;
+        this.height = 25;
         this.imgPath = "assets/dominik/bonus/shotgun.png";
 
         super.init();
+
     }
 
     getCopy(){

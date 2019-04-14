@@ -35,5 +35,7 @@ export default class Level_1 extends BasicLevel {
         this.objects[1] = new GameObject(texture2, true);
 
         super.bonuses = Tools.getAllBonuses(this);
+
+        this.initDone = true;
     }
 }

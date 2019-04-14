@@ -5,8 +5,8 @@ export default class FirstAidBonus extends BasicBonus {
         super(level);
 
         this.name = "firstaid";
-        this.cooldown = 10;
-        this.maxCooldown = 10;
+        this.cooldown = 5;
+        this.maxCooldown = 5;
         this.imgPath = "assets/dominik/bonus/firstaid.png";
         this.duration = 0;
         this.maxDuration = 0;

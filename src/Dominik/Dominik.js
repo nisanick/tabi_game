@@ -17,7 +17,7 @@ export default class Dominik{
         this.menu = {};
         this.bar = {};
         this.player = {};
-        this.AICount = 1;
+        this.AICount = 3;
         this.paused = true;
         this.gameStarted = false;
         this.pauseMessage = {};
@@ -34,7 +34,8 @@ export default class Dominik{
 
         this.sound = new Howl({
             src: ['assets/dominik/sounds/test2.wav'],
-            loop: true
+            loop: true,
+            volume: 0.2
         });
 
         this.gameOver = new Howl({
@@ -50,7 +51,7 @@ export default class Dominik{
         this.pauseMessage.visible = false;
         this.app.stage.addChild(this.pauseMessage);
 
-        this.level = new Level_2(this.app.renderer.width, this.app.renderer.height - 80, this.bgStage);
+        this.level = new Level_1(this.app.renderer.width, this.app.renderer.height - 80, this.bgStage);
         this.level.init();
 
         this.player = new Player(this.level, 200, 500, this.gameStage);
@@ -74,6 +75,8 @@ export default class Dominik{
             this.paused = false;
             this.gameStarted = true;
             this.restart();
+            this.sound.stop();
+            this.sound.play();
         } else {
             this.paused = false;
             this.gameStarted = true;
@@ -131,8 +134,12 @@ export default class Dominik{
                     bullet.bulletTexture.visible = false;
                     bullets.splice(i, 1);
                 }
-                if (!removed)
+
+                if (bullet.playerReflect){
+                    bullet.playerReflect = false
+                } else if (!removed) {
                     bullet.move();
+                }
             }
 
             for (let i = 0; i < figures.length; i++) {

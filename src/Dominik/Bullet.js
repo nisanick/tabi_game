@@ -18,6 +18,7 @@ export default class Bullet {
         this.maxReflection = 20;
         this.actualReflection = 0;
         this.shooter = type;
+        this.playerReflect = false;
 
         this.initImage();
 
@@ -52,23 +53,29 @@ export default class Bullet {
     }
 
     move(){
+        this.doMove();
+    }
+
+    doMove(figure){
         let newX = this.x + this.speed * Math.cos(this.angle);
         let newY = this.y + Math.abs(this.speed) * Math.sin(this.angle);
 
-        if (this.level.isWallOnX(this.x, newX, this.y)) {
+        if (this.level.isWallOnX(this.x, newX, this.y, figure)) {
             this.speed *= -1;
             newX = this.x + this.speed * Math.cos(this.angle);
             newY = this.y + Math.abs(this.speed) * Math.sin(this.angle);
             this.bulletTexture.rotation *= -1;
             this.bulletTexture.scale.x *= -1;
             this.actualReflection++;
+            this.level.reflectionSound.play();
         }
-        if (this.level.isWallOnY(this.y, newY, this.x)){
+        if (this.level.isWallOnY(this.y, newY, this.x, figure)){
             this.angle *= -1;
             newX = this.x + this.speed * Math.cos(this.angle);
             newY = this.y + Math.abs(this.speed) * Math.sin(this.angle);
             this.bulletTexture.rotation *= -1;
             this.actualReflection++;
+            this.level.reflectionSound.play();
         }
 
         this.x = newX;
@@ -86,18 +93,8 @@ export default class Bullet {
     wasHit(figures){
         for (let i = 0; i < figures.length; i++) {
             if (figures[i].shield){
-                if (Tools.reflectFromX(figures[i], this)){
-                    this.speed *= -1;
-                    this.bulletTexture.rotation *= -1;
-                    this.bulletTexture.scale.x *= -1;
-                    this.actualReflection++;
-                }
-
-                if (Tools.reflectFromY(figures[i], this)){
-                    this.angle *= -1;
-                    this.bulletTexture.rotation *= -1;
-                    this.actualReflection++;
-                }
+                this.doMove(figures[i]);
+                this.playerReflect = true;
             } else {
                 if (this.collision(figures[i])) {
                     figures[i].wasHit();

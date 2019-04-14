@@ -22,8 +22,8 @@ export default class Tools {
             object2 = object2.hitRectangle;
         }
 
-        if (object1.y >= object2.y && object1.y <= object2.y + object2.height) {
-            if (Tools.isBetweenObject(object2.x, object2.x + object2.width, object2.x)) {
+        if (object1.y >= object2.y && object1.y <= object2.y + object2.height || object1.y + object1.height >= object1.y && object1.y + object1.height <= object2.y + object2.height) {
+            if (Tools.isBetweenObject(object2.x, object2.x + object2.width, object2.x + object2.speed)) {
                 return true;
             }
         }
@@ -37,8 +37,8 @@ export default class Tools {
             object2 = object2.hitRectangle;
         }
 
-        if (object1.x >= object2.x && object1.x <= object2.x + object2.width) {
-            if (Tools.isBetweenObject(object2.y, object2.y + object2.height, object2.y)) {
+        if (object1.x >= object2.x && object1.x <= object2.x + object2.width || object1.x + object1.width >= object1.x && object1.x + object1.width <= object2.x + object2.width) {
+            if (Tools.isBetweenObject(object2.y, object2.y + object2.height, object2.y + object2.speed)) {
                 return true;
             }
         }
