@@ -1,11 +1,17 @@
 require("@babel/polyfill");
+
+
+import SceneLoader from "./LD44/SceneLoader";
+
 import * as PIXI from "pixi.js";
-import Dominik from "./Dominik/Dominik";
 
-let pixi_cnt = document.getElementById("Dominik");
+let pixi_cnt = document.getElementById("Game");
 let app = new PIXI.Application({width: 900, height: 900, transparent: false, antialias: true, resolution: 1});
-let model = new Dominik(app);
 
+let sceneLoader = new SceneLoader(app);
+sceneLoader.init();
+
+requestAnimationFrame(sceneLoader.renderScene);
 
 if (pixi_cnt && pixi_cnt.children.length <= 0) {
     pixi_cnt.appendChild(app.view);
