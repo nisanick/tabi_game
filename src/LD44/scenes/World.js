@@ -12,12 +12,17 @@ export default class World extends BasicScene {
         this.loader = loader;
 
         this.interactive = true;
-        this.on("mousedown", this.onClick);
 
         this.player = this.createPlayer();
+        this.locationText = new PIXI.Text("Test", new PIXI.TextStyle({fill: "white", fontSize: 30, fontFamily: "Linepixels"}));
+        this.ui = this.createWorldUI();
 
-        this.yellowBuffer = new TileBuffer(1, this.tileWidth, this.tileHeight);
-        this.greenBuffer = new TileBuffer(2, this.tileWidth, this.tileHeight);
+        this.on("click", this.onClick);
+
+        this.blueBuffer = new TileBuffer("tileWater", this.tileWidth, this.tileHeight,loader);
+        this.yellowBuffer = new TileBuffer("tileGrass", this.tileWidth, this.tileHeight,loader);
+        this.greenBuffer = new TileBuffer("tileForest", this.tileWidth, this.tileHeight,loader);
+        this.brownBuffer = new TileBuffer("tileMountain", this.tileWidth, this.tileHeight,loader);
         this.tileContainer = new PIXI.Container();
 
         this.repaint = true;
@@ -33,10 +38,9 @@ export default class World extends BasicScene {
 
         this.addChild(this.tileContainer);
         this.addChild(this.player);
-
+        this.addChild(this.ui);
         loader.app.stage.addChild(this);
     }
-
 
 
     createPlayer = () => {
@@ -51,8 +55,8 @@ export default class World extends BasicScene {
 
         let player = this.game.player;
 
-        if(((this.finalPoisiton.x - player.x) !== 0) || ((this.finalPoisiton.y - player.y) !== 0)) {
-            if(this.skipFrame){
+        if (((this.finalPoisiton.x - player.x) !== 0) || ((this.finalPoisiton.y - player.y) !== 0)) {
+            if (this.skipFrame) {
                 this.skipFrame = false;
             } else {
                 this.checkMoves();
@@ -61,7 +65,7 @@ export default class World extends BasicScene {
         } else {
             this.moving = false;
         }
-        if(this.repaint) {
+        if (this.repaint) {
             this.skipFrame = false;
             this.tileContainer.position.set(-this.tileHeight, -this.tileWidth);
             this.cleanBuffers();
@@ -69,17 +73,26 @@ export default class World extends BasicScene {
             for (let i = 0; i < 11; i++) {
                 for (let j = 0; j < 11; j++) {
                     // TODO kontrola na farbu policka
-                    let tile = this.yellowBuffer.getTile();
+                    let tile;
                     let x = i * this.tileWidth;
                     let y = j * this.tileHeight;
+                    switch(this.game.getTileType((this.game.player.x + parseInt(x / 100) - 5), (this.game.player.y + parseInt(y / 100) - 5))){
+                        case 1: tile = this.blueBuffer.getTile();break;
+                        default:
+                        case 2: tile = this.yellowBuffer.getTile(); break;
+                        case 3: tile = this.greenBuffer.getTile(); break;
+                        case 4: tile = this.brownBuffer.getTile(); break;
+                    }
                     tile.position.set(x, y);
-                    if(this.debug) {
-                        tile.children[1].text = (this.game.player.x + parseInt(x / 100) - 5) + "," + (this.game.player.y + parseInt(y / 100) - 5);
+                    if (this.debug) {
+                        tile.children[tile.children.length -1].text = (this.game.player.x + parseInt(x / 100) - 5) + "," + (this.game.player.y + parseInt(y / 100) - 5) + " | " + this.game.getTileType((this.game.player.x + parseInt(x / 100) - 5), (this.game.player.y + parseInt(y / 100) - 5));
                     }
                     tile.visible = true;
                     this.tileContainer.addChild(tile);
                 }
             }
+            this.locationText.text = this.game.getTileTypeText(player.x, player.y);
+            this.locationText.position.set(900/2 - this.locationText.width/2, 60/2);
             this.repaint = false;
         }
     };
@@ -87,6 +100,8 @@ export default class World extends BasicScene {
     cleanBuffers = () => {
         this.tileContainer.removeChildren(0, this.children.length);
         this.yellowBuffer.cleanBuffer();
+        this.blueBuffer.cleanBuffer();
+        this.brownBuffer.cleanBuffer();
         this.greenBuffer.cleanBuffer();
     };
 
@@ -96,11 +111,11 @@ export default class World extends BasicScene {
 
         this.playerX = 0;
         this.playerY = 0;
-        if(Math.abs(toX) >= Math.abs(toY)){
-            this.tileContainer.x += this.moveSpeed*Math.sign(toX);
+        if (Math.abs(toX) >= Math.abs(toY)) {
+            this.tileContainer.x += this.moveSpeed * Math.sign(toX);
             this.playerX = Math.sign(toX) * -1;
         } else {
-            this.tileContainer.y += this.moveSpeed*Math.sign(toY);
+            this.tileContainer.y += this.moveSpeed * Math.sign(toY);
             this.playerY = Math.sign(toY) * -1;
         }
 
@@ -113,7 +128,10 @@ export default class World extends BasicScene {
     };
 
     onClick = (e) => {
-        if(this.moving === true) {
+        if(e.canceled){
+            return;
+        }
+        if (this.moving === true) {
             return;
         }
         let x = this.game.player.x + parseInt(e.data.global.x / 100) - 4;
@@ -121,4 +139,101 @@ export default class World extends BasicScene {
         this.finalPoisiton = {x, y};
         this.moving = true;
     };
+
+    createWorldUI = () => {
+        let fill;
+        let frame;
+        let icon;
+        let uiContainer = new PIXI.Container();
+
+        let hp = new PIXI.Container();
+        hp.position.set(0,0);
+        fill = new PIXI.Graphics();
+        fill.beginFill(0x000000);
+        fill.drawRect(0, 0, 280, 125);
+
+        frame = this.loader.getGameSprite("frame_char");
+        frame.x = -20;
+        frame.y = -415;
+        frame.height = 540;
+        frame.width = 300;
+        hp.addChild(fill);
+        hp.addChild(frame);
+
+        let bottom = new PIXI.Container();
+
+        let player = new PIXI.Container();
+        player.interactive = true;
+        player.position.set(0,760);
+        fill = new PIXI.Graphics();
+        fill.beginFill(0x000000);
+        fill.drawRect(0, 0, 450/3, 140);
+
+        frame = this.loader.getGameSprite("frame_char");
+        frame.height = 540;
+        frame.width = 300;
+        frame.x = -2*frame.width/3 + 50;
+
+        icon = this.loader.getGameSprite("player_avatar");
+        icon.scale.set(0.25,0.25);
+        icon.position.set(0,20);
+
+        player.addChild(fill);
+        player.addChild(icon);
+        player.addChild(frame);
+
+        let location = new PIXI.Container();
+        location.position.set(0,830);
+        fill = new PIXI.Graphics();
+        fill.beginFill(0x000000);
+        fill.drawRect(0, 0, 900, 70);
+
+        this.locationText.position.set(900/2, 68/2);
+        frame = this.loader.getGameSprite("frame_char");
+        frame.height = 540;
+        frame.width = 900;
+        location.addChild(fill);
+        location.addChild(frame);
+        location.addChild(this.locationText);
+
+        let bag = new PIXI.Container();
+        bag.interactive = true;
+        bag.position.set(900-450/3,760);
+        fill = new PIXI.Graphics();
+        fill.beginFill(0x000000);
+        fill.drawRect(0, 0, 450/3, 140);
+
+        frame = this.loader.getGameSprite("frame_char");
+        frame.height = 540;
+        frame.width = 300;
+        icon = this.loader.getGameSprite("bag");
+        icon.scale.set(0.5,0.5);
+        icon.position.set(20,20);
+
+        bag.addChild(fill);
+        bag.addChild(icon);
+        bag.addChild(frame);
+
+
+        bottom.addChild(location);
+        bottom.addChild(bag);
+        bottom.addChild(player);
+
+        uiContainer.addChild(bottom);
+        uiContainer.addChild(hp);
+
+        player.on("click", (e) => {console.log("open character screen"); this.loader.setScene(0)});
+        bag.on("click", (e) => {console.log("open inventory screen")});
+
+        return uiContainer;
+    };
+    /*
+
+        let spellBar = this.loader.getGameSprite("frame_char");
+        spellBar.x = 0;
+        spellBar.y = this.loader.app.stage.height - 130;
+        spellBar.height = this.loader.app.stage.height;
+        spellBar.width = this.loader.app.stage.width;
+        this.addChild(spellBar);
+        */
 }

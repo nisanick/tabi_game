@@ -10,7 +10,7 @@ export default class Loading extends BasicScene{
         this.background.height = loader.app.renderer.height;
         let container = new PIXI.Container();
 
-        this.text = new PIXI.Text("LOADING", {fontFamily:"IM16", fontSize: 39});
+        this.text = new PIXI.Text("LOADING", new PIXI.TextStyle({fill: "black", fontSize: 39, fontFamily: "Linepixels"}));
         container.width = this.text.width;
         container.addChild(this.text);
         this.pb = new ProgressBar(container);

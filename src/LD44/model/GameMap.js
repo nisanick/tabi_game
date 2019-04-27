@@ -4,5 +4,9 @@ export default class GameMap {
         this.generator = generator;
     }
 
+    getTileType = (x, y) => {
+        return this.mapArray[x][y].getType();
+    }
+
 
 }

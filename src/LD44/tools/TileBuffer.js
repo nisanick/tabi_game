@@ -1,11 +1,14 @@
 import * as PIXI from "pixi.js";
 
 export default class TileBuffer {
-    constructor(color, tileWidth, tileHeight) {
-        this.color = color;
+    constructor(spriteName, tileWidth, tileHeight, loader) {
         this.tileWidth = tileWidth;
         this.tileHeight = tileHeight;
         this.buffer = [];
+
+        this.loader = loader;
+        this.spriteName = spriteName;
+
         for (let i = 0; i < 11 * 11; i++) {
             let tile = this.createTile();
             this.buffer.push(tile);
@@ -22,12 +25,15 @@ export default class TileBuffer {
         let container = new PIXI.Container();
         container.visible = false;
         let tile = new PIXI.Graphics();
-        tile.beginFill(0xFFFF00);
-        tile.lineStyle(5, 0xa3a3a3, 1);
-        tile.drawRect(0, 0, this.tileWidth, this.tileHeight);
-        tile.endFill();
-        tile.visible = true;
-        container.addChild(tile);
+        // tile.beginFill(0xffffff);
+        // tile.lineStyle(5, 0xa3a3a3, 1);
+        // tile.drawRect(0, 0, this.tileWidth, this.tileHeight);
+        // container.addChild(tile);
+
+        let sprite = this.loader.getGameSprite(this.spriteName);
+        sprite.width = this.tileWidth;
+        sprite.height = this.tileHeight;
+        container.addChild(sprite);
         if(window.gameDebugMode) {
             let coord = new PIXI.Text("", {fontSize: 10, fill: "black"});
             coord.x = 10;

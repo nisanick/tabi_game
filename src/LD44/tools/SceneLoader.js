@@ -14,11 +14,11 @@ export default class SceneLoader {
         this.activeScene = 0;
         this.spriteLoader = new SpriteLoader();
         this.loader = new PIXI.Loader();
+        this.game;
     }
 
     init = () => {
         this.loader.add("bgLoad", "assets/images/bgLoading.png")
-            //.add("IM16", "assets/fonts/IndependentModern8x16.ttf")
             .load(this.setupLoading);
 
 
@@ -37,11 +37,9 @@ export default class SceneLoader {
     };
 
     setup = () => {
-        let game = new Game();
-        game.init();
+        this.game = new Game();
+        this.game.init();
         this.scenes.push(new Menu(this));
-        this.scenes.push(new Fight(this, game));
-        this.scenes.push(new World(this, game));
         this.setScene(1);
     };
 
@@ -52,8 +50,10 @@ export default class SceneLoader {
     };
 
     started = () => {
+        this.scenes.push(new Fight(this, this.game));
+        this.scenes.push(new World(this, this.game));
         this.scenes[2].init();
-        this.setScene(2);
+        this.setScene(3);
     };
 
     getSprite = (name) => {

@@ -24,8 +24,24 @@ export default class Game {
         this.player.y += y;
     };
 
+    getTileType = (x, y) => {
+        return this.map.getTileType(x, y);
+    };
+
+
+    getTileTypeText = (x, y) => {
+        let type = this.map.getTileType(x, y);
+        switch (type) {
+            case 1: return "Lake";
+            default:
+            case 2: return "Grassland";
+            case 3: return "Forest";
+            case 4: return "Mountains";
+        }
+    };
+
     init = () => {
         this.map = this.mapGenerator.generate();
-        this.player = new Player(50, 50);
+        this.player = new Player(500, 500);
     };
 }
