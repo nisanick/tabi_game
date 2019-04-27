@@ -7,9 +7,11 @@ export default class Menu extends BasicScene {
         super();
         this.sceneLoader = sceneLoader;
         this.btnStart = null;
+        this.background = this.sceneLoader.getSprite("bgMenu");
     }
 
     init = () => {
+        this.addChild(this.background);
         let x = this.sceneLoader.app.renderer.width / 2 - 50;
         let y = this.sceneLoader.app.renderer.height / 2 - 25;
         let sprite = this.sceneLoader.getSprite("btn");

@@ -24,7 +24,9 @@ export default class SceneLoader {
         this.scenes.push(new Loading(this));
         this.setScene(0);
         requestAnimationFrame(this.renderScene);
-        this.loader.add("btn", "assets/images/menu/button_01_04.png").load(this.setup);
+        this.loader.add("btn", "assets/images/menu/button_01_04.png")
+            .add("bgMenu", "assets/images/menu/background_02.png")
+            .load(this.setup);
 
     };
 
@@ -33,7 +35,7 @@ export default class SceneLoader {
     };
 
     getSprite = (name) => {
-        return new PIXI.Sprite(name).texture;
+        return new PIXI.Sprite(this.loader.resources[name].texture);
     };
 
     setScene = (index) => {
