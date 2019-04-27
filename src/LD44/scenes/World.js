@@ -20,7 +20,8 @@ export default class World extends BasicScene {
         this.moveY = 0;
         this.finalPoisiton = {x: this.game.player.x, y: this.game.player.y};
 
-        this.direction = "";
+        this.playerX = 0;
+        this.playerY = 0;
 
         loader.app.stage.addChild(this);
     }
@@ -34,13 +35,13 @@ export default class World extends BasicScene {
             let player = this.game.getPlayer();
             this.removeChildren(0, this.children.length);
             let y = -this.tileHeight * 4 + this.moveY;
-            for (let i = player.x - 8; i < player.x + 8; i++) {
+            for (let i = player.y - 8; i < player.y + 8; i++) {
                 let x = -this.tileWidth * 4 + this.moveX;
-                for (let j = player.y - 8; j < player.y + 8; j++) {
+                for (let j = player.x - 8; j < player.x + 8; j++) {
                     this.createTile(x, y);
-                    x += this.tileWidth + this.moveX;
+                    x += this.tileWidth;
                 }
-                y += this.tileHeight + this.moveY;
+                y += this.tileHeight;
             }
 
             this.player.x = 0;
@@ -61,19 +62,31 @@ export default class World extends BasicScene {
 
         if (toY > toX) {
             this.moveX = 0;
-            this.moveY = (this.moveSpeed + this.moveY) % 100;
-            this.direction = "y";
+            if (this.game.player.y - this.finalPoisiton.y > 0) {
+                this.moveY = this.moveSpeed + this.moveY;
+                this.playerY = -1;
+            } else {
+                this.moveY = -this.moveSpeed + this.moveY;
+                this.playerY = 1;
+            }
+
         } else {
             this.moveY = 0;
-            this.moveX = (this.moveSpeed + this.moveX) % 100;
-            this.direction = "x";
+            if (this.game.player.x - this.finalPoisiton.x > 0) {
+                this.moveX = this.moveSpeed + this.moveX;
+                this.playerX = -1;
+            } else {
+                this.moveX = -this.moveSpeed + this.moveX;
+                this.playerX = 1;
+            }
         }
 
-        if (this.moveY === 0 && this.moveX === 0){
-            if (this.direction === "x"){
-                this.game.movePlayer(this.game.player.x + 1, this.game.player.y);
-            } else if (this.direction === "y"){
-                this.game.movePlayer(this.game.player.x, this.game.player.y + 1);
+
+        if ((this.moveY % 100) === 0 && (this.moveX % 100) === 0) {
+            if (this.playerX !== 0) {
+                this.game.movePlayer(this.game.player.x + this.playerX, this.game.player.y);
+            } else if (this.playerY !== 0) {
+                this.game.movePlayer(this.game.player.x, this.game.player.y + this.playerY);
             }
             //zisti co je na policku
         }
