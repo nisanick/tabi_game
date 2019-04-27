@@ -4,6 +4,7 @@ import SpriteLoader from "./SpriteLoader";
 import Menu from "./scenes/Menu";
 import World from "./scenes/World";
 import Game from "./model/Game";
+import Fight from "./model/Fight";
 
 export default class SceneLoader {
     constructor(/* PIXI.Application */ app) {
@@ -39,16 +40,28 @@ export default class SceneLoader {
         let game = new Game();
         game.init();
         this.scenes.push(new Menu(this));
+        this.scenes.push(new Fight(this, game));
         this.scenes.push(new World(this, game));
         this.setScene(1);
     };
 
     start = () => {
-      this.setScene(2);
+        this.setScene(0);
+        this.spriteLoader.onProgress.add((loader)=>{this.scenes[0].setProgress(loader.progress/100)});
+        this.spriteLoader.init(this.started);
+    };
+
+    started = () => {
+        this.scenes[2].init();
+        this.setScene(2);
     };
 
     getSprite = (name) => {
         return new PIXI.Sprite(this.loader.resources[name].texture);
+    };
+
+    getGameSprite = (name) => {
+        return new PIXI.Sprite(this.spriteLoader.resources[name].texture);
     };
 
     setScene = (index) => {
