@@ -1,5 +1,7 @@
 import BasicScene from "./BasicScene";
 import * as PIXI from "pixi.js";
+import FightPlayer from "./Figures/FightPlayer";
+import FightEnemy from "./Figures/FightEnemy";
 
 export default class Fight extends BasicScene {
     constructor(loader, game) {
@@ -11,8 +13,10 @@ export default class Fight extends BasicScene {
         this.enemy = {};
         this.spells = [];
         this.loader.app.stage.addChild(this);
+        this.fightPlayer = {};
+        this.fightEnemy = {};
 
-        this.container
+        this.fightArea = new PIXI.Container();
     }
 
     init = () => {
@@ -62,17 +66,30 @@ export default class Fight extends BasicScene {
             spell.lineStyle(5, 0xa3a3a3, 1);
             spell.drawRect(x, spellBar.y + 50, 60, 60);
 
-            this.spells.push()
+            this.spells.push();
             this.addChild(spell);
             x += moveX;
         }
 
+        let area = {x: 0, y: height, width: this.loader.app.stage.width, height: spellBar.y};
+        this.fightPlayer = new FightPlayer(this.loader, 20, height + 50, this.fightArea, area);
+        this.fightEnemy = new FightEnemy(this.loader, this.loader.app.stage.width - 100, height + 50, this.fightArea, area, 'troll');
+
         this.addChild(this.player);
         this.addChild(this.enemy);
-        console.log(this.panels);
+        this.addChild(this.fightArea);
+
+    };
+
+    setEnemy = (spriteName) => {
+        this.enemy = this.loader.getGameSprite("spriteName");
+        this.enemy.x = width + 30;
+        this.enemy.y = 20;
+        this.enemy.scale.set(0.174);
+        this.addChild(this.enemy);
     };
 
     repaintScene = () => {
-
+        this.fightPlayer.doMove();
     };
 }
