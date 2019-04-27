@@ -18,11 +18,13 @@ export default class SceneLoader {
             .add("IM16", "assets/fonts/IndependentModern8x16.ttf")
             .load(this.setupLoading);
 
+
     };
 
     setupLoading = () => {
         this.scenes.push(new Loading(this));
         this.setScene(0);
+        this.loader.onProgress.add((loader)=>{this.scenes[0].setProgress(loader.progress/100)});
         requestAnimationFrame(this.renderScene);
         this.loader.add("btn", "assets/images/menu/button_01_04.png")
             .add("bgMenu", "assets/images/menu/background_02.png")
