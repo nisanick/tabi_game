@@ -55,7 +55,20 @@ export default class World extends BasicScene {
 
         let player = this.game.player;
 
-        if (((this.finalPoisiton.x - player.x) !== 0) || ((this.finalPoisiton.y - player.y) !== 0)) {
+        let x = this.finalPoisiton.x;
+        let y = this.finalPoisiton.y;
+
+        if(x < 0){
+            x = 1000 + x;
+        }
+        if(y < 0){
+            y = 1000 + y;
+        }
+
+        x = x % 1000;
+        y = y % 1000;
+
+        if (((x - player.x) !== 0) || ((y - player.y) !== 0)) {
             if (this.skipFrame) {
                 this.skipFrame = false;
             } else {
@@ -82,6 +95,7 @@ export default class World extends BasicScene {
                         case 2: tile = this.yellowBuffer.getTile(); break;
                         case 3: tile = this.greenBuffer.getTile(); break;
                         case 4: tile = this.brownBuffer.getTile(); break;
+                        case -10: continue;
                     }
                     tile.position.set(x, y);
                     if (this.debug) {
@@ -136,6 +150,18 @@ export default class World extends BasicScene {
         }
         let x = this.game.player.x + parseInt(e.data.global.x / 100) - 4;
         let y = this.game.player.y + parseInt(e.data.global.y / 100) - 4;
+        if(x < 0){
+            x = 0;
+        }
+        if(y < 0){
+            y = 0;
+        }
+        if(x > 999){
+            x = 999;
+        }
+        if(y > 999){
+            y = 999;
+        }
         this.finalPoisiton = {x, y};
         this.moving = true;
     };
@@ -222,8 +248,8 @@ export default class World extends BasicScene {
         uiContainer.addChild(bottom);
         uiContainer.addChild(hp);
 
-        player.on("click", (e) => {console.log("open character screen"); this.loader.setScene(0)});
-        bag.on("click", (e) => {console.log("open inventory screen")});
+        player.on("click", (e) => {console.log("open character screen"); this.loader.setScene(3)});
+        bag.on("click", (e) => {console.log("open inventory screen"); this.loader.setScene(3)});
 
         return uiContainer;
     };
