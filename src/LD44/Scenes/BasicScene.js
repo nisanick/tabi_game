@@ -5,5 +5,7 @@ export default class BasicScene extends PIXI.Container{
         super();
     }
 
-
+    render = () => {
+        throw "Invalid scene implementation";
+    }
 }

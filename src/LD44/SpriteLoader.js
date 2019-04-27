@@ -1,4 +1,4 @@
-import * as PIXI from "pixi.js/pixi.js.js"
+import * as PIXI from "pixi.js";
 
 export default class SpriteLoader extends PIXI.Loader {
     constructor() {

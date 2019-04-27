@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import Loading from "./Scenes/Loading";
 import SpriteLoader from "./SpriteLoader";
 import Menu from "./Scenes/Menu";
 
@@ -13,6 +14,7 @@ export default class SceneLoader{
     }
 
     init = () => {
+        this.scenes.push(new Loading(this));
         this.loader.add("assets/images/menu/button_01_04.png").load(this.setup);
         this.scenes.push(new Menu(this));
         this.setScene(1);
@@ -31,7 +33,7 @@ export default class SceneLoader{
     };
 
     renderScene = () => {
-        this.
+        this.scenes.render();
         requestAnimationFrame(this.renderScene);
     };
 }
