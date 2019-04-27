@@ -1,4 +1,4 @@
-import BasicScene from "../scenes/BasicScene";
+import BasicScene from "./BasicScene";
 import * as PIXI from "pixi.js";
 
 export default class Fight extends BasicScene {
@@ -16,9 +16,6 @@ export default class Fight extends BasicScene {
     }
 
     init = () => {
-
-
-
         let x = 0;
         let width = this.loader.app.stage.width / 2;
         let height = this.loader.app.stage.height - 353;
@@ -65,6 +62,7 @@ export default class Fight extends BasicScene {
             spell.lineStyle(5, 0xa3a3a3, 1);
             spell.drawRect(x, spellBar.y + 50, 60, 60);
 
+            this.spells.push()
             this.addChild(spell);
             x += moveX;
         }

@@ -4,7 +4,7 @@ import SpriteLoader from "./SpriteLoader";
 import Menu from "../scenes/Menu";
 import World from "../scenes/World";
 import Game from "../model/Game";
-import Fight from "../model/Fight";
+import Fight from "../scenes/Fight";
 
 export default class SceneLoader {
     constructor(/* PIXI.Application */ app) {
