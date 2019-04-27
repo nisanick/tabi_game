@@ -3,12 +3,14 @@ import BasicScene from "./BasicScene";
 export default class Loading extends BasicScene{
     constructor(/* SceneLoader */ loader){
         super(loader);
-        let background = loader.getSprite("bgLoad");
-        background.position.set(0,0);
-        this.addChild(background);
+        this.background = loader.getSprite("bgLoad");
+        this.background.width = loader.app.renderer.width;
+        this.background.height = loader.app.renderer.height;
+
+        this.text = new PIXI.Text("LOADING", {fontFamily:'IM16', })
+
+        this.addChild(this.background);
+        loader.app.stage.addChild(this);
     }
 
-    render = () => {
-
-    }
 }

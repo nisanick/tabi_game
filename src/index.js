@@ -12,9 +12,11 @@ let sceneLoader = new SceneLoader(app);
 sceneLoader.init();
 
 
-
 if (pixi_cnt && pixi_cnt.children.length <= 0) {
     pixi_cnt.appendChild(app.view);
     //The setup function is a custom function that we created to add the sprites. We will this below
     //this.setup();
 }
+
+
+console.log(pixi_cnt.children);

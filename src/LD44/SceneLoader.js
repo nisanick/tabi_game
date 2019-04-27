@@ -43,6 +43,7 @@ export default class SceneLoader {
             throw "Invalid scene index";
         }
         this.activeScene = index;
+        this.scenes.forEach((el) => { el.visible = false});
         console.log("changing scene to " + index);
     };
 
@@ -51,7 +52,7 @@ export default class SceneLoader {
     };
 
     renderScene = () => {
-        this.app.stage.addChild(this.getActiveScene());
+        this.getActiveScene().visible = true;
         requestAnimationFrame(this.renderScene);
     };
 }
