@@ -1,4 +1,6 @@
 import * as PIXI from "pixi.js";
+import SpriteLoader from "./SpriteLoader";
+import Menu from "./Scenes/Menu";
 
 export default class SceneLoader{
     constructor(/* PIXI.Application */ app){
@@ -6,11 +8,18 @@ export default class SceneLoader{
 
         this.scenes = [];
         this.activeScene = 0;
+        this.spriteLoader = new SpriteLoader();
+        this.loader = new PIXI.Loader();
     }
 
     init = () => {
-        //this.scenes.push(/* new Scene */);
+        this.loader.add("assets/images/menu/button_01_04.png").load(this.setup);
+        this.scenes.push(new Menu(this));
         this.setScene(1);
+    };
+
+    setup = () => {
+
     };
 
     setScene = (index) => {

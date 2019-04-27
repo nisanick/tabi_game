@@ -12,11 +12,9 @@ export default class Button extends PIXI.Graphics{
         this.sprite = sprite;
         this.text = new PIXI.Text(text, textStyle);
         this.container = container;
-
-        this.initBtn()
     }
 
-    initBtn(){
+    init = () => {
         if (this.text !== undefined){
             let x = this.sprite.width / 2 - this.text.width / 2;
             let y = this.sprite.height / 2 - this.text.height / 2;
@@ -24,7 +22,7 @@ export default class Button extends PIXI.Graphics{
             this.container.addChild(this.text);
         }
         this.container.addChild(this);
-    }
+    };
 
 
 
