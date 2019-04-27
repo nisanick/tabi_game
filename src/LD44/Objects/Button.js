@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 
 
 export default class Button extends PIXI.Graphics{
-    constructor(text, x, y, width, height, /*PIXI.Container*/ container, /*PIXI.Sprite*/ sprite, /*PIXI.TextStyle*/ textStyle){
+    constructor(text, x, y, width, height, /*PIXI.Container*/ container, /*PIXI.Texture*/ sprite, /*PIXI.TextStyle*/ textStyle){
         super();
         this.textValue = text;
         this.x = x;

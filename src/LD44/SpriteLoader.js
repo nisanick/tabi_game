@@ -7,8 +7,8 @@ export default class SpriteLoader extends PIXI.Loader {
     }
 
     init = () => {
-        this.add("IMG")
-            .add("IMG")
+        this.add("NAME", "IMG")
+            .add("NAME", "IMG")
             .load(this.setup)
     };
 
