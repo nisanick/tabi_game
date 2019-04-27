@@ -10,7 +10,7 @@ export default class SceneLoader{
 
     init = () => {
         //this.scenes.push(/* new Scene */);
-        this.activeScene = 1;
+        this.setScene(1);
     };
 
     setScene = (index) => {
@@ -18,10 +18,11 @@ export default class SceneLoader{
             throw "Invalid scene index";
         }
         this.activeScene = index;
+        console.log("changing scene to " + index);
     };
 
     renderScene = () => {
-
+        this.
         requestAnimationFrame(this.renderScene);
     };
 }
