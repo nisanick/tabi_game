@@ -14,8 +14,8 @@ export default class SceneLoader {
     }
 
     init = () => {
-        this.loader.add("LOADER")
-            .add("FONT")
+        this.loader.add("bgLoad", "assets/images/bgLoading.png")
+            .add("IM16", "assets/fonts/IndependentModern8x16.ttf")
             .load(this.setupLoading);
 
     };
@@ -46,8 +46,12 @@ export default class SceneLoader {
         console.log("changing scene to " + index);
     };
 
+    getActiveScene = () => {
+        return this.scenes[this.activeScene];
+    };
+
     renderScene = () => {
-        this.scenes.render();
+        this.app.stage.addChild(this.getActiveScene());
         requestAnimationFrame(this.renderScene);
     };
 }
