@@ -1,4 +1,8 @@
-@font-face{
-  font-family: "IM16";
-  src: url("fonts/IndependentModern8x16.ttf");
+@font-face {
+  font-family: 'independent_modern_8x16_monRg';
+  src: url('fonts/independentmodern8x16-webfont.woff2') format('woff2'),
+  url('fonts/independentmodern8x16-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
 }

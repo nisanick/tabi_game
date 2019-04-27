@@ -15,7 +15,7 @@ export default class SceneLoader {
 
     init = () => {
         this.loader.add("bgLoad", "assets/images/bgLoading.png")
-            .add("IM16", "assets/fonts/IndependentModern8x16.ttf")
+            //.add("IM16", "assets/fonts/IndependentModern8x16.ttf")
             .load(this.setupLoading);
 
 
@@ -61,6 +61,7 @@ export default class SceneLoader {
 
     renderScene = () => {
         this.getActiveScene().visible = true;
+        this.getActiveScene().repaint();
         requestAnimationFrame(this.renderScene);
     };
 }

@@ -23,7 +23,7 @@ export default class Menu extends BasicScene {
         let y = this.loader.app.renderer.height / 2 - (height / 2) - 200;
         let sprite_clicked = this.loader.getSprite("btn_clicked");
         let sprite = this.loader.getSprite("btn_normal");
-        let textStyle = new PIXI.TextStyle({fill: "black", fontSize: 30});
+        let textStyle = new PIXI.TextStyle({fill: "black", fontSize: 30, fontFamily: ["independent_modern_8x16_monRg"]});
         this.btnStart = new Button("Start Game", x, y, width, height, this, sprite, sprite_clicked, textStyle);
         this.btnStart.onClick(this.loader.start.bind(this));
     };
