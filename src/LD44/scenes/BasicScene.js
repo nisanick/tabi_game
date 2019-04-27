@@ -6,7 +6,7 @@ export default class BasicScene extends PIXI.Container {
         this.visible = false;
     }
 
-    repaint = () => {
+    repaintScene = () => {
 
     }
 }

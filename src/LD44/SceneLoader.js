@@ -2,6 +2,8 @@ import * as PIXI from "pixi.js";
 import Loading from "./scenes/Loading";
 import SpriteLoader from "./SpriteLoader";
 import Menu from "./scenes/Menu";
+import World from "./scenes/World";
+import Game from "./model/Game";
 
 export default class SceneLoader {
     constructor(/* PIXI.Application */ app) {
@@ -34,12 +36,15 @@ export default class SceneLoader {
     };
 
     setup = () => {
+        let game = new Game();
+        game.init();
         this.scenes.push(new Menu(this));
+        this.scenes.push(new World(this, game));
         this.setScene(1);
     };
 
     start = () => {
-      console.log("som tu");
+      this.setScene(2);
     };
 
     getSprite = (name) => {
@@ -61,7 +66,7 @@ export default class SceneLoader {
 
     renderScene = () => {
         this.getActiveScene().visible = true;
-        this.getActiveScene().repaint();
+        this.getActiveScene().repaintScene();
         requestAnimationFrame(this.renderScene);
     };
 }
