@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
-import Loading from "./Scenes/Loading";
+import Loading from "./scenes/Loading";
 import SpriteLoader from "./SpriteLoader";
-import Menu from "./Scenes/Menu";
+import Menu from "./scenes/Menu";
 
 export default class SceneLoader {
     constructor(/* PIXI.Application */ app) {
@@ -26,7 +26,8 @@ export default class SceneLoader {
         this.setScene(0);
         this.loader.onProgress.add((loader)=>{this.scenes[0].setProgress(loader.progress/100)});
         requestAnimationFrame(this.renderScene);
-        this.loader.add("btn", "assets/images/menu/button_01_04.png")
+        this.loader.add("btn_normal", "assets/images/menu/btn_normal.png")
+            .add("btn_clicked", "assets/images/menu/btn_clicked.png")
             .add("bgMenu", "assets/images/menu/background_02.png")
             .load(this.setup);
 
@@ -34,6 +35,11 @@ export default class SceneLoader {
 
     setup = () => {
         this.scenes.push(new Menu(this));
+        this.setScene(1);
+    };
+
+    start = () => {
+      console.log("som tu");
     };
 
     getSprite = (name) => {
