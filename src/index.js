@@ -1,12 +1,14 @@
 require("@babel/polyfill");
 
 
-import SceneLoader from "./LD44/SceneLoader";
+import SceneLoader from "./LD44/tools/SceneLoader";
 
 import * as PIXI from "pixi.js";
 
 let pixi_cnt = document.getElementById("Game");
 let app = new PIXI.Application({width: 900, height: 900, transparent: false, antialias: true, resolution: 1});
+
+window.gameDebugMode = false;
 
 let sceneLoader = new SceneLoader(app);
 sceneLoader.init();

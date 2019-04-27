@@ -1,10 +1,10 @@
 import * as PIXI from "pixi.js";
-import Loading from "./scenes/Loading";
+import Loading from "../scenes/Loading";
 import SpriteLoader from "./SpriteLoader";
-import Menu from "./scenes/Menu";
-import World from "./scenes/World";
-import Game from "./model/Game";
-import Fight from "./model/Fight";
+import Menu from "../scenes/Menu";
+import World from "../scenes/World";
+import Game from "../model/Game";
+import Fight from "../model/Fight";
 
 export default class SceneLoader {
     constructor(/* PIXI.Application */ app) {
@@ -70,7 +70,9 @@ export default class SceneLoader {
         }
         this.activeScene = index;
         this.scenes.forEach((el) => { el.visible = false});
-        console.log("changing scene to " + index);
+        if(window.gameDebugMode) {
+            console.log("changing scene to " + index);
+        }
     };
 
     getActiveScene = () => {

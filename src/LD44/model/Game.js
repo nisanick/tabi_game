@@ -1,4 +1,4 @@
-import MapGenerator from "./MapGenerator";
+import MapGenerator from "../tools/MapGenerator";
 import Player from "./Player";
 
 export default class Game {
@@ -17,9 +17,11 @@ export default class Game {
     };
 
     movePlayer = (x, y) => {
+        if(window.gameDebugMode)
+            console.log({x, y});
         //co je na policku
-        this.player.x = x;
-        this.player.y = y;
+        this.player.x += x;
+        this.player.y += y;
     };
 
     init = () => {

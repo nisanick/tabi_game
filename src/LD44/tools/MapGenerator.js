@@ -1,5 +1,5 @@
 import Tile from "../objects/Tile";
-import GameMap from "./GameMap";
+import GameMap from "../model/GameMap";
 
 export default class MapGenerator {
     constructor() {

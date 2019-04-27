@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js";
 import BasicScene from "./BasicScene";
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "../tools/ProgressBar";
 
 export default class Loading extends BasicScene{
     constructor(/* SceneLoader */ loader){
@@ -12,7 +12,6 @@ export default class Loading extends BasicScene{
 
         this.text = new PIXI.Text("LOADING", {fontFamily:"IM16", fontSize: 39});
         container.width = this.text.width;
-        console.log({w: container.x, h: container.y});
         container.addChild(this.text);
         this.pb = new ProgressBar(container);
         container.position.set((this.background.width - container.width)/2,(this.background.height - container.height)/2);
