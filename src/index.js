@@ -11,7 +11,7 @@ let app = new PIXI.Application({width: 900, height: 900, transparent: false, ant
 let sceneLoader = new SceneLoader(app);
 sceneLoader.init();
 
-requestAnimationFrame(sceneLoader.renderScene);
+
 
 if (pixi_cnt && pixi_cnt.children.length <= 0) {
     pixi_cnt.appendChild(app.view);

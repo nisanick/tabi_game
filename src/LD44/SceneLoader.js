@@ -3,8 +3,8 @@ import Loading from "./Scenes/Loading";
 import SpriteLoader from "./SpriteLoader";
 import Menu from "./Scenes/Menu";
 
-export default class SceneLoader{
-    constructor(/* PIXI.Application */ app){
+export default class SceneLoader {
+    constructor(/* PIXI.Application */ app) {
         this.app = app;
 
         this.scenes = [];
@@ -14,18 +14,26 @@ export default class SceneLoader{
     }
 
     init = () => {
+        this.loader.add("LOADER")
+            .add("FONT")
+            .load(this.setupLoading);
+
+    };
+
+    setupLoading = () => {
         this.scenes.push(new Loading(this));
+        this.setScene(0);
+        requestAnimationFrame(this.renderScene);
         this.loader.add("assets/images/menu/button_01_04.png").load(this.setup);
-        this.scenes.push(new Menu(this));
-        this.setScene(1);
+
     };
 
     setup = () => {
-
+        this.scenes.push(new Menu(this));
     };
 
     setScene = (index) => {
-        if(index > this.scenes.length || index < 0){
+        if (index > this.scenes.length || index < 0) {
             throw "Invalid scene index";
         }
         this.activeScene = index;
