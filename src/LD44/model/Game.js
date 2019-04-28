@@ -1,11 +1,13 @@
 import MapGenerator from "../tools/MapGenerator";
 import Player from "./Player";
+import Enemy from "./Enemy";
 
 export default class Game {
     constructor() {
         this.map = {};
         this.mapGenerator = new MapGenerator();
         this.player = {};
+        this.enemy = new Enemy('orc');
     }
 
     getMap = () => {
@@ -14,6 +16,10 @@ export default class Game {
 
     getPlayer = () => {
         return this.player;
+    };
+
+    getEnemy = () => {
+        return this.enemy;
     };
 
     movePlayer = (x, y) => {

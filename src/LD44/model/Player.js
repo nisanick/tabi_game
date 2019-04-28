@@ -4,6 +4,7 @@ export default class Player {
     constructor(x, y) {
         this.x = x;
         this.y = y;
+        this.health = 100;
 
         this.head = new Item('default_helm', 1, 'Crimson Cowl');
         this.shoulder = new Item('default_shoulder', 2, 'Crimson Shoulders');

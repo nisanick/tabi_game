@@ -1,7 +1,8 @@
 import BasicScene from "./BasicScene";
 import * as PIXI from "pixi.js";
-import FightPlayer from "./Figures/FightPlayer";
-import FightEnemy from "./Figures/FightEnemy";
+import FightPlayer from "./figures/FightPlayer";
+import FightEnemy from "./figures/FightEnemy";
+import HealthBar from "./figures/HealthBar";
 
 export default class Fight extends BasicScene {
     constructor(loader, game) {
@@ -16,7 +17,13 @@ export default class Fight extends BasicScene {
         this.fightPlayer = {};
         this.fightEnemy = {};
 
-        this.fightArea = new PIXI.Container();
+        this.enemyHealthBar = {};
+        this.playerHealthBar = {};
+        this.selectedSpells = [];
+
+        this.h = 100;
+
+        this.textC = 0;
     }
 
     init = () => {
@@ -60,36 +67,82 @@ export default class Fight extends BasicScene {
 
         x = 100;
         let moveX = 780 / 5;
-        for (let i = 0; i < 5; i++) {
-            let spell = new PIXI.Graphics();
-            spell.beginFill(0x09FF00);
-            spell.lineStyle(5, 0xa3a3a3, 1);
-            spell.drawRect(x, spellBar.y + 50, 60, 60);
+        let spellIcons = ['melee_attack', 'fireball', 'iceball', 'thrown', 'shield'];
+        for (let i = 0; i < spellIcons.length; i++) {
+            let spellCase = new PIXI.Graphics();
+            spellCase.lineStyle(5, 0xa3a3a3, 1);
+            spellCase.drawRect(x - 5, spellBar.y + 50 - 5, 60 + 10, 60 + 10);
+
+            let spellSelected = this.loader.getGameSprite("selected");
+            spellSelected.width = 70;
+            spellSelected.height = 70;
+            spellSelected.x = x - 5;
+            spellSelected.y = spellBar.y + 50 - 5;
+            spellSelected.visible = false;
+            this.selectedSpells[i] = spellSelected;
+
+            let spell = this.loader.getGameSprite(spellIcons[i] + "_icon");
+            spell.width = 60;
+            spell.height = 60;
+            spell.x = x;
+            spell.y = spellBar.y + 50;
+            spell.interactive = true;
+            spell.on('click', () => {
+                for (let j = 0; j < this.selectedSpells.length; j++) {
+                    this.selectedSpells[j].visible = false;
+                }
+                this.fightPlayer.selectedSpellIndex = i + 1;
+                console.log(this.fightPlayer.selectedSpellIndex);
+                spellSelected.visible = true;
+            });
+            spell.on("mouseover", () => {
+                this.showTooltip(i);
+            });
+            spell.on("mouseout", () => {
+                this.hideTooltip(i);
+            });
 
             this.spells.push();
+            this.addChild(spellCase);
             this.addChild(spell);
-            x += moveX;
+            this.addChild(spellSelected);
+            x += moveX + 4;
         }
 
         let area = {x: 0, y: height, width: this.loader.app.stage.width, height: spellBar.y};
-        this.fightPlayer = new FightPlayer(this.loader, 20, height + 50, this.fightArea, area);
-        this.fightEnemy = new FightEnemy(this.loader, this.loader.app.stage.width - 100, height + 50, this.fightArea, area, 'troll');
+        this.fightPlayer = new FightPlayer(this.loader, 20, height + 50, this, area, this.game);
+        this.fightEnemy = new FightEnemy(this.loader, this.loader.app.stage.width - 100, height + 50, this, area, this.game, 'troll');
 
         this.addChild(this.player);
         this.addChild(this.enemy);
-        this.addChild(this.fightArea);
+
+        this.enemyHealthBar = new HealthBar(this, this.enemy.x - 1, height - 70, this.player.width, 25);
+        this.playerHealthBar = new HealthBar(this, this.player.x - 1, height - 70, this.player.width, 25);
+        this.enemyHealthBar.setHealth(100);
+        this.playerHealthBar.setHealth(100);
 
     };
 
     setEnemy = (spriteName) => {
-        this.enemy = this.loader.getGameSprite("spriteName");
+        this.enemy = this.loader.getGameSprite(spriteName);
         this.enemy.x = width + 30;
         this.enemy.y = 20;
         this.enemy.scale.set(0.174);
         this.addChild(this.enemy);
     };
 
+    showTooltip = (spellIndex) => {
+        console.log("tooltip");
+    };
+
+    hideTooltip = (spellIndex) => {
+        console.log("hide");
+    }
+
     repaintScene = () => {
         this.fightPlayer.doMove();
+        this.fightEnemy.doMove();
+        this.enemyHealthBar.setHealth(this.game.getEnemy().health);
+        this.playerHealthBar.setHealth(this.game.getPlayer().health);
     };
 }
