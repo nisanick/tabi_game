@@ -4,6 +4,7 @@ export default class ItemGenerator {
     }
 
     getJunkItem = () => {
+        return new Item("noItem", -1, "Nope Fish");
 
     };
 

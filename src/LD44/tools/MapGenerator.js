@@ -54,7 +54,7 @@ export default class MapGenerator {
                     }
                 }
 
-                if (Math.floor(Math.random() * 100) < 7) {
+                if (Math.floor(Math.random() * 100) < 5) {
                     mapArray[i + start][j + start].setChest();
                 }
             }

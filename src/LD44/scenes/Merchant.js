@@ -29,11 +29,21 @@ export default class Merchant extends BasicScene{
         this.tileInventory.position.set(525,55);
         this.addChild(this.playerInventory);
         this.addChild(this.tileInventory);
+        this.playerInventory.interactive = true;
+        this.tileInventory.interactive = true;
+        this.playerInventory.on('click', this.transferOut);
+        this.tileInventory.on('click', this.transferIn);
 
         this.lastX = -1;
         this.lastY = -1;
 
         this.repaint = true;
+
+
+        this.clickTimeLeft = Date.now();
+        this.clickTimeRight = Date.now();
+        this.clickedLeft = -1;
+        this.clickedRight = -1;
 
         loader.app.stage.addChild(this);
     }
@@ -70,5 +80,48 @@ export default class Merchant extends BasicScene{
             buffer.addChild(slot);
         }
 
+    };
+
+
+
+    transferOut = (e) => {
+        let x = Math.floor((e.data.global.x - 110)/89.6);
+        let y = Math.floor((e.data.global.y - 55)/89.6);
+
+        let index = y*3 + x;
+        if(this.clickTimeLeft + 500 > Date.now() && this.clickedLeft === index){
+            let inventory = this.game.getTile(this.lastX, this.lastY).inventory;
+            if(inventory.haveSpace()){
+                let item = this.game.player.removeItem(index);
+                inventory.addItem(item);
+            }
+            this.repaint = true;
+            this.clickedLeft = -1;
+        } else {
+            this.clickTimeLeft = Date.now();
+            this.clickedLeft = index;
+        }
+        return false;
+    };
+
+
+
+    transferIn = (e) => {
+        let x = Math.floor((e.data.global.x - 525)/89.6);
+        let y = Math.floor((e.data.global.y - 55)/89.6);
+
+        let index = y*3 + x;
+        if(this.clickTimeRight + 500 > Date.now() && this.clickedRight === index){
+            if(this.game.player.haveSpace()){
+                let item = this.game.getTile(this.lastX, this.lastY).inventory.removeItem(index);
+                this.game.player.addItem(item);
+            }
+            this.repaint = true;
+            this.clickedRight = -1;
+        } else {
+            this.clickTimeRight = Date.now();
+            this.clickedRight = index;
+        }
+        return false;
     };
 }

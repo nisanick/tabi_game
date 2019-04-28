@@ -6,6 +6,7 @@ import World from "../scenes/World";
 import Game from "../model/Game";
 import Fight from "../scenes/Fight";
 import Status from "../scenes/Status";
+import Merchant from "../scenes/Merchant";
 
 export default class SceneLoader {
     constructor(/* PIXI.Application */ app) {
@@ -26,7 +27,7 @@ export default class SceneLoader {
     };
 
     setupLoading = () => {
-        this.scenes.push(new Loading(this));
+        this.scenes.push(new Loading(this)); //0
         this.setScene(0);
         this.loader.onProgress.add((loader)=>{this.scenes[0].setProgress(loader.progress/100)});
         requestAnimationFrame(this.renderScene);
@@ -40,7 +41,7 @@ export default class SceneLoader {
     setup = () => {
         this.game = new Game();
         this.game.init();
-        this.scenes.push(new Menu(this));
+        this.scenes.push(new Menu(this)); //1
         this.setScene(1);
     };
 
@@ -51,9 +52,10 @@ export default class SceneLoader {
     };
 
     started = () => {
-        this.scenes.push(new Fight(this, this.game));
-        this.scenes.push(new World(this, this.game));
-        this.scenes.push(new Status(this, this.game));
+        this.scenes.push(new Fight(this, this.game)); //2
+        this.scenes.push(new World(this, this.game)); //3
+        this.scenes.push(new Status(this, this.game)); //4
+        this.scenes.push(new Merchant(this, this.game)); //5
         this.scenes[2].init();
         this.setScene(2);
     };
@@ -74,6 +76,9 @@ export default class SceneLoader {
             throw "Invalid scene index";
         }
         this.activeScene = index;
+        if(index === 3){
+            this.scenes[index].resetMovement();
+        }
         this.scenes.forEach((el) => { el.visible = false});
         if(window.gameDebugMode) {
             console.log("changing scene to " + index);
