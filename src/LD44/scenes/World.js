@@ -102,13 +102,44 @@ export default class World extends BasicScene {
                     let drawX = this.game.player.x + parseInt(x / 100) - 5;
                     let drawY = this.game.player.y + parseInt(y / 100) - 5;
 
-                    switch(this.game.getTileType(drawX, drawY)){
-                        case 1: tile = this.blueBuffer.getTile();break;
-                        default:
-                        case 2: tile = this.yellowBuffer.getTile(); break;
-                        case 3: tile = this.greenBuffer.getTile(); break;
-                        case 4: tile = this.brownBuffer.getTile(); break;
-                        case -10: continue;
+                    let mapTile = this.game.getTile(drawX, drawY);
+
+
+                    if(mapTile === undefined) {
+                        continue;
+                    }
+
+                    if(mapTile.city){
+
+                        switch(this.game.getTileType(drawX, drawY)){
+                            case 1: tile = this.blueBuffer.getCity();break;
+                            default:
+                            case 2: tile = this.yellowBuffer.getCity(); break;
+                            case 3: tile = this.greenBuffer.getCity(); break;
+                            case 4: tile = this.brownBuffer.getCity(); break;
+                            case -10: continue;
+                        }
+                    } else {
+                        if(mapTile.chest){
+
+                            switch(this.game.getTileType(drawX, drawY)){
+                                case 1: tile = this.blueBuffer.getChest();break;
+                                default:
+                                case 2: tile = this.yellowBuffer.getChest(); break;
+                                case 3: tile = this.greenBuffer.getChest(); break;
+                                case 4: tile = this.brownBuffer.getChest(); break;
+                                case -10: continue;
+                            }
+                        } else {
+                            switch(this.game.getTileType(drawX, drawY)){
+                                case 1: tile = this.blueBuffer.getTile();break;
+                                default:
+                                case 2: tile = this.yellowBuffer.getTile(); break;
+                                case 3: tile = this.greenBuffer.getTile(); break;
+                                case 4: tile = this.brownBuffer.getTile(); break;
+                                case -10: continue;
+                            }
+                        }
                     }
 
                     if(drawX === this.finalPoisiton.x && drawY === this.finalPoisiton.y ){

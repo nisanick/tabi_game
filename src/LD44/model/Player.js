@@ -16,7 +16,7 @@ export default class Player {
 
         this.bag = new Array(8*3);
 
-        this.bag[0] = new Item("noItem", 3, "Nope Fish");
+        //this.bag[0] = new Item("noItem", 3, "Nope Fish");
     }
 
     equip = (index) => {

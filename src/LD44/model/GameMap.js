@@ -6,6 +6,10 @@ export default class GameMap {
 
     getTileType = (x, y) => {
         return this.mapArray[x][y].getType();
+    };
+
+    getTile = (x, y) => {
+        return this.mapArray[x][y];
     }
 
 

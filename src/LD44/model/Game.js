@@ -24,6 +24,14 @@ export default class Game {
         this.player.y += y;
     };
 
+    getTile = (x, y) => {
+        if(x < 0 || y < 0 || x > 999 || y > 999) {
+            //console.log({x, y});
+            return undefined;
+        }
+        return this.map.getTile(x, y);
+    };
+
     getTileType = (x, y) => {
         if(x < 0 || y < 0 || x > 999 || y > 999) {
             //console.log({x, y});
@@ -37,7 +45,16 @@ export default class Game {
         // if(x < 0 || y < 0 || x > 999 || y > 999) {
         //     return -1;
         // }
-        let type = this.map.getTileType(x, y);
+        let tile = this.map.getTile(x, y);
+        if(tile.city){
+            return "Merchant";
+        }
+
+        if(tile.chest) {
+            return "Treasure";
+        }
+
+        let type = tile.type;
         switch (type) {
             case 1:
                 return "Lake";

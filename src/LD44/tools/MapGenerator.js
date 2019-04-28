@@ -34,25 +34,37 @@ export default class MapGenerator {
                     if (mapArray[i + start][j - 1 + start].getType() === previous) {
                         diff = 40;
                     } else {
-                        if(Math.floor(Math.random() * 100) > 50) {
+                        if (Math.floor(Math.random() * 100) > 50) {
                             previous = mapArray[i + start][j - 1 + start].getType();
                         }
                     }
                 }
                 chance = Math.floor(Math.random() * 100);
-                if(chance > diff){
+                if (chance > diff) {
                     mapArray[i + start][j + start] = new Tile(previous);
                 } else {
-                    if(previous === 4){
+                    if (previous === 4) {
                         mapArray[i + start][j + start] = new Tile(3);
-                    } else if(previous === 1){
+                    } else if (previous === 1) {
                         mapArray[i + start][j + start] = new Tile(2);
-                    } else if(chance < diff/2) {
+                    } else if (chance < diff / 2) {
                         mapArray[i + start][j + start] = new Tile(previous - 1);
                     } else {
                         mapArray[i + start][j + start] = new Tile(previous + 1);
                     }
                 }
+
+                if (Math.floor(Math.random() * 100) < 7) {
+                    mapArray[i + start][j + start].setChest();
+                }
+            }
+        }
+
+        for (let i = 0; i < 50; i++) {
+            for (let j = 0; j < 50; j++) {
+                let x = Math.floor(Math.random() * 20) + i * 20;
+                let y = Math.floor(Math.random() * 20) + j * 20;
+                mapArray[x][y].setCity();
             }
         }
 
