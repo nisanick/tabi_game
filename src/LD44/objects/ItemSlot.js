@@ -11,8 +11,7 @@ export default class ItemSlot extends PIXI.Container {
         this.bg.beginFill(0x5D412C);
         this.bg.drawRect(0,0,256,256);
         this.frame = loader.getGameSprite("slot");
-        this.icon;
-        if(this.item === undefined){
+        if(this.item === undefined || this.item.icon === undefined){
             this.icon = this.loader.getGameSprite("noItem");
 
             this.icon.visible = window.gameDebugMode;

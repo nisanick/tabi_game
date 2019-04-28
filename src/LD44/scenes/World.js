@@ -160,7 +160,8 @@ export default class World extends BasicScene {
     };
 
     onClick = (e) => {
-        if(e.canceled){
+        if(e.cancelMove){
+            e.cancelMove = false;
             return;
         }
         if (this.moving === true) {
@@ -279,8 +280,8 @@ export default class World extends BasicScene {
         uiContainer.addChild(bottom);
         uiContainer.addChild(status);
 
-        player.on("click", (e) => {console.log("open character screen"); window.statsShown = 1; this.loader.setScene(4)});
-        bag.on("click", (e) => {console.log("open inventory screen"); window.statsShown = 2; this.loader.setScene(4)});
+        player.on("click", (e) => {window.statsShown = 1; e.cancelMove = true; this.loader.setScene(4)});
+        bag.on("click", (e) => {window.statsShown = 2; e.cancelMove = true; this.loader.setScene(4)});
 
         return uiContainer;
     };

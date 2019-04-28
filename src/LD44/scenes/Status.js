@@ -19,16 +19,32 @@ export default class Status extends BasicScene {
         this.inventory = new PIXI.Container();
         this.inventory.position.set(92,550);
         this.inventory.visible = false;
+        this.inventory.interactive = false;
         this.stats = new PIXI.Container();
         this.stats.position.set(485,55);
         this.stats.visible = false;
 
+        this.inventory.on('click', this.equipItem);
+
+        this.cross = this.loader.getGameSprite("cross");
+        this.cross.scale.set(0.5);
+        this.cross.position.set(800, 55);
+        this.cross.interactive = true;
+
+        this.cross.on("click", () => {
+            this.loader.setScene(3);
+        });
+
+        this.addChild(this.cross);
         this.addChild(this.character);
         this.addChild(this.inventory);
         this.addChild(this.stats);
 
         this.repaint = false;
         loader.app.stage.addChild(this);
+
+        this.clickTime = Date.now();
+        this.clicked = -1;
     }
 
     repaintScene = () => {
@@ -37,7 +53,6 @@ export default class Status extends BasicScene {
         }
         if(this.repaint){
             this.clearCanvas();
-            console.log(window.statsShown, this.shown);
 
             this.drawCharacter();
 
@@ -58,35 +73,35 @@ export default class Status extends BasicScene {
         avatar.scale.set(0.15);
 
         let helm = new ItemSlot(this.game.player.head, this.loader);
-        helm.position.set(440, 40);
+        helm.position.set(470, 40);
         this.character.addChild(helm);
 
         let shoulder = new ItemSlot(this.game.player.chest, this.loader);
-        shoulder.position.set(440, 140);
+        shoulder.position.set(470, 140);
         this.character.addChild(shoulder);
 
         let chest = new ItemSlot(this.game.player.shoulder, this.loader);
-        chest.position.set(440, 240);
+        chest.position.set(470, 240);
         this.character.addChild(chest);
 
         let weapon1 = new ItemSlot(this.game.player.weapon1, this.loader);
-        weapon1.position.set(440, 340);
+        weapon1.position.set(470, 340);
         this.character.addChild(weapon1);
 
         let hand = new ItemSlot(this.game.player.hands, this.loader);
-        hand.position.set(650, 40);
+        hand.position.set(600, 40);
         this.character.addChild(hand);
 
         let legs = new ItemSlot(this.game.player.legs, this.loader);
-        legs.position.set(650, 140);
+        legs.position.set(600, 140);
         this.character.addChild(legs);
 
         let boot = new ItemSlot(this.game.player.boots, this.loader);
-        boot.position.set(650, 240);
+        boot.position.set(600, 240);
         this.character.addChild(boot);
 
         let weapon2 = new ItemSlot(this.game.player.weapon2, this.loader);
-        weapon2.position.set(650, 340);
+        weapon2.position.set(600, 340);
         this.character.addChild(weapon2);
 
         this.character.addChild(avatar);
@@ -107,13 +122,33 @@ export default class Status extends BasicScene {
             slot.position.set(x, y);
             this.inventory.addChild(slot);
         }
+        this.inventory.interactive = true;
         this.inventory.visible = true;
 
     };
 
     clearCanvas = () => {
+        this.inventory.interactive = false;
+        this.inventory.visible = false;
+        this.stats.visible = false;
         this.character.removeChildren(0, this.character.children.length);
         this.inventory.removeChildren(0, this.inventory.children.length);
         this.stats.removeChildren(0, this.stats.children.length);
     };
+
+    equipItem = (e) => {
+        let x = Math.floor((e.data.global.x - 92)/89.6);
+        let y = Math.floor((e.data.global.y - 550)/89.6);
+
+        let index = y*8 + x;
+        if(this.clickTime + 500 > Date.now() && this.clicked === index){
+            this.game.player.equip(index);
+            this.repaint = true;
+            this.clicked = -1;
+        } else {
+            this.clickTime = Date.now();
+            this.clicked = index;
+        }
+        return false;
+    }
 }
