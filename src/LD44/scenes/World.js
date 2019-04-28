@@ -1,6 +1,7 @@
 import * as PIXI from "pixi.js";
 import BasicScene from "./BasicScene";
 import TileBuffer from "../tools/TileBuffer";
+import StatusBar from "../objects/StatusBar";
 
 export default class World extends BasicScene {
     constructor(loader, game) {
@@ -15,6 +16,10 @@ export default class World extends BasicScene {
 
         this.player = this.createPlayer();
         this.locationText = new PIXI.Text("Test", new PIXI.TextStyle({fill: "white", fontSize: 30, fontFamily: "Linepixels"}));
+        this.hpBar = new StatusBar(1, this.loader);
+        this.hpBar.scale.set(0.3, 0.5);
+        this.hpBar.position.set(60, 10);
+
         this.ui = this.createWorldUI();
 
         this.on("click", this.onClick);
@@ -172,19 +177,31 @@ export default class World extends BasicScene {
         let icon;
         let uiContainer = new PIXI.Container();
 
-        let hp = new PIXI.Container();
-        hp.position.set(0,0);
+        let status = new PIXI.Container();
+        status.position.set(0,0);
         fill = new PIXI.Graphics();
         fill.beginFill(0x000000);
         fill.drawRect(0, 0, 280, 125);
+
+
+        let heart = this.loader.getGameSprite("heart");
+        heart.scale.set(0.13,0.13);
+        heart.position.set(10, 15);
+
+        let coin = this.loader.getGameSprite("coin");
+        coin.scale.set(0.15,0.15);
+        coin.position.set(10, 60);
 
         frame = this.loader.getGameSprite("frame_char");
         frame.x = -20;
         frame.y = -415;
         frame.height = 540;
         frame.width = 300;
-        hp.addChild(fill);
-        hp.addChild(frame);
+        status.addChild(fill);
+        status.addChild(this.hpBar);
+        status.addChild(heart);
+        status.addChild(coin);
+        status.addChild(frame);
 
         let bottom = new PIXI.Container();
 
@@ -246,20 +263,11 @@ export default class World extends BasicScene {
         bottom.addChild(player);
 
         uiContainer.addChild(bottom);
-        uiContainer.addChild(hp);
+        uiContainer.addChild(status);
 
         player.on("click", (e) => {console.log("open character screen"); this.loader.setScene(3)});
         bag.on("click", (e) => {console.log("open inventory screen"); this.loader.setScene(3)});
 
         return uiContainer;
     };
-    /*
-
-        let spellBar = this.loader.getGameSprite("frame_char");
-        spellBar.x = 0;
-        spellBar.y = this.loader.app.stage.height - 130;
-        spellBar.height = this.loader.app.stage.height;
-        spellBar.width = this.loader.app.stage.width;
-        this.addChild(spellBar);
-        */
 }
