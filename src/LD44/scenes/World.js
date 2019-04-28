@@ -20,6 +20,9 @@ export default class World extends BasicScene {
         this.hpBar.scale.set(0.3, 0.5);
         this.hpBar.position.set(60, 10);
 
+        this.goldText = new PIXI.Text("", new PIXI.TextStyle({fill: "white", fontSize: 30, fontFamily: "Linepixels"}));
+        this.goldText.position.set(60,60);
+
         this.ui = this.createWorldUI();
 
         this.on("click", this.onClick);
@@ -89,6 +92,7 @@ export default class World extends BasicScene {
             this.cross.visible = false;
         }
         if (this.repaint) {
+            this.goldText.text = this.game.player.gold.toLocaleString();
             this.skipFrame = false;
             this.tileContainer.position.set(-this.tileHeight, -this.tileWidth);
             this.cleanBuffers();
@@ -247,6 +251,7 @@ export default class World extends BasicScene {
         status.addChild(this.hpBar);
         status.addChild(heart);
         status.addChild(coin);
+        status.addChild(this.goldText);
         status.addChild(frame);
 
         let bottom = new PIXI.Container();

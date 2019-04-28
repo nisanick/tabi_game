@@ -17,6 +17,7 @@ export default class Player {
         this.bag = new Array(8*3);
 
         //this.bag[0] = new Item("noItem", 3, "Nope Fish");
+        this.gold = 1000;
     }
 
     equip = (index) => {
@@ -32,6 +33,13 @@ export default class Player {
                 case 7: this.bag[index] = this.weapon1; this.weapon1 = item; break;
                 case 8: this.bag[index] = this.weapon2; this.weapon2 = item; break;
             }
+        }
+    }
+
+    addGold = (gold) => {
+        this.gold += Math.floor(gold);
+        if(this.gold > 9999999999){
+            this.gold = 9999999999;
         }
     }
 }
