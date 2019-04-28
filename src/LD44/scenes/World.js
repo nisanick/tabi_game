@@ -41,6 +41,9 @@ export default class World extends BasicScene {
         this.playerX = 0;
         this.playerY = 0;
 
+        this.cross = this.loader.getGameSprite("cross");
+        this.cross.visible = false;
+
         this.addChild(this.tileContainer);
         this.addChild(this.player);
         this.addChild(this.ui);
@@ -60,28 +63,30 @@ export default class World extends BasicScene {
 
         let player = this.game.player;
 
-        let x = this.finalPoisiton.x;
-        let y = this.finalPoisiton.y;
+        // let x = this.finalPoisiton.x;
+        // let y = this.finalPoisiton.y;
+        //
+        // if(x < 0){
+        //     x = 1000 + x;
+        // }
+        // if(y < 0){
+        //     y = 1000 + y;
+        // }
+        //
+        // x = x % 1000;
+        // y = y % 1000;
 
-        if(x < 0){
-            x = 1000 + x;
-        }
-        if(y < 0){
-            y = 1000 + y;
-        }
-
-        x = x % 1000;
-        y = y % 1000;
-
-        if (((x - player.x) !== 0) || ((y - player.y) !== 0)) {
+        if (((this.finalPoisiton.x - player.x) !== 0) || ((this.finalPoisiton.y - player.y) !== 0)) {
             if (this.skipFrame) {
                 this.skipFrame = false;
             } else {
                 this.checkMoves();
                 this.skipFrame = false;
             }
+            this.cross.visible = true;
         } else {
             this.moving = false;
+            this.cross.visible = false;
         }
         if (this.repaint) {
             this.skipFrame = false;
@@ -90,17 +95,24 @@ export default class World extends BasicScene {
             let tilecount = 0;
             for (let i = 0; i < 11; i++) {
                 for (let j = 0; j < 11; j++) {
-                    // TODO kontrola na farbu policka
                     let tile;
                     let x = i * this.tileWidth;
                     let y = j * this.tileHeight;
-                    switch(this.game.getTileType((this.game.player.x + parseInt(x / 100) - 5), (this.game.player.y + parseInt(y / 100) - 5))){
+
+                    let drawX = this.game.player.x + parseInt(x / 100) - 5;
+                    let drawY = this.game.player.y + parseInt(y / 100) - 5;
+
+                    switch(this.game.getTileType(drawX, drawY)){
                         case 1: tile = this.blueBuffer.getTile();break;
                         default:
                         case 2: tile = this.yellowBuffer.getTile(); break;
                         case 3: tile = this.greenBuffer.getTile(); break;
                         case 4: tile = this.brownBuffer.getTile(); break;
                         case -10: continue;
+                    }
+
+                    if(drawX === this.finalPoisiton.x && drawY === this.finalPoisiton.y ){
+                        this.cross.position.set(x, y);
                     }
                     tile.position.set(x, y);
                     if (this.debug) {
@@ -110,6 +122,7 @@ export default class World extends BasicScene {
                     this.tileContainer.addChild(tile);
                 }
             }
+            this.tileContainer.addChild(this.cross);
             this.locationText.text = this.game.getTileTypeText(player.x, player.y);
             this.locationText.position.set(900/2 - this.locationText.width/2, 60/2);
             this.repaint = false;
@@ -168,6 +181,7 @@ export default class World extends BasicScene {
             y = 999;
         }
         this.finalPoisiton = {x, y};
+        this.cross.position.set( parseInt(e.data.global.x / 100) *100 +100, parseInt(e.data.global.y / 100) *100 +100);
         this.moving = true;
     };
 

@@ -46,6 +46,7 @@ export default class SpriteLoader extends PIXI.Loader {
             .add("tileWater", "assets/images/world/water.png")
             .add("heart", "assets/images/world/heart.png")
             .add("coin", "assets/images/world/152_t.PNG")
+            .add("cross", "assets/images/world/cross.png")
             .load(started);
     };
 }
