@@ -14,10 +14,13 @@ export default class Player {
         this.weapon1 = new Item('default_weapon1', 7, "Twitching Eye of Zala'tix");
         this.weapon2 = new Item('default_weapon2', 8, "Grimoire of Blood");
 
-        this.bag = new Array(8*3);
+        this.max = 8*3;
+        this.bag = new Array(this.max);
 
         //this.bag[0] = new Item("noItem", 3, "Nope Fish");
         this.gold = 1000;
+
+        this.itemCount = 0;
     }
 
     equip = (index) => {
@@ -34,12 +37,36 @@ export default class Player {
                 case 8: this.bag[index] = this.weapon2; this.weapon2 = item; break;
             }
         }
-    }
+    };
 
     addGold = (gold) => {
         this.gold += Math.floor(gold);
         if(this.gold > 9999999999){
             this.gold = 9999999999;
         }
+    };
+
+
+    haveSpace = () => {
+        return this.itemCount < this.max;
+    };
+
+    addItem = (item) => {
+        let empty;
+        for (let i = 0; i < this.max; i++) {
+            if(this.bag[i] === undefined){
+                empty = i;
+                break;
+            }
+        }
+        this.bag[empty] = item;
+        this.itemCount++;
+    };
+
+    removeItem = (index) => {
+        let item = this.bag[index];
+        this.bag[index] = undefined;
+        this.itemCount--;
+        return item;
     }
 }
