@@ -195,6 +195,9 @@ export default class World extends BasicScene {
                 if(action === 2) {
                     this.loader.setScene(5);
                 }
+                if(action === 1) {
+                    this.loader.setScene(2);
+                }
             }
             //zisti co je na policku
         }

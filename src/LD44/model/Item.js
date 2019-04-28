@@ -19,4 +19,20 @@ export default class Item {
 
         this.value = Math.ceil(Math.random() * 10000);
     }
+
+    getType = () => {
+        switch (this.slot) {
+            default:
+            case -1: return "Junk";
+            case 0: return "Coins";
+            case 1: return "Helmet";
+            case 2: return "Shoulder";
+            case 3: return "Chest";
+            case 4: return "Hands";
+            case 5: return "Legs";
+            case 6: return "Feet";
+            case 7: return "Main Hand";
+            case 8: return "Off Hand";
+        }
+    }
 }

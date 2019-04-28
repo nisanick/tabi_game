@@ -36,7 +36,6 @@ export default class NpcInventory {
         }
         if(this.type === 1){
             this.cash -= item.value;
-            console.log(this.cash);
         }
         this.inventory[empty] = item;
         this.itemCount++;
@@ -49,7 +48,6 @@ export default class NpcInventory {
             this.itemCount--;
             if(this.type === 1){
                 this.cash += item.value;
-                console.log(this.cash);
             }
         }
         return item;

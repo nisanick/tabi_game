@@ -157,7 +157,6 @@ export default class Merchant extends BasicScene {
         } else {
             this.clickTimeLeft = Date.now();
             this.clickedLeft = index;
-            console.log(this.game.player.bag[index].value);
         }
         return false;
     };
@@ -193,7 +192,6 @@ export default class Merchant extends BasicScene {
         } else {
             this.clickTimeRight = Date.now();
             this.clickedRight = index;
-            console.log(this.inventory.inventory[index].value);
         }
         return false;
     };

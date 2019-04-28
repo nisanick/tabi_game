@@ -27,7 +27,6 @@ export default class HealthBar {
         this.fill.beginFill(0x00C905);
         this.fill.drawRoundedRect(0, 1, width - 2, height - 2, 4);
         this.fill.setTransform(1, 0, this.progress, 0, 0, 0);
-        console.log(this.fill);
         this.fillContainer.addChild(this.fill);
         this.bar.addChild(this.fillContainer);
         loader.addChild(this.bar);

@@ -7,6 +7,7 @@ import Game from "../model/Game";
 import Fight from "../scenes/Fight";
 import Status from "../scenes/Status";
 import Merchant from "../scenes/Merchant";
+import Tooltip from "../objects/Tooltip";
 
 export default class SceneLoader {
     constructor(/* PIXI.Application */ app) {
@@ -17,6 +18,8 @@ export default class SceneLoader {
         this.spriteLoader = new SpriteLoader();
         this.loader = new PIXI.Loader();
         this.game;
+
+        this.count = 0;
     }
 
     init = () => {
@@ -58,6 +61,13 @@ export default class SceneLoader {
         this.scenes.push(new Merchant(this, this.game)); //5
         this.scenes[2].init();
         this.setScene(3);
+
+        this.tooltip = new Tooltip();
+        this.tooltip.visible = false;
+        this.tooltip.position.set(50,50);
+        this.app.stage.addChild(this.tooltip);
+        this.app.stage.interactive = true;
+        this.app.stage.on("mousemove", this.tooltip.setPosition);
     };
 
     getSprite = (name) => {
@@ -94,4 +104,22 @@ export default class SceneLoader {
         this.getActiveScene().repaintScene();
         requestAnimationFrame(this.renderScene);
     };
+
+    mouseover = (e) => {
+        if(e.target.hoverInfo === undefined){
+            this.tooltip.visible = false;
+            return;
+        }
+        this.count++;
+        this.tooltip.repaintTooltip(e.target.hoverInfo);
+        this.tooltip.visible = true;
+    };
+
+
+    mouseout = (e) => {
+        if (--this.count <= 0){
+            this.tooltip.visible = false;
+            this.count = 0;
+        }
+    }
 }

@@ -7,6 +7,17 @@ export default class ItemSlot extends PIXI.Container {
         this.item = item;
         this.loader = loader;
 
+        if(item !== undefined){
+            this.hoverInfo = {
+                name: item.name ,
+                type: item.getType(),
+                description: "",
+                details:{
+                    value: item.value
+                }
+            };
+        }
+
         this.bg = new PIXI.Graphics();
         this.bg.beginFill(0x5D412C);
         this.bg.drawRect(0,0,256,256);
@@ -23,7 +34,12 @@ export default class ItemSlot extends PIXI.Container {
         this.addChild(this.bg);
         this.addChild(this.icon);
         this.addChild(this.frame);
-    }
 
+        this.interactive = true;
+
+        this.on("mouseover", loader.mouseover);
+        this.on("mouseout", loader.mouseout);
+        this.over = false;
+    }
 
 }
