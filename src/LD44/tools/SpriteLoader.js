@@ -24,7 +24,9 @@ export default class SpriteLoader extends PIXI.Loader {
                         index = "";
                     let name = figures[i] + "_" + actions[j] + index;
                     let path = "assets/images/fight/" + name + ".png";
-                    console.log (name + " " + path);
+                    if(window.gameDebugMode) {
+                        console.log(name + " " + path);
+                    }
                     this.add(name, path);
                 }
             }
