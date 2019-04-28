@@ -279,8 +279,8 @@ export default class World extends BasicScene {
         uiContainer.addChild(bottom);
         uiContainer.addChild(status);
 
-        player.on("click", (e) => {console.log("open character screen"); this.loader.setScene(3)});
-        bag.on("click", (e) => {console.log("open inventory screen"); this.loader.setScene(3)});
+        player.on("click", (e) => {console.log("open character screen"); window.statsShown = 1; this.loader.setScene(4)});
+        bag.on("click", (e) => {console.log("open inventory screen"); window.statsShown = 2; this.loader.setScene(4)});
 
         return uiContainer;
     };

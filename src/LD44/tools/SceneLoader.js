@@ -5,6 +5,7 @@ import Menu from "../scenes/Menu";
 import World from "../scenes/World";
 import Game from "../model/Game";
 import Fight from "../scenes/Fight";
+import Status from "../scenes/Status";
 
 export default class SceneLoader {
     constructor(/* PIXI.Application */ app) {
@@ -52,6 +53,7 @@ export default class SceneLoader {
     started = () => {
         this.scenes.push(new Fight(this, this.game));
         this.scenes.push(new World(this, this.game));
+        this.scenes.push(new Status(this, this.game));
         this.scenes[2].init();
         this.setScene(3);
     };
