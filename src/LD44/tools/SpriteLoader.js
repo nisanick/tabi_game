@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js";
 
+
 export default class SpriteLoader extends PIXI.Loader {
     constructor() {
         super();
