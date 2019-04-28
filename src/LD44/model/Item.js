@@ -16,5 +16,7 @@ export default class Item {
         this.icon = icon;
         this.slot = slot;
         this.name = name;
+
+        this.value = Math.ceil(Math.random() * 10000);
     }
 }

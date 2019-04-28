@@ -19,13 +19,24 @@ export default class Game {
     movePlayer = (x, y) => {
         if (window.gameDebugMode)
             console.log({x, y});
-        //co je na policku
         this.player.x += x;
         this.player.y += y;
+
+        let tile = this.map.getTile(this.player.x, this.player.y);
+
+        /*
+            returns:
+            0 - nothing
+            1 - fight
+            2 - merchant / chest
+         */
+        if (tile.city || tile.chest) {
+            return 2
+        }
     };
 
     getTile = (x, y) => {
-        if(x < 0 || y < 0 || x > 999 || y > 999) {
+        if (x < 0 || y < 0 || x > 999 || y > 999) {
             //console.log({x, y});
             return undefined;
         }
@@ -33,7 +44,7 @@ export default class Game {
     };
 
     getTileType = (x, y) => {
-        if(x < 0 || y < 0 || x > 999 || y > 999) {
+        if (x < 0 || y < 0 || x > 999 || y > 999) {
             //console.log({x, y});
             return -10;
         }
@@ -46,11 +57,11 @@ export default class Game {
         //     return -1;
         // }
         let tile = this.map.getTile(x, y);
-        if(tile.city){
+        if (tile.city) {
             return "Merchant";
         }
 
-        if(tile.chest) {
+        if (tile.chest) {
             return "Treasure";
         }
 
@@ -70,7 +81,7 @@ export default class Game {
 
     init = () => {
         this.map = this.mapGenerator.generate();
-        this.player = new Player(Math.floor(Math.random()*1000), Math.floor(Math.random()*1000));
+        this.player = new Player(Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000));
         // this.player = new Player(0, 0);
     };
 }

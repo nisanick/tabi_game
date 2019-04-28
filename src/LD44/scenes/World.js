@@ -96,7 +96,7 @@ export default class World extends BasicScene {
             this.skipFrame = false;
             this.tileContainer.position.set(-this.tileHeight, -this.tileWidth);
             this.cleanBuffers();
-            let tilecount = 0;
+
             for (let i = 0; i < 11; i++) {
                 for (let j = 0; j < 11; j++) {
                     let tile;
@@ -187,8 +187,15 @@ export default class World extends BasicScene {
         }
 
         if ((this.tileContainer.x % 100) === 0 && (this.tileContainer.y % 100) === 0) {
-            this.game.movePlayer(this.playerX, this.playerY);
             this.repaint = true;
+            let action = this.game.movePlayer(this.playerX, this.playerY);
+            if(action > 0){
+                this.finalPoisiton = {x: this.game.player.x, Y: this.game.player.y};
+                //this.moving = false;
+                if(action === 2) {
+                    this.loader.setScene(5);
+                }
+            }
             //zisti co je na policku
         }
 
@@ -321,4 +328,10 @@ export default class World extends BasicScene {
 
         return uiContainer;
     };
+
+    resetMovement = () => {
+        this.finalPoisiton = {x: this.game.player.x, y: this.game.player.y};
+        this.moving = false;
+        this.repaint = true;
+    }
 }
