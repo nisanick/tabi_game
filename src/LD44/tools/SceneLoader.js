@@ -61,7 +61,9 @@ export default class SceneLoader {
     };
 
     getGameSprite = (name) => {
-        console.log(name);
+        if(window.gameDebugMode) {
+            console.log(name);
+        }
         return new PIXI.Sprite(this.spriteLoader.resources[name].texture);
     };
 
