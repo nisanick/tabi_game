@@ -20,10 +20,6 @@ export default class Fight extends BasicScene {
         this.enemyHealthBar = {};
         this.playerHealthBar = {};
         this.selectedSpells = [];
-
-        this.h = 100;
-
-        this.textC = 0;
     }
 
     init = () => {
@@ -88,12 +84,7 @@ export default class Fight extends BasicScene {
             spell.y = spellBar.y + 50;
             spell.interactive = true;
             spell.on('click', () => {
-                for (let j = 0; j < this.selectedSpells.length; j++) {
-                    this.selectedSpells[j].visible = false;
-                }
-                this.fightPlayer.selectedSpellIndex = i + 1;
-                console.log(this.fightPlayer.selectedSpellIndex);
-                spellSelected.visible = true;
+                this.fightPlayer.selectSpell(i);
             });
             spell.on("mouseover", () => {
                 this.showTooltip(i);

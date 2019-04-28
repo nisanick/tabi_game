@@ -24,7 +24,7 @@ export default class MeleeAttack {
             this.figure.container.game.getPlayer().health -= this.spell.cost;
         } else {
             this.pointTo.x = this.pointTo.x + (this.figure.hitArea.width / 2);
-            this.figure.container.game.getPlayer().health = this.spell.cost;
+            this.figure.container.game.getEnemy().health -= this.spell.cost;
         }
 
         if (pointTo.y  > (area.height - 100) && pointTo.y < (area.height)){
@@ -97,8 +97,8 @@ export default class MeleeAttack {
                         if (Tools.getRndInteger(0, 100) > (100 - this.spell.critChance)) {
                             damage *= 2;
                         }
-
                         this.figure.loader.game.getPlayer().health -= damage;
+                        console.log(this.figure.loader.game.getPlayer().health);
                     } else {
                         this.figure.container.fightPlayer.removeShield();
                     }

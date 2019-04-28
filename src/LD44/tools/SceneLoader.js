@@ -57,7 +57,7 @@ export default class SceneLoader {
         this.scenes.push(new Status(this, this.game)); //4
         this.scenes.push(new Merchant(this, this.game)); //5
         this.scenes[2].init();
-        this.setScene(3);
+        this.setScene(2);
     };
 
     getSprite = (name) => {

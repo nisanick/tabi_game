@@ -1,7 +1,7 @@
 import Tools from "../../tools/Tools";
 
 export default class SpellAttack {
-    constructor(container, figureType) {
+    constructor(figure, container, figureType) {
         this.spell = {};
 
         this.container = container;
@@ -12,10 +12,7 @@ export default class SpellAttack {
         this.done = false;
         this.angle = 0;
         this.area = {};
-        this.area.width = this.container.width;
-        this.area.height = this.container.height;
-        this.area.x = this.container.x;
-        this.area.y = this.container.y;
+        this.figure = figure;
     }
 
     setBounds(){
@@ -43,7 +40,6 @@ export default class SpellAttack {
         let a = Math.abs(this.pointTo.x - this.pointFrom.x);
         let b = Math.abs(this.pointTo.y - this.pointFrom.y);
         this.angle = Math.atan((a/b));
-        console.log(this.angle);
     };
 
     checkCollision = () => {
@@ -51,7 +47,6 @@ export default class SpellAttack {
             this.spell.effect.visible = false;
             this.active = false;
             this.done = true;
-            console.log("som tu");
             return;
         }
         if (this.figureType === 'player') {
@@ -107,10 +102,10 @@ export default class SpellAttack {
     };
 
     isWall = () => {
-        if (this.spell.hitArea.x >= this.area.width || this.spell.hitArea.x <= this.area.x) {
+        if (this.spell.hitArea.x >= this.figure.area.width || this.spell.hitArea.x <= this.figure.area.x) {
             return true;
         }
-        if (this.spell.hitArea.y >= this.area.height || this.spell.hitArea.y <= this.area.y) {
+        if (this.spell.hitArea.y >= this.figure.area.height || this.spell.hitArea.y <= this.figure.area.y) {
             return true;
         }
 
