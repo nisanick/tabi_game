@@ -18,6 +18,8 @@ export default class Fight extends BasicScene {
         this.fightEnemy = {};
         this.area = {};
 
+        this.imgContainer = new PIXI.Container();
+
         this.enemyHealthBar = {};
         this.playerHealthBar = {};
         this.selectedSpells = [];
@@ -104,9 +106,9 @@ export default class Fight extends BasicScene {
         this.area = {x: 0, y: height, width: this.loader.app.renderer.width, height: spellBar.y};
         this.fightPlayer = new FightPlayer(this.loader, 20, height + 50, this, this.area, this.game);
 
-        this.addChild(this.player);
-        this.addChild(this.enemy);
-
+        this.imgContainer.addChild(this.player);
+        this.imgContainer.addChild(this.enemy);
+        this.addChild(this.imgContainer);
         this.enemyHealthBar = new HealthBar(this, this.enemy.x - 1, height - 70, this.player.width, 25);
         this.playerHealthBar = new HealthBar(this, this.player.x - 1, height - 70, this.player.width, 25);
         this.enemyHealthBar.setHealth(100);
@@ -134,6 +136,16 @@ export default class Fight extends BasicScene {
         let height = this.loader.app.renderer.height - 353;
         console.log(height);
         this.fightEnemy = new FightEnemy(this.loader, this.loader.app.renderer.width - 100, height + 50, this, this.area, this.game, this.game.getEnemy().name);
+        let x = this.enemy.x;
+        let y = this.enemy.y;
+        this.enemy.visible = false;
+
+        this.enemy = this.loader.getGameSprite(this.game.getEnemy().name + "_full");
+        this.enemy.x = x;
+        this.enemy.y = y;
+        this.enemy.scale.set(0.174);
+        this.enemy.visible = true;
+        this.imgContainer.addChild(this.enemy);
     };
 
     repaintScene = () => {

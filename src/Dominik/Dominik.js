@@ -51,7 +51,7 @@ export default class Dominik{
         this.pauseMessage.visible = false;
         this.app.stage.addChild(this.pauseMessage);
 
-        this.level = new Level_1(this.app.renderer.width, this.app.renderer.height - 80, this.bgStage);
+        this.level = new Level_2(this.app.renderer.width, this.app.renderer.height - 80, this.bgStage);
         this.level.init();
 
         this.player = new Player(this.level, 200, 500, this.gameStage);

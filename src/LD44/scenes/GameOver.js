@@ -3,9 +3,10 @@ import * as PIXI from "pixi.js";
 import Button from "../objects/Button";
 
 export default class Fight extends BasicScene {
-    constructor(/*SceneLoader*/ loader) {
+    constructor(/*SceneLoader*/ loader, game) {
         super(loader);
         this.loader = loader;
+        this.game = game;
         this.btnStart = null;
         this.background = this.loader.getSprite("bgMenu");
         this.background.width = this.loader.app.renderer.width;
@@ -25,7 +26,8 @@ export default class Fight extends BasicScene {
         let sprite = this.loader.getSprite("btn_normal");
         let textStyle = new PIXI.TextStyle({fill: "black", fontSize: 30, fontFamily: "Linepixels"});
         this.btnStart = new Button("New Game", x, y, width, height, this, sprite, sprite_clicked, textStyle);
-        this.btnStart.onClick(this.loader.setScene, 3);
+        this.btnStart.onClick(this.loader.restart);
+        this.game.getPlayer().health = 100;
 
         let text = new PIXI.Text("Game Over", new PIXI.TextStyle({fill: "black", fontSize: 100, fontFamily: "Linepixels"}));
         text.x = (this.loader.app.renderer.width / 2) - (text.width / 2);

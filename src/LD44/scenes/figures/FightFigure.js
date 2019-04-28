@@ -21,6 +21,7 @@ export default class FightFigure {
         }
         this.loader = loader;
         this.container = container;
+        console.log(type);
         this.staySprite = this.loader.getGameSprite(type + "_stay");
         let rectangle = new PIXI.Rectangle((this.staySprite.width / 2) - (192 / 2), (this.staySprite.height / 2) - (192 / 2), 192, 192);
         this.staySprite = PIXI.Sprite.from(new PIXI.Texture(this.staySprite.texture, rectangle));

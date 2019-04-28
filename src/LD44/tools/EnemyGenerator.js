@@ -6,12 +6,12 @@ export default class EnemyGenerator {
         this.lakeEnemies = ['medusa', 'skeleton', 'goblin'];
         this.grasslandEnemies = ['elf_female', 'wizard', 'lizard_man'];
         this.forestEnemies = ['orc', 'treant', 'dwarf'];
-        this.mountainsEnemies = ['minotaur', 'troll, gargoyle'];
+        this.mountainsEnemies = ['minotaur', 'troll', 'gargoyle'];
     }
 
     generate = (tileType) => {
         let enemyName = '';
-        let rnd = Tools.getRndInteger(0, 3);
+        let rnd = Tools.getRndInteger(0, 2);
         if (tileType === 1){
             enemyName = this.lakeEnemies[rnd];
         } else if (tileType === 2){

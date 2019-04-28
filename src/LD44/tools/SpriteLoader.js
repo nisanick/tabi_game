@@ -41,6 +41,12 @@ export default class SpriteLoader extends PIXI.Loader {
                     this.add(name, path);
                 }
             }
+
+            if (figures[i] !== 'player'){
+                let name = figures[i] + "_full";
+                let path = "assets/images/enemy/" + name + ".png"
+                this.add(name, path);
+            }
         }
 
 

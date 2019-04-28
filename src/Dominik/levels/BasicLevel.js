@@ -175,7 +175,7 @@ export default class BasicLevel {
                 if (y >= this.objects[i].y && y <= this.objects[i].y + this.objects[i].height) {
                     if (Tools.isBetweenObject(this.objects[i].x, this.objects[i].x + this.objects[i].width, coordinateTo)) {
                         return true;
-                    }
+                }
                 }
             }
         }

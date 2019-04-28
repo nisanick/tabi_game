@@ -55,12 +55,21 @@ export default class SceneLoader {
         this.spriteLoader.init(this.started);
     };
 
+    restart = () => {
+        this.game = new Game();
+        this.game.init();
+        this.scenes = [];
+        this.scenes.push(new Loading(this)); //0
+        this.scenes.push(new Menu(this)); //1
+        this.started();
+    };
+
     started = () => {
         this.scenes.push(new Fight(this, this.game)); //2
         this.scenes.push(new World(this, this.game)); //3
         this.scenes.push(new Status(this, this.game)); //4
         this.scenes.push(new Merchant(this, this.game)); //5
-        this.scenes.push(new GameOver(this)); //6
+        this.scenes.push(new GameOver(this, this.game)); //6
         this.scenes[2].init();
         this.setScene(3);
 
@@ -89,6 +98,7 @@ export default class SceneLoader {
         }
         this.activeScene = index;
         if(index === 3){
+            this.scenes[index].hpBar.setPercentage(this.game.getPlayer().health / 100);
             this.scenes[index].resetMovement();
         }
         if (index === 2){
