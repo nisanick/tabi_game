@@ -7,6 +7,7 @@ import Game from "../model/Game";
 import Fight from "../scenes/Fight";
 import Status from "../scenes/Status";
 import Merchant from "../scenes/Merchant";
+import GameOver from "../scenes/GameOver";
 
 export default class SceneLoader {
     constructor(/* PIXI.Application */ app) {
@@ -56,8 +57,9 @@ export default class SceneLoader {
         this.scenes.push(new World(this, this.game)); //3
         this.scenes.push(new Status(this, this.game)); //4
         this.scenes.push(new Merchant(this, this.game)); //5
+        this.scenes.push(new GameOver(this)); //6
         this.scenes[2].init();
-        this.setScene(2);
+        this.setScene(3);
     };
 
     getSprite = (name) => {
@@ -78,6 +80,9 @@ export default class SceneLoader {
         this.activeScene = index;
         if(index === 3){
             this.scenes[index].resetMovement();
+        }
+        if (index === 2){
+            this.scenes[index].initEnemy();
         }
         this.scenes.forEach((el) => { el.visible = false});
         if(window.gameDebugMode) {

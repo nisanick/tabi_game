@@ -43,7 +43,7 @@ export default class Button {
         }
     };
 
-    onClick(method) {
+    onClick(method, params) {
         this.btnContainer.on("mousedown", () => {
             this.spriteNormal.visible = false;
             this.spriteClick.visible = true;
@@ -52,7 +52,7 @@ export default class Button {
         this.btnContainer.on("mouseup", () => {
             this.spriteNormal.visible = true;
             this.spriteClick.visible = false;
-            method();
+            method(params);
         });
     }
 

@@ -153,6 +153,15 @@ export default class FightFigure {
         }
     };
 
+    continue = () => {
+        if (this.type === 'player') {
+            this.loader.setScene(6);
+        }  else {
+            this.hideEnemy();
+            this.loader.setScene(3);
+        }
+    };
+
     doAttack = () => {
         if (this.selectedSpell[this.selectedSpellIndex - 1].type === 'melee') {
             this.doMeleeAttack();
@@ -171,7 +180,7 @@ export default class FightFigure {
         if (!this.dead) {
             if (this.dying || this.getHealth() <= 0) {
                 this.stopWalk();
-                this.hideAll();
+                this.hideAllSpells();
                 this.attacking = false;
                 this.animAttack.stopAnimate();
                 this.staySprite.visible = false;
@@ -208,6 +217,8 @@ export default class FightFigure {
                     this.checkShield();
                 }
             }
+        } else {
+            this.continue();
         }
     };
 
@@ -270,10 +281,17 @@ export default class FightFigure {
         this.animDie.animate(this.bounds);
     };
 
-    hideAll = () => {
+    hideAllSpells = () => {
         for (let i = 0; i < this.selectedSpell.length - 1; i++) {
             this.selectedSpell[i].hide();
         }
+    };
+
+    hideEnemy = () => {
+        this.staySprite.visible = false;
+        this.animDie.stopAnimate();
+        this.animWalk.stopAnimate();
+        this.animAttack.stopAnimate();
     };
 
 
@@ -290,7 +308,7 @@ export default class FightFigure {
             if (this.selectedSpell[index].type === 'shield') {
                 this.attacking = true;
             }
-        };
+        }
     };
 
 }

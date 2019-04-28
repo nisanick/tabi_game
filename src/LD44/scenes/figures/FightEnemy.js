@@ -19,11 +19,12 @@ export default class FightEnemy extends FightFigure {
 
     chooseAttack = () => {
         this.cdCounter = 0;
-        let index = Tools.getRndInteger(0, 3);
+        let index = Tools.getRndInteger(0, this.game.getEnemy().availableSpells.length - 1);
         let x = Tools.getRndInteger(0, this.container.width / 2);
         let y = Tools.getRndInteger(this.container.y, this.container.height);
 
-        this.selectSpell(index);
+        console.log(this.game.getEnemy().availableSpells[index]);
+        this.selectSpell(this.game.getEnemy().availableSpells[index]);
         if (!this.casting) {
             if (this.selectedSpellIndex !== 0) {
                 if (x > this.area.x && x < this.area.width) {
