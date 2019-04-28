@@ -29,10 +29,10 @@ export default class SpellAttack {
         this.pointTo = pointTo;
         this.active = true;
         if (this.figureType === 'player') {
-            this.container.game.getPlayer().health -= this.spell.cost;
+            this.container.game.getPlayer().health -= this.spell.getCost();
             this.spell.setPoint(pointFrom.x + 100, pointFrom.y);
         } else {
-            this.container.game.getEnemy().health -= this.spell.cost;
+            this.container.game.getEnemy().health -= this.spell.getCost();
             this.spell.setPoint(pointFrom.x, pointFrom.y);
         }
         this.spell.effect.visible = true;
@@ -52,7 +52,8 @@ export default class SpellAttack {
         if (this.figureType === 'player') {
             if (Tools.collision(this.spell, this.container.fightEnemy)){
                 if (!this.container.fightEnemy.shield) {
-                    let damage = Tools.getRndInteger(this.spell.damageFrom, this.spell.damageTo);
+                    let dmg = this.spell.getDamage();
+                    let damage = Tools.getRndInteger(dmg.damageFrom, dmg.damageTo);
                     if (Tools.getRndInteger(0, 100) > (100 - this.spell.critChance)) {
                         damage *= 2;
                     }

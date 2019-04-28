@@ -21,10 +21,10 @@ export default class MeleeAttack {
         this.pointTo = pointTo;
         if (this.figure.type === 'player') {
             this.pointTo.x = this.pointTo.x - (this.figure.hitArea.width / 2);
-            this.figure.container.game.getPlayer().health -= this.spell.cost;
+            this.figure.container.game.getPlayer().health -= this.spell.getCost();
         } else {
             this.pointTo.x = this.pointTo.x + (this.figure.hitArea.width / 2);
-            this.figure.container.game.getEnemy().health -= this.spell.cost;
+            this.figure.container.game.getEnemy().health -= this.spell.getCost();
         }
 
         if (pointTo.y  > (area.height - 100) && pointTo.y < (area.height)){
@@ -80,7 +80,8 @@ export default class MeleeAttack {
             if (this.figure.type === 'player') {
                 if (Tools.collision(this.figure, this.figure.container.fightEnemy)) {
                     if (!this.figure.container.fightEnemy.shield) {
-                        let damage = Tools.getRndInteger(this.spell.damageFrom, this.spell.damageTo);
+                        let dmg = this.spell.getDamage();
+                        let damage = Tools.getRndInteger(dmg.damageFrom, dmg.damageTo);
                         if (Tools.getRndInteger(0, 100) > (100 - this.spell.critChance)) {
                             damage *= 2;
                         }
@@ -98,7 +99,7 @@ export default class MeleeAttack {
                             damage *= 2;
                         }
                         this.figure.loader.game.getPlayer().health -= damage;
-                        console.log(this.figure.loader.game.getPlayer().health);
+                        console.log(this.figure.loader.game.getPlayer().getHealth());
                     } else {
                         this.figure.container.fightPlayer.removeShield();
                     }

@@ -27,4 +27,16 @@ export default class Spell {
     hide = () => {
         this.effect.visible = false;
     }
+
+    getCost = () => {
+        let cost = this.cost - ((this.container.game.getPlayer().getStats().cost / 100) * this.cost);
+        return cost;
+    };
+
+    getDamage = () => {
+        let damageFrom = this.damageFrom + ((this.container.game.getPlayer().getStats().damage / 100) * this.damageFrom);
+        let damageTo = this.damageTo + ((this.container.game.getPlayer().getStats().damage / 100) * this.damageTo);
+
+        return {damageFrom, damageTo};
+    };
 }

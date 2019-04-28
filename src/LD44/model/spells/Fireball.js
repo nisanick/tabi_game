@@ -11,6 +11,10 @@ export default class Fireball extends Spell {
 
         this.container.addChild(this.effect);
 
+        this.damageFrom = 20;
+        this.damageTo = 25;
+        this.cost = 10;
+
         this.effect.visible = false;
         if (this.figureType !== 'player'){
             this.effect.scale.x = -1;

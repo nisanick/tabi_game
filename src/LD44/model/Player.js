@@ -1,11 +1,12 @@
 import Item from "./Item";
+import Stats from "./Stats";
 
 export default class Player {
     constructor(x, y) {
         this.x = x;
         this.y = y;
         this.health = 100;
-
+        this.maxHealth = 100;
         this.head = new Item('default_helm', 1, 'Crimson Cowl');
         this.shoulder = new Item('default_shoulder', 2, 'Crimson Shoulders');
         this.chest = new Item('default_chest', 3, "Crimson Robers");
@@ -24,6 +25,10 @@ export default class Player {
         this.itemCount = 0;
     }
 
+    getHealth = () => {
+          return parseInt((this.health * 100) / this.maxHealth);
+    };
+
     equip = (index) => {
         let item = this.bag[index];
         if(item !== undefined && item.slot > 0){
@@ -38,6 +43,12 @@ export default class Player {
                 case 8: this.bag[index] = this.weapon2; this.weapon2 = item; break;
             }
         }
+    };
+
+    getStats = () => {
+        let stats = new Stats();
+        //scita vsetky staty a vrati
+        return stats;
     };
 
     addGold = (gold) => {

@@ -63,6 +63,11 @@ export default class FightFigure {
         this.selectedSpell[4] = new Shield(loader, container, type);
         this.selectedSpellIndex = 0;
 
+        this.stats = undefined;
+        if (type === 'player') {
+            this.stats = container.game.getPlayer().getStats();
+        }
+
         this.casting = false;
         this.shield = false;
         this.shieldCounter = 0;
@@ -71,7 +76,7 @@ export default class FightFigure {
 
     getHealth = () => {
         if (this.type === 'player'){
-            return this.game.getPlayer().health;
+            return this.game.getPlayer().getHealth();
         } else {
             return this.game.getEnemy().health;
         }

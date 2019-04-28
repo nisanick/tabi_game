@@ -3,6 +3,7 @@ import * as PIXI from "pixi.js";
 import FightPlayer from "./figures/FightPlayer";
 import FightEnemy from "./figures/FightEnemy";
 import HealthBar from "./figures/HealthBar";
+import SpellIcon from "./SpellIcon";
 
 export default class Fight extends BasicScene {
     constructor(loader, game) {
@@ -80,7 +81,7 @@ export default class Fight extends BasicScene {
             spellSelected.visible = false;
             this.selectedSpells[i] = spellSelected;
 
-            let spell = this.loader.getGameSprite(spellIcons[i] + "_icon");
+            let spell = new SpellIcon(this.loader.spriteLoader.resources[spellIcons[i] + "_icon"].texture, spellIcons[i]);
             spell.width = 60;
             spell.height = 60;
             spell.x = x;
@@ -89,12 +90,8 @@ export default class Fight extends BasicScene {
             spell.on('click', () => {
                 this.fightPlayer.selectSpell(i);
             });
-            spell.on("mouseover", () => {
-                this.showTooltip(i);
-            });
-            spell.on("mouseout", () => {
-                this.hideTooltip(i);
-            });
+            spell.on("mouseover", this.loader.mouseover);
+            spell.on("mouseout", this.loader.mouseout);
 
             this.spells.push();
             this.addChild(spellCase);
@@ -124,14 +121,6 @@ export default class Fight extends BasicScene {
         this.addChild(this.enemy);
     };
 
-    showTooltip = (spellIndex) => {
-        console.log("tooltip");
-    };
-
-    hideTooltip = (spellIndex) => {
-        console.log("hide");
-    };
-
     initEnemy = () => {
         let height = this.loader.app.renderer.height - 353;
         console.log(height);
@@ -152,6 +141,6 @@ export default class Fight extends BasicScene {
         this.fightPlayer.doMove();
         this.fightEnemy.doMove();
         this.enemyHealthBar.setHealth(this.game.getEnemy().health);
-        this.playerHealthBar.setHealth(this.game.getPlayer().health);
+        this.playerHealthBar.setHealth(this.game.getPlayer().getHealth());
     };
 }
