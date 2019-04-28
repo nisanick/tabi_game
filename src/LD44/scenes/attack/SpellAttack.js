@@ -112,4 +112,9 @@ export default class SpellAttack {
 
         return false;
     };
+
+    reset = () => {
+        this.active = false;
+        this.done = false;
+    }
 }

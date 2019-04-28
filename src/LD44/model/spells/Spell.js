@@ -26,7 +26,7 @@ export default class Spell {
 
     hide = () => {
         this.effect.visible = false;
-    }
+    };
 
     getCost = () => {
         let cost = this.cost - ((this.container.game.getPlayer().getStats().cost / 100) * this.cost);

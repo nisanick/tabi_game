@@ -14,6 +14,8 @@ export default class FightFigure {
         this.type = type;
         this.game = game;
         this.hitArea = {};
+        this.initX = x;
+        this.initY = y;
         if (type === 'player') {
             this.hitArea = {x: x + 60, y: y + 55, width: 192 - 100, height: 192 - 100};
         } else {
@@ -164,6 +166,20 @@ export default class FightFigure {
             this.loader.setScene(6);
         }  else {
             this.hideEnemy();
+            this.hideAllSpells();
+            this.attacking = false;
+            this.spellFlying = false;
+            this.walking = false;
+            this.shield = false;
+            this.casting = false;
+            this.meleeAttack.reset();
+            this.spellAttack.reset();
+            this.bounds.x += this.initX;
+            this.bounds.y += this.initY;
+            this.hitArea.x += this.initX;
+            this.hitArea.y += this.initY;
+            this.staySprite.x += this.initX;
+            this.staySprite.y += this.initY;
             this.loader.setScene(3);
         }
     };
@@ -299,7 +315,6 @@ export default class FightFigure {
         this.animWalk.stopAnimate();
         this.animAttack.stopAnimate();
     };
-
 
     selectSpell = (index) => {
         if (!this.casting && !this.attacking && !this.shield) {
