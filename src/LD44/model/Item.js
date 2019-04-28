@@ -12,8 +12,9 @@ export default class Item {
 
     -1 - can't equip
      */
-    constructor(icon, slot){
+    constructor(icon, slot, name){
         this.icon = icon;
         this.slot = slot;
+        this.name = name;
     }
 }

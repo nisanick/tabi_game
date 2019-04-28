@@ -17,7 +17,7 @@ export default class Status extends BasicScene {
         this.character = new PIXI.Container();
         this.character.position.set(75,55);
         this.inventory = new PIXI.Container();
-        this.inventory.position.set(75,550);
+        this.inventory.position.set(92,550);
         this.inventory.visible = false;
         this.stats = new PIXI.Container();
         this.stats.position.set(485,55);
@@ -97,6 +97,17 @@ export default class Status extends BasicScene {
     };
 
     drawInventory = () => {
+        let inventory = this.game.player.bag;
+
+        for (let i = 0; i < inventory.length; i++) {
+            let slot = new ItemSlot(inventory[i], this.loader);
+            let row = Math.floor(i/8);
+            let x = (i - 8*row) * slot.width;
+            let y = row * slot.height;
+            slot.position.set(x, y);
+            this.inventory.addChild(slot);
+        }
+        this.inventory.visible = true;
 
     };
 
