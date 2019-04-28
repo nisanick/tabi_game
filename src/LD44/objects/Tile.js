@@ -10,20 +10,23 @@ export default class Tile {
     }
 
     getType = () => {
+        if(this.chest && this.inventory.itemCount === 0){
+            this.chest = false;
+        }
         return this.type;
     };
 
     setCity = () => {
         if(!this.chest) {
             this.city = true;
-            this.inventory = new NpcInventory();
+            this.inventory = new NpcInventory(1);
         }
     };
 
     setChest = () => {
         if(!this.city){
             this.chest = true;
-            this.inventory = new NpcInventory();
+            this.inventory = new NpcInventory(2);
         }
     };
 

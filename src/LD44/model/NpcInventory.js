@@ -1,15 +1,24 @@
 import ItemGenerator from "../tools/ItemGenerator";
+import Item from "./Item";
 
 export default class NpcInventory {
-    constructor(){
+    constructor(type){
+
+        this.type = type;
         this.max = 8*3;
         this.inventory = new Array(this.max);
         let generator = new ItemGenerator();
 
+        this.cash = this.cash = Math.ceil(Math.random() * 10000) + 1000;
 
-        this.itemCount = Math.ceil(Math.random() * this.max);
+        this.itemCount = Math.ceil(Math.random() * this.max/type);
         for (let i = 0; i < this.itemCount; i++) {
             this.inventory[i] = generator.getJunkItem();
+        }
+
+        if(this.type === 2){
+            this.inventory[0] = new Item("coins", 0, "Pile of gold");
+            this.inventory[0].value = this.cash / 5;
         }
     }
 
@@ -25,6 +34,10 @@ export default class NpcInventory {
                 break;
             }
         }
+        if(this.type === 1){
+            this.cash -= item.value;
+            console.log(this.cash);
+        }
         this.inventory[empty] = item;
         this.itemCount++;
     };
@@ -32,7 +45,13 @@ export default class NpcInventory {
     removeItem = (index) => {
         let item = this.inventory[index];
         this.inventory[index] = undefined;
-        this.itemCount--;
+        if(item !== undefined){
+            this.itemCount--;
+            if(this.type === 1){
+                this.cash += item.value;
+                console.log(this.cash);
+            }
+        }
         return item;
     }
 }

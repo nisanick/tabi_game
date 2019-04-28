@@ -1,3 +1,5 @@
+import Item from "../model/Item";
+
 export default class ItemGenerator {
     constructor () {
 
@@ -5,7 +7,6 @@ export default class ItemGenerator {
 
     getJunkItem = () => {
         return new Item("noItem", -1, "Nope Fish");
-
     };
 
     getRandomEquipableItem = () => {
