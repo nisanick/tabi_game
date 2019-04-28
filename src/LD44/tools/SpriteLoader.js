@@ -48,6 +48,16 @@ export default class SpriteLoader extends PIXI.Loader {
             .add("coin", "assets/images/world/152_t.PNG")
             .add("cross", "assets/images/world/cross.png")
             .add("book", "assets/images/stats/book.png")
+            .add("slot", "assets/images/stats/slot_01.png")
+            .add("noItem", "assets/images/items/none.png")
+            .add("default_chest", "assets/images/items/default/armor_cl_b_01.PNG")
+            .add("default_weapon2", "assets/images/items/default/book_cl_b_01.PNG")
+            .add("default_boots", "assets/images/items/default/boot_cl_b_01.PNG")
+            .add("default_hands", "assets/images/items/default/gloves_cl_b_01.PNG")
+            .add("default_helm", "assets/images/items/default/hood_cl_b_01.PNG")
+            .add("default_legs", "assets/images/items/default/pants_cl_b_01.PNG")
+            .add("default_shoulder", "assets/images/items/default/shoulders_cl_b_01.PNG")
+            .add("default_weapon1", "assets/images/items/default/staff_cl_b_01.PNG")
             .load(started);
     };
 }

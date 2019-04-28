@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js"
 import BasicScene from "./BasicScene";
+import ItemSlot from "../objects/ItemSlot";
 
 export default class Status extends BasicScene {
     constructor(/* SceneLoader */ loader, game) {
@@ -16,7 +17,7 @@ export default class Status extends BasicScene {
         this.character = new PIXI.Container();
         this.character.position.set(75,55);
         this.inventory = new PIXI.Container();
-        this.inventory.position.set(485,55);
+        this.inventory.position.set(75,550);
         this.inventory.visible = false;
         this.stats = new PIXI.Container();
         this.stats.position.set(485,55);
@@ -53,8 +54,41 @@ export default class Status extends BasicScene {
 
     drawCharacter = () => {
         let avatar = this.loader.getGameSprite("player_full");
-        avatar.position.set(75, 35);
-        avatar.scale.set(0.12);
+        avatar.position.set(5, 35);
+        avatar.scale.set(0.15);
+
+        let helm = new ItemSlot(this.game.player.head, this.loader);
+        helm.position.set(440, 40);
+        this.character.addChild(helm);
+
+        let shoulder = new ItemSlot(this.game.player.chest, this.loader);
+        shoulder.position.set(440, 140);
+        this.character.addChild(shoulder);
+
+        let chest = new ItemSlot(this.game.player.shoulder, this.loader);
+        chest.position.set(440, 240);
+        this.character.addChild(chest);
+
+        let weapon1 = new ItemSlot(this.game.player.weapon1, this.loader);
+        weapon1.position.set(440, 340);
+        this.character.addChild(weapon1);
+
+        let hand = new ItemSlot(this.game.player.hands, this.loader);
+        hand.position.set(650, 40);
+        this.character.addChild(hand);
+
+        let legs = new ItemSlot(this.game.player.legs, this.loader);
+        legs.position.set(650, 140);
+        this.character.addChild(legs);
+
+        let boot = new ItemSlot(this.game.player.boots, this.loader);
+        boot.position.set(650, 240);
+        this.character.addChild(boot);
+
+        let weapon2 = new ItemSlot(this.game.player.weapon2, this.loader);
+        weapon2.position.set(650, 340);
+        this.character.addChild(weapon2);
+
         this.character.addChild(avatar);
     };
 
