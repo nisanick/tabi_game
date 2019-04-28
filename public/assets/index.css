@@ -5,4 +5,15 @@
 
 body {
   margin: 0;
+  background: #878787;
+}
+
+.Game {
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.Game > canvas {
+  border: solid 2px #282c34;
 }
