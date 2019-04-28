@@ -24,10 +24,13 @@ export default class Tooltip extends PIXI.Container{
         this.type.text = info.type;
         this.type.position.set((this.title.width + 40) - this.type.width - 10, 39);
 
+        let height = 39 + this.type.height + 5 + Math.ceil(Object.keys(info.details).length/2) * 21 + 10;
+
+
         this.bg.clear();
         this.bg.beginFill(0x5D412C);
         this.bg.lineStyle(3, 0xa3a3a3, 1);
-        this.bg.drawRoundedRect(0,0, this.title.width + 40,200,5);
+        this.bg.drawRoundedRect(0,0, this.title.width + 40,height,5);
         this.bg.moveTo(0,34);
         this.bg.lineTo(this.title.width + 40, 34);
         this.bg.endFill();
@@ -37,6 +40,15 @@ export default class Tooltip extends PIXI.Container{
         this.addChild(this.bg);
         this.addChild(this.title);
         this.addChild(this.type);
+
+
+        Object.keys(info.details).forEach((el, index) => {
+            let row = Math.floor(index/2);
+            let col = index % 2;
+            let detail = new PIXI.Text(el + ": " + info.details[el],  new PIXI.TextStyle({fill: "white", fontSize: 18, fontFamily: "Linepixels"}));
+            detail.position.set( 5 + row * (this.title.width + 40)/2, col * 21 + 39 + this.type.height + 5);
+            this.addChild(detail);
+        });
     };
 
     setPosition = (e) => {
