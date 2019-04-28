@@ -1,13 +1,17 @@
 import MapGenerator from "../tools/MapGenerator";
 import Player from "./Player";
 import Enemy from "./Enemy";
+import EnemyGenerator from "../tools/EnemyGenerator";
+import Tools from "../tools/Tools";
 
 export default class Game {
     constructor() {
         this.map = {};
         this.mapGenerator = new MapGenerator();
+        this.enemyGenerator = new EnemyGenerator();
         this.player = {};
-        this.enemy = new Enemy('orc');
+        this.enemy = {name: 'none'};
+        this.enemyChance = 6;
     }
 
     getMap = () => {
@@ -38,6 +42,14 @@ export default class Game {
          */
         if (tile.city || tile.chest) {
             return 2
+        }
+        let rnd = Tools.getRndInteger(0, 100);
+        if (rnd >= (100 - this.enemyChance)){
+            this.enemy = this.enemyGenerator.generate(this.getTileType(this.player.x, this.player.y));
+            this.enemyChance = 6;
+            return 3;
+        } else {
+            this.enemyChance++;
         }
     };
 

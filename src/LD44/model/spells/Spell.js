@@ -23,4 +23,8 @@ export default class Spell {
         this.hitArea.x = x;
         this.hitArea.y = y;
     };
+
+    hide = () => {
+        this.effect.visible = false;
+    }
 }

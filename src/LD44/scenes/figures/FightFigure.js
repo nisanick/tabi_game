@@ -51,7 +51,7 @@ export default class FightFigure {
         this.moveY = 0;
 
         this.meleeAttack = new MeleeAttack(this);
-        this.spellAttack = new SpellAttack(container, type);
+        this.spellAttack = new SpellAttack(this, container, type);
 
         this.attackPointTo = {x: 0, y:0};
         this.selectedSpell = [];
@@ -63,9 +63,8 @@ export default class FightFigure {
         this.selectedSpellIndex = 0;
 
         this.casting = false;
-
         this.shield = false;
-
+        this.shieldCounter = 0;
         this.area = area;
     }
 
@@ -136,7 +135,6 @@ export default class FightFigure {
 
             if (!this.spellFlying) {
                 if (this.animAttack.isDone()) {
-                    console.log("olala");
                     this.attacking = false;
                     this.spellFlying = true;
                     this.staySprite.visible = true;
@@ -155,6 +153,15 @@ export default class FightFigure {
         }
     };
 
+    continue = () => {
+        if (this.type === 'player') {
+            this.loader.setScene(6);
+        }  else {
+            this.hideEnemy();
+            this.loader.setScene(3);
+        }
+    };
+
     doAttack = () => {
         if (this.selectedSpell[this.selectedSpellIndex - 1].type === 'melee') {
             this.doMeleeAttack();
@@ -162,8 +169,9 @@ export default class FightFigure {
             this.spellAttack.done = false;
             this.doSpellAttack();
         } else if (this.selectedSpell[this.selectedSpellIndex - 1].type === 'shield'){
-
-        } else {
+            this.shield = true;
+            this.selectedSpell[this.selectedSpellIndex - 1].initShield(this.hitArea.x, this.hitArea.y);
+            this.attacking = false;
 
         }
     };
@@ -172,6 +180,7 @@ export default class FightFigure {
         if (!this.dead) {
             if (this.dying || this.getHealth() <= 0) {
                 this.stopWalk();
+                this.hideAllSpells();
                 this.attacking = false;
                 this.animAttack.stopAnimate();
                 this.staySprite.visible = false;
@@ -203,7 +212,13 @@ export default class FightFigure {
                     this.staySprite.visible = true;
                     this.walking = false;
                 }
+
+                if (this.shield) {
+                    this.checkShield();
+                }
             }
+        } else {
+            this.continue();
         }
     };
 
@@ -233,8 +248,21 @@ export default class FightFigure {
         return (this.moveX !== 0 || this.moveY !== 0);
     };
 
+    checkShield = () => {
+        if (this.shieldCounter >= 100){
+            this.removeShield();
+        } else {
+            this.selectedSpell[this.selectedSpellIndex - 1].showShield(this.hitArea.x, this.hitArea.y);
+            this.shieldCounter++;
+        }
+    };
+
     removeShield = () => {
-        console.log("TODO - FINISH REMOVE SHIELD");
+        this.shieldCounter = 0;
+        this.shield = false;
+        this.selectedSpell[this.selectedSpellIndex - 1].hideShield();
+        this.container.selectedSpells[this.selectedSpellIndex - 1].visible = false;
+        this.selectedSpellIndex = 0;
     };
 
     attack = () => {
@@ -251,6 +279,36 @@ export default class FightFigure {
 
     die = () => {
         this.animDie.animate(this.bounds);
+    };
+
+    hideAllSpells = () => {
+        for (let i = 0; i < this.selectedSpell.length - 1; i++) {
+            this.selectedSpell[i].hide();
+        }
+    };
+
+    hideEnemy = () => {
+        this.staySprite.visible = false;
+        this.animDie.stopAnimate();
+        this.animWalk.stopAnimate();
+        this.animAttack.stopAnimate();
+    };
+
+
+    selectSpell = (index) => {
+        if (!this.casting && !this.attacking && !this.shield) {
+            this.selectedSpellIndex = index + 1;
+            if (this.type === 'player') {
+                for (let i = 0; i < this.container.selectedSpells.length; i++) {
+                    this.container.selectedSpells[i].visible = false;
+                }
+
+                this.container.selectedSpells[index].visible = true;
+            }
+            if (this.selectedSpell[index].type === 'shield') {
+                this.attacking = true;
+            }
+        }
     };
 
 }

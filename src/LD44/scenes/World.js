@@ -195,7 +195,7 @@ export default class World extends BasicScene {
                 if(action === 2) {
                     this.loader.setScene(5);
                 }
-                if(action === 1) {
+                if (action === 3){
                     this.loader.setScene(2);
                 }
             }

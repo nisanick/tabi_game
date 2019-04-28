@@ -105,16 +105,6 @@ export default class FightPlayer extends FightFigure {
         }
     };
 
-    selectSpell = (index) => {
-        if (!this.casting && !this.attacking) {
-            this.selectedSpellIndex = index + 1;
-            for (let i = 0; i < this.container.selectedSpells.length; i++) {
-                this.container.selectedSpells[i].visible = false;
-            }
-
-            this.container.selectedSpells[index].visible = true;
-        }
-    };
 
     onClick = (e) => {
         let x = e.data.global.x;

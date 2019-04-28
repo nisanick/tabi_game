@@ -1,8 +1,8 @@
 import BasicScene from "./BasicScene";
-import Button from "../objects/Button";
 import * as PIXI from "pixi.js";
+import Button from "../objects/Button";
 
-export default class Menu extends BasicScene {
+export default class Fight extends BasicScene {
     constructor(/*SceneLoader*/ loader) {
         super(loader);
         this.loader = loader;
@@ -24,7 +24,14 @@ export default class Menu extends BasicScene {
         let sprite_clicked = this.loader.getSprite("btn_clicked");
         let sprite = this.loader.getSprite("btn_normal");
         let textStyle = new PIXI.TextStyle({fill: "black", fontSize: 30, fontFamily: "Linepixels"});
-        this.btnStart = new Button("Start Game", x, y, width, height, this, sprite, sprite_clicked, textStyle);
-        this.btnStart.onClick(this.loader.start.bind(this));
+        this.btnStart = new Button("New Game", x, y, width, height, this, sprite, sprite_clicked, textStyle);
+        this.btnStart.onClick(this.loader.setScene, 3);
+
+        let text = new PIXI.Text("Game Over", new PIXI.TextStyle({fill: "black", fontSize: 100, fontFamily: "Linepixels"}));
+        text.x = (this.loader.app.renderer.width / 2) - (text.width / 2);
+        text.y = 70;
+        this.addChild(text);
     };
+
+
 }

@@ -16,20 +16,17 @@ export default class Fight extends BasicScene {
         this.loader.app.stage.addChild(this);
         this.fightPlayer = {};
         this.fightEnemy = {};
+        this.area = {};
 
         this.enemyHealthBar = {};
         this.playerHealthBar = {};
         this.selectedSpells = [];
-
-        this.h = 100;
-
-        this.textC = 0;
     }
 
     init = () => {
         let x = 0;
-        let width = this.loader.app.stage.width / 2;
-        let height = this.loader.app.stage.height - 353;
+        let width = this.loader.app.renderer.width / 2;
+        let height = this.loader.app.renderer.height - 353;
         for (let i = 0; i < 2; i++) {
             let fightPanel = this.loader.getGameSprite("frame_char");
             fightPanel.width = width;
@@ -43,15 +40,15 @@ export default class Fight extends BasicScene {
         let bg = this.loader.getGameSprite("bg_fight");
         bg.x = 0;
         bg.y = height;
-        bg.width = this.loader.app.stage.width;
-        bg.height = this.loader.app.stage.height - height;
+        bg.width = this.loader.app.renderer.width;
+        bg.height = this.loader.app.renderer.height - height;
         this.addChild(bg);
 
         let spellBar = this.loader.getGameSprite("frame_char");
         spellBar.x = 0;
-        spellBar.y = this.loader.app.stage.height - 130;
-        spellBar.height = this.loader.app.stage.height;
-        spellBar.width = this.loader.app.stage.width;
+        spellBar.y = this.loader.app.renderer.height - 130;
+        spellBar.height = this.loader.app.renderer.height;
+        spellBar.width = this.loader.app.renderer.width;
         this.addChild(spellBar);
 
 
@@ -88,12 +85,7 @@ export default class Fight extends BasicScene {
             spell.y = spellBar.y + 50;
             spell.interactive = true;
             spell.on('click', () => {
-                for (let j = 0; j < this.selectedSpells.length; j++) {
-                    this.selectedSpells[j].visible = false;
-                }
-                this.fightPlayer.selectedSpellIndex = i + 1;
-                console.log(this.fightPlayer.selectedSpellIndex);
-                spellSelected.visible = true;
+                this.fightPlayer.selectSpell(i);
             });
             spell.on("mouseover", () => {
                 this.showTooltip(i);
@@ -109,9 +101,8 @@ export default class Fight extends BasicScene {
             x += moveX + 4;
         }
 
-        let area = {x: 0, y: height, width: this.loader.app.stage.width, height: spellBar.y};
-        this.fightPlayer = new FightPlayer(this.loader, 20, height + 50, this, area, this.game);
-        this.fightEnemy = new FightEnemy(this.loader, this.loader.app.stage.width - 100, height + 50, this, area, this.game, 'troll');
+        this.area = {x: 0, y: height, width: this.loader.app.renderer.width, height: spellBar.y};
+        this.fightPlayer = new FightPlayer(this.loader, 20, height + 50, this, this.area, this.game);
 
         this.addChild(this.player);
         this.addChild(this.enemy);
@@ -137,7 +128,13 @@ export default class Fight extends BasicScene {
 
     hideTooltip = (spellIndex) => {
         console.log("hide");
-    }
+    };
+
+    initEnemy = () => {
+        let height = this.loader.app.renderer.height - 353;
+        console.log(height);
+        this.fightEnemy = new FightEnemy(this.loader, this.loader.app.renderer.width - 100, height + 50, this, this.area, this.game, this.game.getEnemy().name);
+    };
 
     repaintScene = () => {
         this.fightPlayer.doMove();
