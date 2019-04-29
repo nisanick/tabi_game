@@ -48,7 +48,30 @@ export default class Player {
 
     getStats = () => {
         let stats = new Stats();
-        //scita vsetky staty a vrati
+        Object.keys(this.head).forEach((key) => {
+            stats[key] += this.head[key];
+        });
+        Object.keys(this.shoulder).forEach((key) => {
+            stats[key] += this.shoulder[key];
+        });
+        Object.keys(this.chest).forEach((key) => {
+            stats[key] += this.chest[key];
+        });
+        Object.keys(this.hands).forEach((key) => {
+            stats[key] += this.hands[key];
+        });
+        Object.keys(this.legs).forEach((key) => {
+            stats[key] += this.legs[key];
+        });
+        Object.keys(this.boots).forEach((key) => {
+            stats[key] += this.boots[key];
+        });
+        Object.keys(this.weapon1).forEach((key) => {
+            stats[key] += this.weapon1[key];
+        });
+        Object.keys(this.weapon2).forEach((key) => {
+            stats[key] += this.weapon2[key];
+        });
         return stats;
     };
 
