@@ -19,6 +19,7 @@ export default class Player {
 
         this.max = 8*3;
         this.bag = new Array(this.max);
+        this.stats = this.calculateStats();
 
         //this.bag[0] = new Item("noItem", 3, "Nope Fish");
         this.gold = 1000;
@@ -46,10 +47,37 @@ export default class Player {
         }
     };
 
-    getStats = () => {
+    calculateStats = () => {
         let stats = new Stats();
-        //scita vsetky staty a vrati
+        Object.keys(this.head).forEach((key) => {
+            stats[key] += this.head[key];
+        });
+        Object.keys(this.shoulder).forEach((key) => {
+            stats[key] += this.shoulder[key];
+        });
+        Object.keys(this.chest).forEach((key) => {
+            stats[key] += this.chest[key];
+        });
+        Object.keys(this.hands).forEach((key) => {
+            stats[key] += this.hands[key];
+        });
+        Object.keys(this.legs).forEach((key) => {
+            stats[key] += this.legs[key];
+        });
+        Object.keys(this.boots).forEach((key) => {
+            stats[key] += this.boots[key];
+        });
+        Object.keys(this.weapon1).forEach((key) => {
+            stats[key] += this.weapon1[key];
+        });
+        Object.keys(this.weapon2).forEach((key) => {
+            stats[key] += this.weapon2[key];
+        });
         return stats;
+    };
+
+    getStats = () => {
+        return this.stats;
     };
 
     addGold = (gold) => {
