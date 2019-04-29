@@ -109,26 +109,43 @@ export default class Status extends BasicScene {
     };
 
     drawStats = () => {
-        let playerStats = this.game.player.stats;
+        let playerStats = this.game.player.getStats();
+        console.log(playerStats);
 
-        let healthText = new PIXI.Text("Health: " + Math.ceil(this.game.player.health) + "/" + Math.ceil(this.game.player.maxHealth), new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
-        this.stats.addChild(healthText);
+        let hpContainer = new PIXI.Container();
+        let hpTitle = new PIXI.Text("Health: " , new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
+        let healthText = new PIXI.Text(Math.ceil(this.game.player.health) + "/" + Math.ceil(this.game.player.maxHealth), new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
+        healthText.position.set(180, 0);
+        hpContainer.addChild(hpTitle);
+        hpContainer.addChild(healthText);
+        this.stats.addChild(hpContainer);
 
+        let defenseContainer = new PIXI.Container();
+        let defenseTitle = new PIXI.Text("Defense: " , new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
+        let defenseText = new PIXI.Text( playerStats.defense.toFixed(2) + " %", new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
+        defenseContainer.position.set(0, 40);
+        defenseText.position.set(180, 0);
+        defenseContainer.addChild(defenseTitle);
+        defenseContainer.addChild(defenseText);
+        this.stats.addChild(defenseContainer);
 
-        let defenseText = new PIXI.Text("Defense: " + playerStats.defense, new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
-        defenseText.position.set(0, 40);
-        this.stats.addChild(defenseText);
+        let spellCostContainer = new PIXI.Container();
+        let spellCostTitle = new PIXI.Text("Spell Cost: " , new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
+        let spellCostText = new PIXI.Text( (Number(playerStats.cost) * -1).toFixed(2) + " %", new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
+        spellCostContainer.position.set(0, 80);
+        spellCostText.position.set(180, 0);
+        spellCostContainer.addChild(spellCostTitle);
+        spellCostContainer.addChild(spellCostText);
+        this.stats.addChild(spellCostContainer);
 
-
-        let spellCostText = new PIXI.Text("Spell Cost: " + (Number(playerStats.cost) * -1), new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
-        spellCostText.position.set(0, 80);
-        this.stats.addChild(spellCostText);
-
-
-        let damageText = new PIXI.Text("Damage: " + playerStats.damage, new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
-        damageText.position.set(0, 120);
-        this.stats.addChild(damageText);
-
+        let damageContainer = new PIXI.Container();
+        let damageTitle = new PIXI.Text("Damage: " , new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
+        let damageText = new PIXI.Text( playerStats.damage.toFixed(2) + " %", new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
+        damageContainer.position.set(0, 120);
+        damageText.position.set(180, 0);
+        damageContainer.addChild(damageTitle);
+        damageContainer.addChild(damageText);
+        this.stats.addChild(damageContainer);
 
         this.stats.visible = true;
     };

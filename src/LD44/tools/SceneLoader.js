@@ -130,6 +130,11 @@ export default class SceneLoader {
         } else {
             this.soundLoader.footStepSound.stop();
         }
+
+        this.count = 0;
+        if(this.tooltip){
+            this.mouseout();
+        }
     };
 
     getActiveScene = () => {
