@@ -41,12 +41,10 @@ export default class Tooltip extends PIXI.Container{
         }
         this.title.position.set(width/2 - this.title.width/2,5);
 
-
         this.type.text = info.type;
         this.type.position.set((width) - this.type.width - 10, 39);
 
         let height = 39 + this.type.height + 5 + Math.ceil(Object.keys(info.details).length/2) * 21 + 10;
-
 
         this.bg.clear();
         this.bg.beginFill(0x5D412C);
@@ -56,12 +54,9 @@ export default class Tooltip extends PIXI.Container{
         this.bg.lineTo(width, 34);
         this.bg.endFill();
 
-
-
         this.addChild(this.bg);
         this.addChild(this.title);
         this.addChild(this.type);
-
 
         Object.keys(info.details).forEach((el, index) => {
             let row = Math.floor(index/2);

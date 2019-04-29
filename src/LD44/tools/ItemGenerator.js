@@ -250,6 +250,7 @@ export default class ItemGenerator {
 
     getPotion = () => {
         let potion = new Item("potionHp", 9, "Health Potion");
+        potion.stats.heals = 20*potion.rarity + " - " + (20*potion.rarity+20);
         potion.onEquip = (player) =>{
             let effectiveness = (Math.ceil(Math.random() * 20) + (20 * potion.rarity))/100;
             let hp = player.maxHealth * effectiveness;

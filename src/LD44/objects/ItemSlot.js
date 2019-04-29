@@ -11,7 +11,7 @@ export default class ItemSlot extends PIXI.Container {
             this.hoverInfo = {
                 name: item.name ,
                 type: item.getType(),
-                description: "",
+                description: item.special ? item.special : "",
                 rarity: item.rarity,
                 details:{
                     ...item.stats,
@@ -19,6 +19,7 @@ export default class ItemSlot extends PIXI.Container {
                 }
             };
         }
+
 
         this.bg = new PIXI.Graphics();
         this.bg.beginFill(0x5D412C);
