@@ -14,7 +14,7 @@ export default class Fireball extends Spell {
         this.damageFrom = 20;
         this.damageTo = 25;
         this.cost = 5;
-
+        this.sound = this.loader.soundLoader.fireball;
         this.effect.visible = false;
         if (this.figureType !== 'player'){
             this.effect.scale.x = -1;

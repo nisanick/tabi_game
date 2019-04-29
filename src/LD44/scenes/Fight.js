@@ -30,6 +30,8 @@ export default class Fight extends BasicScene {
         this.winWindowEmpty = new Window(loader, this.windowContainer, 'You Won', 30);
         this.winWindowLoot = new Window(loader, this.windowContainer, 'You Won\nYou find loot!', 30);
         this.loseWindow = new Window(loader, this.windowContainer, 'You Lose', 30);
+        this.readyBtn = {};
+        this.ready = false;
     }
 
     init = () => {
@@ -109,12 +111,29 @@ export default class Fight extends BasicScene {
         this.area = {x: 0, y: height, width: this.loader.app.renderer.width, height: spellBar.y};
         this.fightPlayer = new FightPlayer(this.loader, 20, height + 50, this, this.area, this.game);
 
+
+        this.readyBtn = this.loader.getGameSprite('ready_btn');
+        this.readyBtn.x = (this.loader.app.renderer.width / 2) - (this.readyBtn.width / 2);
+        this.readyBtn.y = (this.loader.app.renderer.height / 2) - (this.readyBtn.height / 2);
+        this.readyBtn.interactive = true;
+        this.readyBtn.on('click', () => {
+            this.readyBtn.visible = false;
+            this.readyText.visible = false;
+            this.ready = true;
+        });
+        this.readyText = new PIXI.Text("Start", new PIXI.TextStyle({fill: "black", fontSize: 40, fontFamily: "Linepixels"}));
+        this.readyText.x = (this.loader.app.renderer.width / 2) - (this.readyText.width / 2);
+        this.readyText.y = (this.loader.app.renderer.height / 2) - (this.readyText.height / 2);
+
         this.imgContainer.addChild(this.player);
         this.imgContainer.addChild(this.enemy);
         this.addChild(this.imgContainer);
         this.loader.app.stage.addChild(this.windowContainer);
         this.enemyHealthBar = new HealthBar(this, this.enemy.x - 1, height - 70, this.player.width, 25);
         this.playerHealthBar = new HealthBar(this, this.player.x - 1, height - 70, this.player.width, 25);
+
+        this.addChild(this.readyBtn);
+        this.addChild(this.readyText);
         this.enemyHealthBar.setHealth(100);
         this.playerHealthBar.setHealth(100);
 
@@ -157,10 +176,18 @@ export default class Fight extends BasicScene {
         this.fightPlayer = new FightPlayer(this.loader, 20, height + 50, this, this.area, this.game);
     };
 
+    enableReadyButton = () => {
+        this.readyBtn.visible = true;
+        this.readyText.visible = true;
+        this.ready = false;
+    };
+
     repaintScene = () => {
-        this.fightPlayer.doMove();
-        this.fightEnemy.doMove();
-        this.enemyHealthBar.setHealth(this.game.getEnemy().health);
-        this.playerHealthBar.setHealth(this.game.getPlayer().getHealth());
+        if (this.ready) {
+            this.fightPlayer.doMove();
+            this.fightEnemy.doMove();
+            this.enemyHealthBar.setHealth(this.game.getEnemy().health);
+            this.playerHealthBar.setHealth(this.game.getPlayer().getHealth());
+        }
     };
 }

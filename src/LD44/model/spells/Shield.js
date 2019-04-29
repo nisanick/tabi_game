@@ -14,7 +14,8 @@ export default class Shield extends Spell {
         if (this.figureType !== 'player'){
             this.effect.scale.x = -1;
         }
-        this.cost = 5;
+        this.cost = 5
+        this.sound = this.loader.soundLoader.shield;
     }
 
     initShield = (x, y) => {

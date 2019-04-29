@@ -34,6 +34,9 @@ export default class MeleeAttack {
             this.pointTo.x = area.width - 80;
         }
         this.active = true;
+        if (this.spell.sound !== undefined) {
+            this.spell.sound.play();
+        }
     };
 
     setMoves = (xTo, xFrom, yTo, yFrom) => {

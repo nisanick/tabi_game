@@ -15,5 +15,6 @@ export default class Thrown extends Spell {
         this.damageFrom = 1;
         this.damageTo = 5;
         this.cost = 0;
+        this.sound = this.loader.soundLoader.thrown;
     }
 }

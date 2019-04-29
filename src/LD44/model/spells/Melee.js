@@ -8,6 +8,7 @@ export default class Melee extends Spell {
 
         this.damageFrom = 15;
         this.damageTo = 20;
-        this.cost = 3;
+        this.cost = 3
+        this.sound = this.loader.soundLoader.melee;;
     }
 }

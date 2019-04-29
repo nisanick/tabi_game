@@ -15,7 +15,7 @@ export default class Iceball extends Spell {
         this.damageFrom = 10;
         this.damageTo = 15;
         this.cost = 2;
-
+        this.sound = this.loader.soundLoader.frostball;
         this.effect.visible = false;
         if (this.figureType !== 'player'){
             this.effect.scale.x = -1;

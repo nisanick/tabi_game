@@ -149,12 +149,15 @@ export default class Merchant extends BasicScene {
                     if(this.inventory.type === 1){
                         if(this.inventory.cash < item.value){
                             this.game.player.addItem(item);
+                            this.loader.soundLoader.pickup.play();
                         } else {
                             this.game.player.addGold(item.value);
                             this.inventory.addItem(item);
+                            this.loader.soundLoader.pickup.play();
                         }
                     } else {
                         this.inventory.addItem(item);
+                        this.loader.soundLoader.pickup.play();
                     }
                 }
             }
@@ -180,15 +183,19 @@ export default class Merchant extends BasicScene {
                     if(this.inventory.type === 1){
                         if(item.value > this.game.player.gold){
                             this.inventory.addItem(item);
+                            this.loader.soundLoader.pickup.play();
                         } else {
                             this.game.player.addGold(item.value*-1);
                             this.game.player.addItem(item);
+                            this.loader.soundLoader.pickup.play();
                         }
                     } else {
                         if (item.slot === 0) {
                             this.game.player.addGold(item.value);
+                            this.loader.soundLoader.pickupCoin.play();
                         } else {
                             this.game.player.addItem(item);
+                            this.loader.soundLoader.pickup.play();
                         }
                     }
                 }

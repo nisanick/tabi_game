@@ -124,6 +124,7 @@ export default class SpriteLoader extends PIXI.Loader {
             .add("ring2", "assets/images/items/offhand/rn_b_04.png")
             .add("ring3", "assets/images/items/offhand/rn_b_05.png")
             .add("ring4", "assets/images/items/offhand/rn_b_07.png")
+            .add("ready_btn", "assets/images/btn_ready.png")
             .load(started);
     };
 }

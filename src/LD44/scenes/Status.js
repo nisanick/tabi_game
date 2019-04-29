@@ -144,6 +144,7 @@ export default class Status extends BasicScene {
         let index = y*8 + x;
         if(this.clickTime + 500 > Date.now() && this.clicked === index){
             this.game.player.equip(index);
+            this.loader.soundLoader.pickup.play();
             this.repaint = true;
             this.clicked = -1;
         } else {

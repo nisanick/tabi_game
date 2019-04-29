@@ -40,6 +40,9 @@ export default class SpellAttack {
         let a = Math.abs(this.pointTo.x - this.pointFrom.x);
         let b = Math.abs(this.pointTo.y - this.pointFrom.y);
         this.angle = Math.atan((a/b));
+        if (this.spell.sound !== undefined) {
+            this.spell.sound.play();
+        }
     };
 
     checkCollision = () => {

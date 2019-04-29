@@ -121,10 +121,12 @@ export default class SceneLoader {
                 this.soundLoader.fightSceneSound.stop();
             }
         } else if (this.activeScene === 2){
+            this.scenes[index].enableReadyButton();
             this.soundLoader.mapSceneSound.pause();
             this.soundLoader.fightSceneSound.play();
         } else if (this.activeScene === 6){
             this.soundLoader.mapSceneSound.stop();
+            this.soundLoader.gameover.play();
         } else {
             this.soundLoader.footStepSound.stop();
         }
