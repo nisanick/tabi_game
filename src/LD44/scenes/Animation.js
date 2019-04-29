@@ -40,7 +40,6 @@ export default class Animation {
             this.container.addChild(this.sprite[i]);
         }
 
-        console.log(this.container);
     };
 
     animate = (bounds) => {

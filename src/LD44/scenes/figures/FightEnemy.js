@@ -23,7 +23,6 @@ export default class FightEnemy extends FightFigure {
         let x = Tools.getRndInteger(0, this.container.width / 2);
         let y = Tools.getRndInteger(this.container.y, this.container.height);
 
-        console.log(this.game.getEnemy().availableSpells[index]);
         this.selectSpell(this.game.getEnemy().availableSpells[index]);
         if (!this.casting) {
             if (this.selectedSpellIndex !== 0) {

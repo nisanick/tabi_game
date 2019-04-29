@@ -99,7 +99,6 @@ export default class MeleeAttack {
                             damage *= 2;
                         }
                         this.figure.loader.game.getPlayer().health -= damage;
-                        console.log(this.figure.loader.game.getPlayer().getHealth());
                     } else {
                         this.figure.container.fightPlayer.removeShield();
                     }

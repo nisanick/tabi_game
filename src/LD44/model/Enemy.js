@@ -10,8 +10,6 @@ export default class Enemy {
         let rng = Tools.getRndInteger(0, 100);
         if (rng > 70) {
             this.inventory = new NpcInventory(1);
-        } else if (rng > 50) {
-            this.inventory = new NpcInventory(2);
         }
     }
 }
