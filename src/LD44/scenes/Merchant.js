@@ -19,6 +19,7 @@ export default class Merchant extends BasicScene {
         this.cross.interactive = true;
 
         this.cross.on("click", () => {
+            this.fightInventory = false;
             this.loader.setScene(3);
         });
         this.addChild(this.cross);
@@ -75,7 +76,7 @@ export default class Merchant extends BasicScene {
         this.repaint = true;
 
         this.inventory = undefined;
-
+        this.fightInventory = false;
 
         this.clickTimeLeft = Date.now();
         this.clickTimeRight = Date.now();
@@ -96,7 +97,12 @@ export default class Merchant extends BasicScene {
             this.lastY = this.game.player.y;
             this.repaint = false;
 
-            this.inventory = this.game.getTile(this.lastX, this.lastY).inventory;
+            this.inventory;
+            if (this.fightInventory){
+                this.inventory = this.game.getEnemyInventory();
+            } else {
+                this.inventory = this.game.getTile(this.lastX, this.lastY).inventory;
+            }
 
             this.textPlayer.text = this.game.player.gold.toLocaleString();
 

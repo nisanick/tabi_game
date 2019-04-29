@@ -21,7 +21,8 @@ export default class SpriteLoader extends PIXI.Loader {
             .add("shield_icon", "assets/images/spells/shield_icon.png")
             .add("thrown", "assets/images/spells/thrown.png")
             .add("thrown_icon", "assets/images/spells/thrown_icon.png")
-            .add("selected", "assets/images/selected.png");
+            .add("selected", "assets/images/selected.png")
+            .add("window", "assets/images/window.png");
 
         let figures = ['player', 'elf_female', 'gargoyle', 'goblin', 'lizard_man', 'medusa', 'minotaur', 'orc', 'skeleton', 'wizard', 'treant', 'dwarf', 'troll'];
         let actions = ['stay', 'walk', 'attack', 'die'];

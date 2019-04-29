@@ -7,6 +7,7 @@ import Fireball from "../../model/spells/Fireball";
 import Iceball from "../../model/spells/Iceball";
 import Thrown from "../../model/spells/Thrown";
 import Shield from "../../model/spells/Shield";
+import Tools from "../../tools/Tools";
 
 export default class FightFigure {
     constructor(loader, x, y, container, area, game, type) {
@@ -52,6 +53,9 @@ export default class FightFigure {
         this.moveConstant = 2;
         this.moveX = 0;
         this.moveY = 0;
+        this.windowCounter = 0;
+        this.windowDisplayed = false;
+        this.lootChance = 30;
 
         this.meleeAttack = new MeleeAttack(this);
         this.spellAttack = new SpellAttack(this, container, type);
@@ -161,6 +165,44 @@ export default class FightFigure {
         }
     };
 
+    showResultWindow = () => {
+        let resultWindow;
+        let showLoot = false;
+        let lose = false;
+        if (this.type === 'player') {
+            resultWindow = this.container.loseWindow;
+            lose = true;
+        }  else {
+            if (this.game.getEnemy().inventory !== undefined) {
+                resultWindow = this.container.winWindowLoot;
+                showLoot = true;
+                this.loader.setFightInventory();
+            } else {
+                resultWindow = this.container.winWindowEmpty;
+                showLoot = false;
+            }
+        }
+        if (this.windowCounter === 150){
+            resultWindow.hideWindow();
+            this.continue();
+            if (showLoot) {
+                this.dead = false;
+                console.log(this.game.getEnemy().inventory);
+                this.loader.setScene(5);
+            } else {
+                this.dead = false;
+                this.loader.setScene(3);
+            }
+            if (lose) {
+                this.loader.setScene(6);
+            }
+        } else {
+            this.windowDisplayed = true;
+            resultWindow.showWindow();
+            this.windowCounter++;
+        }
+    };
+
     continue = () => {
         if (this.type === 'player') {
             this.loader.setScene(6);
@@ -172,6 +214,8 @@ export default class FightFigure {
             this.walking = false;
             this.shield = false;
             this.casting = false;
+            this.windowDisplayed = false;
+            this.dying = false;
             this.meleeAttack.reset();
             this.spellAttack.reset();
             this.bounds.x += this.initX;
@@ -180,7 +224,6 @@ export default class FightFigure {
             this.hitArea.y += this.initY;
             this.staySprite.x += this.initX;
             this.staySprite.y += this.initY;
-            this.loader.setScene(3);
         }
     };
 
@@ -199,7 +242,7 @@ export default class FightFigure {
     };
 
     doMove() {
-        if (!this.dead) {
+        if (!this.dead && !this.windowDisplayed) {
             if (this.dying || this.getHealth() <= 0) {
                 this.stopWalk();
                 this.hideAllSpells();
@@ -240,7 +283,7 @@ export default class FightFigure {
                 }
             }
         } else {
-            this.continue();
+            this.showResultWindow();
         }
     };
 

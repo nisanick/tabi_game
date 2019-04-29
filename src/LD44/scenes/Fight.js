@@ -4,6 +4,7 @@ import FightPlayer from "./figures/FightPlayer";
 import FightEnemy from "./figures/FightEnemy";
 import HealthBar from "./figures/HealthBar";
 import SpellIcon from "./SpellIcon";
+import Window from "./Window"
 
 export default class Fight extends BasicScene {
     constructor(loader, game) {
@@ -20,10 +21,14 @@ export default class Fight extends BasicScene {
         this.area = {};
 
         this.imgContainer = new PIXI.Container();
+        this.windowContainer = new PIXI.Container();
 
         this.enemyHealthBar = {};
         this.playerHealthBar = {};
         this.selectedSpells = [];
+        this.winWindowEmpty = new Window(loader, this.windowContainer, 'You Won\nLoot is empty');
+        this.winWindowLoot = new Window(loader, this.windowContainer, 'You Won\nYou got something!');
+        this.loseWindow = new Window(loader, this.windowContainer, 'You Lose');
     }
 
     init = () => {
@@ -106,6 +111,7 @@ export default class Fight extends BasicScene {
         this.imgContainer.addChild(this.player);
         this.imgContainer.addChild(this.enemy);
         this.addChild(this.imgContainer);
+        this.loader.app.stage.addChild(this.windowContainer);
         this.enemyHealthBar = new HealthBar(this, this.enemy.x - 1, height - 70, this.player.width, 25);
         this.playerHealthBar = new HealthBar(this, this.player.x - 1, height - 70, this.player.width, 25);
         this.enemyHealthBar.setHealth(100);
@@ -123,7 +129,6 @@ export default class Fight extends BasicScene {
 
     initEnemy = () => {
         let height = this.loader.app.renderer.height - 353;
-        console.log(height);
         this.fightEnemy = new FightEnemy(this.loader, this.loader.app.renderer.width - 100, height + 50, this, this.area, this.game, this.game.getEnemy().name);
         let x = this.enemy.x;
         let y = this.enemy.y;
@@ -135,6 +140,20 @@ export default class Fight extends BasicScene {
         this.enemy.scale.set(0.174);
         this.enemy.visible = true;
         this.imgContainer.addChild(this.enemy);
+    };
+
+    clear = () => {
+        this.fightPlayer.staySprite.visible = false;
+        this.fightPlayer.animDie.stopAnimate();
+        this.fightPlayer.animWalk.stopAnimate();
+        this.fightPlayer.animAttack.stopAnimate();
+        this.fightEnemy.staySprite.visible = false;
+        this.fightEnemy.animDie.stopAnimate();
+        this.fightEnemy.animWalk.stopAnimate();
+        this.fightEnemy.animAttack.stopAnimate();
+
+        let height = this.loader.app.renderer.height - 353;
+        this.fightPlayer = new FightPlayer(this.loader, 20, height + 50, this, this.area, this.game);
     };
 
     repaintScene = () => {

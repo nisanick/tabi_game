@@ -19,6 +19,7 @@ export default class SceneLoader {
         this.spriteLoader = new SpriteLoader();
         this.loader = new PIXI.Loader();
         this.game;
+        this.loading = 0;
 
         this.count = 0;
     }
@@ -49,6 +50,10 @@ export default class SceneLoader {
         this.setScene(1);
     };
 
+    setFightInventory = () => {
+        this.scenes[5].fightInventory = true;
+    };
+
     start = () => {
         this.setScene(0);
         this.spriteLoader.onProgress.add((loader)=>{this.scenes[0].setProgress(loader.progress/100)});
@@ -56,15 +61,12 @@ export default class SceneLoader {
     };
 
     restart = () => {
-        this.game = new Game();
-        this.game.init();
-        this.scenes[2] = new Fight(this, this.game); //2
-        this.scenes[3] = new World(this, this.game); //3
-        this.scenes[4] = new Status(this, this.game); //4
-        this.scenes[5] = new Merchant(this, this.game); //5
-        this.scenes[6] = new GameOver(this, this.game); //6
-        this.scenes[2].init();
-        this.setScene(3);
+        this.scenes[2].clear();
+        this.setScene(0);
+        window.setTimeout(() => {
+            this.game.init();
+            this.setScene(3);
+        }, 50);
     };
 
     started = () => {

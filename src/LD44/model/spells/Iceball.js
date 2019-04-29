@@ -14,7 +14,7 @@ export default class Iceball extends Spell {
 
         this.damageFrom = 10;
         this.damageTo = 15;
-        this.cost = 5;
+        this.cost = 2;
 
         this.effect.visible = false;
         if (this.figureType !== 'player'){

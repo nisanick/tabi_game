@@ -8,6 +8,6 @@ export default class Melee extends Spell {
 
         this.damageFrom = 15;
         this.damageTo = 20;
-        this.cost = 7;
+        this.cost = 3;
     }
 }

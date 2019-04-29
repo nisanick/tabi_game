@@ -18,21 +18,21 @@ export default class SpellIcon extends PIXI.Sprite {
             type = 'melee';
             details = {
                 Damage: '15 - 20',
-                Cost: '7 HP'
+                Cost: '3 HP'
             }
         } else if (this.name === 'fireball') {
             name = 'Fireball';
             type = 'spell';
             details = {
                 Damage: '20 - 25',
-                Cost: '10 HP'
+                Cost: '5 HP'
             }
         } else if (this.name === 'iceball') {
             name = 'Iceball';
             type = 'spell';
             details = {
                 Damage: '10 - 15',
-                Cost: '5 HP'
+                Cost: '2 HP'
             }
         } else if (this.name === 'thrown') {
             name = 'Thrown';
@@ -46,7 +46,7 @@ export default class SpellIcon extends PIXI.Sprite {
             type = 'shield';
             details = {
                 Absorb: '1 Attack',
-                Cost: '10 HP'
+                Cost: '5 HP'
             }
         }
 

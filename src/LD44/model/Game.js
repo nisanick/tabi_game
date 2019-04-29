@@ -11,7 +11,7 @@ export default class Game {
         this.enemyGenerator = new EnemyGenerator();
         this.player = {};
         this.enemy = {name: 'none'};
-        this.enemyChance = 6;
+        this.enemyChance = 3;
     }
 
     getMap = () => {
@@ -24,6 +24,10 @@ export default class Game {
 
     getEnemy = () => {
         return this.enemy;
+    };
+
+    getEnemyInventory = () => {
+          return this.enemy.inventory;
     };
 
     movePlayer = (x, y) => {
@@ -46,7 +50,7 @@ export default class Game {
         let rnd = Tools.getRndInteger(0, 100);
         if (rnd >= (100 - this.enemyChance)){
             this.enemy = this.enemyGenerator.generate(this.getTileType(this.player.x, this.player.y));
-            this.enemyChance = 6;
+            this.enemyChance = 3;
             return 3;
         } else {
             this.enemyChance++;

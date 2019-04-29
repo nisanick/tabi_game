@@ -14,7 +14,7 @@ export default class Spell {
         this.damageTo = 15;
         this.critChance = 30;
         this.cooldown = 2;
-        this.cost = 5;
+        this.cost = 2;
     }
 
     setPoint = (x, y) => {

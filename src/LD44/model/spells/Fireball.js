@@ -13,7 +13,7 @@ export default class Fireball extends Spell {
 
         this.damageFrom = 20;
         this.damageTo = 25;
-        this.cost = 10;
+        this.cost = 5;
 
         this.effect.visible = false;
         if (this.figureType !== 'player'){
