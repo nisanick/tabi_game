@@ -9,7 +9,7 @@ export default class Enemy {
         this.inventory = undefined;
         let rng = Tools.getRndInteger(0, 100);
         if (rng > 70) {
-            this.inventory = new NpcInventory(1);
+            this.inventory = new NpcInventory(2);
         }
     }
 }
