@@ -5,12 +5,12 @@ export default class ItemGenerator {
         this.gloves = [
             {
                 icon: 'default_hands',
-                name: 'Crimson Cowl',
-                stats: {}
+                name: 'Crimson Gloves',
+                stats: {health: 20, cost: 5}
             },
             {
                 icon: 'gloves1',
-                name: 'Plated Gloves',
+                name: 'Plated Gauntlets',
                 stats: {defense: 10, cost: -5}
             },
             {
@@ -20,8 +20,136 @@ export default class ItemGenerator {
             },
             {
                 icon: 'gloves3',
-                name: 'Linen Fingers',
-                stats: {defense: 2, cost: -2}
+                name: 'Hunting Gloves',
+                stats: {defense: 2, cost: -1}
+            }
+        ];
+        this.boots = [
+            {
+                icon: 'default_boots',
+                name: 'Crimson Boots',
+                stats: {health: 10, cost: 2}
+            },
+            {
+                icon: 'boots1',
+                name: 'Reinforced Puddle Stompers',
+                stats: {defense: 5}
+            },
+            {
+                icon: 'boots2',
+                name: 'Leather Boots',
+                stats: {defense: 3}
+            },
+            {
+                icon: 'boots3',
+                name: 'Shadow Boots',
+                stats: {defense: 8, cost: -5}
+            }
+        ];
+        this.pants = [
+            {
+                icon: 'default_legs',
+                name: 'Crimson Skirt',
+                stats: {health: 50, cost: 15}
+            },
+            {
+                icon: 'pants1',
+                name: 'Elven Leggins',
+                stats: {defense: 10, health: 25}
+            },
+            {
+                icon: 'pants2',
+                name: 'Steel Pants',
+                stats: {defense: 15, cost: -12}
+            },
+            {
+                icon: 'pants3',
+                name: 'Comfy Legguards',
+                stats: {defense: 7, cost: -10, health: 7}
+            }
+        ];
+        this.weapon2 = [
+            {
+                icon: 'default_weapon2',
+                name: 'Grimoire of Blood',
+                stats: {damage: 50, cost: 50, health: -50}
+            },
+            {
+                icon: 'book1',
+                name: 'Druidic Lore',
+                stats: {health: 85, damage: -25}
+            },
+            {
+                icon: 'knife1',
+                name: 'Sacrifical Dagger',
+                stats: {cost: 75, health: -25}
+            },
+            {
+                icon: 'shield1',
+                name: 'Buckler of a Red Knight',
+                stats: {defense: 40, cost: -40}
+            },
+            {
+                icon: 'ring1',
+                name: 'Blood Ruby',
+                stats: {health: 100}
+            },
+            {
+                icon: 'ring2',
+                name: 'Ring of Power',
+                stats: {damage: 70}
+            },
+            {
+                icon: 'ring3',
+                name: 'Royal Amethyst',
+                stats: {cost: 60}
+            },
+            {
+                icon: 'ring4',
+                name: 'Circlet of Inner Peace',
+                stats: {defense: 30}
+            }
+        ];
+        this.junk = [
+            {
+                icon: 'pig',
+                name: 'Orcish Shiny Hider'
+            },
+            {
+                icon: 'narsil',
+                name: 'Shard of Narsil'
+            },
+            {
+                icon: 'rune',
+                name: 'Rune of Alph'
+            },
+            {
+                icon: 'feather',
+                name: 'Feather of Aviana'
+            },
+            {
+                icon: 'shards',
+                name: 'Shards of Tesseract'
+            },
+            {
+                icon: 'elementium1',
+                name: 'Stormium'
+            },
+            {
+                icon: 'elementium2',
+                name: 'Emberium'
+            },
+            {
+                icon: 'elementium3',
+                name: 'Aquium'
+            },
+            {
+                icon: 'elementium4',
+                name: 'Dirtium'
+            },
+            {
+                icon: 'ember',
+                name: 'Ancient Lizard DNA'
             }
         ];
         this.helm = [
@@ -115,7 +243,9 @@ export default class ItemGenerator {
     }
 
     getJunkItem = () => {
-        return new Item("noItem", -1, "Nope Fish");
+        let info = this.junk[Math.floor(Math.random() * this.junk.length)];
+        return new Item(info.icon, -1, info.name);
+        // return new Item("noItem", -1, "Nope Fish");
     };
 
     getRandomEquipableItem = () => {
@@ -137,6 +267,12 @@ export default class ItemGenerator {
                 return this.getWeapon1();
             case 4:
                 return this.getGloves();
+            case 5:
+                return this.getPants();
+            case 6:
+                return this.getBoots();
+            case 8:
+                return this.getWeapon2();
         }
     };
 
@@ -144,6 +280,22 @@ export default class ItemGenerator {
         let info = this.gloves[Math.floor(Math.random() * this.gloves.length)];
         return new Item(info.icon, 4, info.name, info.stats);
     };
+
+    getBoots = () => {
+        let info = this.boots[Math.floor(Math.random() * this.boots.length)];
+        return new Item(info.icon, 6, info.name, info.stats);
+    };
+
+    getPants = () => {
+        let info = this.pants[Math.floor(Math.random() * this.pants.length)];
+        return new Item(info.icon, 6, info.name, info.stats);
+    };
+
+    getWeapon2 = () => {
+        let info = this.weapon2[Math.floor(Math.random() * this.weapon2.length)];
+        return new Item(info.icon, 8, info.name, info.stats);
+    };
+
     getChest = () => {
         let info = this.chest[Math.floor(Math.random() * this.gloves.length)];
         return new Item(info.icon, 3, info.name, info.stats);

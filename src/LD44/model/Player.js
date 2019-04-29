@@ -10,7 +10,7 @@ export default class Player {
 
         this.head = new Item('default_helm', 1, 'Crimson Cowl', {}, 1);
         this.shoulder = new Item('default_shoulder', 2, 'Crimson Shoulders', {}, 1);
-        this.chest = new Item('default_chest', 3, "Crimson Robers", {}, 1);
+        this.chest = new Item('default_chest', 3, "Crimson Robes", {}, 1);
         this.hands = new Item('default_hands', 4, "Crimson Gloves", {}, 1);
         this.legs = new Item('default_legs', 5, "Crimson Skirt", {}, 1);
         this.boots = new Item('default_boots', 6, "Crimson Boots", {}, 1);
