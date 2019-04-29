@@ -254,7 +254,6 @@ export default class ItemGenerator {
         potion.onEquip = (player) => {
             let effectiveness = (Math.ceil(Math.random() * 20) + (20 * potion.rarity)) / 100;
             let hp = player.maxHealth * effectiveness;
-            console.log(effectiveness);
             player.health += hp;
             if (player.health > player.maxHealth) {
                 player.health = player.maxHealth;
