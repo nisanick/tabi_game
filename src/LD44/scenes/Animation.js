@@ -1,6 +1,5 @@
 import * as PIXI from "pixi.js";
 
-
 export default class Animation {
     constructor(loader, spriteName, action, container, bounds, repeat) {
         this.sprite = [];
@@ -40,6 +39,8 @@ export default class Animation {
             }
             this.container.addChild(this.sprite[i]);
         }
+
+        console.log(this.container);
     };
 
     animate = (bounds) => {
@@ -67,6 +68,19 @@ export default class Animation {
         } else {
             this.counter++;
         }
+    };
+
+    flipSprites = (bounds, type) => {
+        this.bounds = bounds;
+        this.sprite.forEach(sprite => {
+            if (type === 1) {
+                sprite.width *= -1;
+            } else {
+                sprite.width *= -1;
+            }
+            sprite.x = bounds.x;
+            sprite.y = bounds.y;
+        });
     };
 
     hideSprites = () => {

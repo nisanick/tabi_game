@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js";
 import BasicScene from "./BasicScene";
 import TileBuffer from "../tools/TileBuffer";
 import StatusBar from "../objects/StatusBar";
+import Animation from "./Animation";
 
 export default class World extends BasicScene {
     constructor(loader, game) {
@@ -13,7 +14,10 @@ export default class World extends BasicScene {
         this.loader = loader;
 
         this.interactive = true;
-
+        this.animWalk = {};
+        this.animBounds = {};
+        this.actualFlip = 2;
+        this.initPlayerPoint = {};
         this.player = this.createPlayer();
         this.locationText = new PIXI.Text("Test", new PIXI.TextStyle({fill: "white", fontSize: 30, fontFamily: "Linepixels"}));
         this.hpBar = new StatusBar(1, this.loader);
@@ -48,6 +52,10 @@ export default class World extends BasicScene {
         this.cross.visible = false;
 
         this.addChild(this.tileContainer);
+
+        this.animWalk = new Animation(this.loader, 'player', 'walk', this, this.animBounds, true);
+        this.animWalk.init();
+
         this.addChild(this.player);
         this.addChild(this.ui);
         loader.app.stage.addChild(this);
@@ -55,11 +63,30 @@ export default class World extends BasicScene {
 
 
     createPlayer = () => {
-        let player = new PIXI.Graphics();
-        player.beginFill(0x09FF00);
-        player.lineStyle(5, 0xa3a3a3, 1);
-        player.drawRect(425, 425, 50, 50);
+        let player = this.loader.getGameSprite('player_stay');
+        player.width = 140;
+        player.height = 150;
+        player.x = 425 - 50;
+        player.y = 425 - 50;
+        this.initPlayerPoint = {x: player.x, y: player.y, width: player.width, height: player.height};
+        this.animBounds = {x: player.x, y: player.y, width: player.width, height: player.height};
         return player;
+    };
+
+    // 1 - left , 2 - right
+    flipPlayer = (type) => {
+        if (this.actualFlip !== type) {
+            this.actualFlip = type;
+            this.player.width *= -1;
+            if (type === 1){
+                this.player.x += this.initPlayerPoint.width;
+                this.animBounds.x += this.initPlayerPoint.width;
+            } else {
+                this.player.x = this.initPlayerPoint.x;
+                this.animBounds.x = this.initPlayerPoint.x;
+            }
+            this.animWalk.flipSprites(this.animBounds, type);
+        }
     };
 
     repaintScene = () => {
@@ -176,6 +203,7 @@ export default class World extends BasicScene {
         let toX = this.game.player.x - this.finalPoisiton.x;
         let toY = this.game.player.y - this.finalPoisiton.y;
 
+        let prevX = this.playerX;
         this.playerX = 0;
         this.playerY = 0;
         if (Math.abs(toX) >= Math.abs(toY)) {
@@ -186,6 +214,12 @@ export default class World extends BasicScene {
             this.playerY = Math.sign(toY) * -1;
         }
 
+        if  (prevX > this.playerX){
+            this.flipPlayer(1);
+        } else if (prevX < this.playerX){
+            this.flipPlayer(2);
+        }
+        this.animate();
         if ((this.tileContainer.x % 100) === 0 && (this.tileContainer.y % 100) === 0) {
             this.repaint = true;
             let action = this.game.movePlayer(this.playerX, this.playerY);
@@ -194,11 +228,14 @@ export default class World extends BasicScene {
                 //this.moving = false;
                 if(action === 2) {
                     this.loader.setScene(5);
+                    this.stopAnimate();
                 }
                 if (action === 3){
                     this.loader.setScene(2);
+                    this.stopAnimate();
                 }
             }
+            this.stopAnimate();
             //zisti co je na policku
         }
 
@@ -330,6 +367,16 @@ export default class World extends BasicScene {
         bag.on("click", (e) => {window.statsShown = 2; e.cancelMove = true; this.loader.setScene(4)});
 
         return uiContainer;
+    };
+
+    animate = () => {
+        this.player.visible = false;
+        this.animWalk.animate(this.animBounds);
+    };
+
+    stopAnimate = () => {
+        this.player.visible = true;
+        this.animWalk.stopAnimate();
     };
 
     resetMovement = () => {
