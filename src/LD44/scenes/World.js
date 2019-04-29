@@ -125,12 +125,13 @@ export default class World extends BasicScene {
                 this.cross.visible = false;
             }
         } else {
-            if (this.windowCounter === 120){
+            if (this.windowCounter === 120) {
                 this.attackWindow.hideWindow();
                 this.windowDisplayed = false;
                 this.windowCounter = 0;
                 this.loader.setScene(2);
             } else {
+                this.cross.visible = false;
                 this.windowCounter++;
             }
         }
