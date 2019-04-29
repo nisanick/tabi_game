@@ -21,7 +21,7 @@ export default class Status extends BasicScene {
         this.inventory.visible = false;
         this.inventory.interactive = false;
         this.stats = new PIXI.Container();
-        this.stats.position.set(485,55);
+        this.stats.position.set(92,550);
         this.stats.visible = false;
 
         this.inventory.on('click', this.equipItem);
@@ -109,7 +109,28 @@ export default class Status extends BasicScene {
     };
 
     drawStats = () => {
+        let playerStats = this.game.player.stats;
 
+        let healthText = new PIXI.Text("Health: " + Math.ceil(this.game.player.health) + "/" + Math.ceil(this.game.player.maxHealth), new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
+        this.stats.addChild(healthText);
+
+
+        let defenseText = new PIXI.Text("Defense: " + playerStats.defense, new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
+        defenseText.position.set(0, 40);
+        this.stats.addChild(defenseText);
+
+
+        let spellCostText = new PIXI.Text("Spell Cost: " + (Number(playerStats.cost) * -1), new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
+        spellCostText.position.set(0, 80);
+        this.stats.addChild(spellCostText);
+
+
+        let damageText = new PIXI.Text("Damage: " + playerStats.damage, new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
+        damageText.position.set(0, 120);
+        this.stats.addChild(damageText);
+
+
+        this.stats.visible = true;
     };
 
     drawInventory = () => {

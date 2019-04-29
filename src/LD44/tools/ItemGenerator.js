@@ -31,12 +31,12 @@ export default class ItemGenerator {
                 stats: {health: 10, cost: 2}
             },
             {
-                icon: 'boots1',
+                icon: 'boots2',
                 name: 'Reinforced Puddle Stompers',
                 stats: {defense: 5}
             },
             {
-                icon: 'boots2',
+                icon: 'boots1',
                 name: 'Leather Boots',
                 stats: {defense: 3}
             },
@@ -154,7 +154,7 @@ export default class ItemGenerator {
         ];
         this.helm = [
             {
-                icon: 'default_chest',
+                icon: 'default_helm',
                 name: 'Crimson Cowl',
                 stats: {cost: 3, health: 25}
             },
@@ -177,7 +177,7 @@ export default class ItemGenerator {
         this.chest = [
             {
                 icon: 'default_chest',
-                name: 'Crimson Robers',
+                name: 'Crimson Robes',
                 stats: {cost: 10, health: 50}
             },
             {
@@ -250,13 +250,13 @@ export default class ItemGenerator {
 
     getPotion = () => {
         let potion = new Item("potionHp", 9, "Health Potion");
-        potion.stats.heals = 20*potion.rarity + " - " + (20*potion.rarity+20);
-        potion.onEquip = (player) =>{
-            let effectiveness = (Math.ceil(Math.random() * 20) + (20 * potion.rarity))/100;
+        potion.stats.heals = 20 * potion.rarity + " - " + (20 * potion.rarity + 20);
+        potion.onEquip = (player) => {
+            let effectiveness = (Math.ceil(Math.random() * 20) + (20 * potion.rarity)) / 100;
             let hp = player.maxHealth * effectiveness;
             console.log(effectiveness);
             player.health += hp;
-            if(player.health > player.maxHealth){
+            if (player.health > player.maxHealth) {
                 player.health = player.maxHealth;
             }
         };

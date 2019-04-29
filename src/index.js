@@ -19,3 +19,8 @@ if (pixi_cnt && pixi_cnt.children.length <= 0) {
     //The setup function is a custom function that we created to add the sprites. We will this below
     //this.setup();
 }
+
+if(window.height < 900){
+    let ratio = window.height/900;
+    app.stage.scale.set(ratio);
+}
