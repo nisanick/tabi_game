@@ -248,6 +248,20 @@ export default class ItemGenerator {
         // return new Item("noItem", -1, "Nope Fish");
     };
 
+    getPotion = () => {
+        let potion = new Item("potionHp", 9, "Health Potion");
+        potion.onEquip = (player) =>{
+            let effectiveness = (Math.ceil(Math.random() * 20) + (20 * potion.rarity))/100;
+            let hp = player.maxHealth * effectiveness;
+            console.log(effectiveness);
+            player.health += hp;
+            if(player.health > player.maxHealth){
+                player.health = player.maxHealth;
+            }
+        };
+        return potion;
+    };
+
     getRandomEquipableItem = () => {
         let type = Math.ceil(Math.random() * 8);
         return this.getItemForType(type);

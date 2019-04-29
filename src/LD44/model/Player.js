@@ -1,5 +1,6 @@
 import Item from "./Item";
 import Stats from "./Stats";
+import ItemGenerator from "../tools/ItemGenerator";
 
 export default class Player {
     constructor(x, y) {
@@ -21,7 +22,7 @@ export default class Player {
         this.bag = new Array(this.max);
         this.stats = this.calculateStats();
 
-        //this.bag[0] = new Item("noItem", 3, "Nope Fish");
+        this.bag[0] = new ItemGenerator().getPotion();
         this.gold = 1000;
 
         this.itemCount = 0;
@@ -43,6 +44,7 @@ export default class Player {
                 case 6: this.bag[index] = this.boots; this.boots = item; break;
                 case 7: this.bag[index] = this.weapon1; this.weapon1 = item; break;
                 case 8: this.bag[index] = this.weapon2; this.weapon2 = item; break;
+                case 9: this.bag[index] = undefined; item.onEquip(this); break;
             }
         }
     };

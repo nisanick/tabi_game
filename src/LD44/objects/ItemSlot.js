@@ -14,8 +14,8 @@ export default class ItemSlot extends PIXI.Container {
                 description: "",
                 rarity: item.rarity,
                 details:{
-                    value: item.value,
-                    ...item.stats
+                    ...item.stats,
+                    value: item.value
                 }
             };
         }

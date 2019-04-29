@@ -27,6 +27,13 @@ export default class NpcInventory {
         if(this.type === 2){
             this.inventory[0] = new Item("coins", 0, "Pile of gold", {}, 1);
             this.inventory[0].value = Math.ceil(this.cash / 50);
+            if(Math.floor(Math.random()*100) < 7){
+                this.inventory[this.itemCount++] = generator.getPotion();
+            }
+        } else {
+            for (let i = 0; i < Math.ceil(Math.random() * 6); i++) {
+                this.inventory[this.itemCount++] = generator.getPotion();
+            }
         }
     }
 

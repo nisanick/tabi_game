@@ -104,6 +104,7 @@ export default class Game {
     init = () => {
         this.map = this.mapGenerator.generate();
         this.player = new Player(Math.floor(Math.random() * 1000), Math.floor(Math.random() * 1000));
+        this.player.health = 50;
         // this.player = new Player(0, 0);
     };
 }
