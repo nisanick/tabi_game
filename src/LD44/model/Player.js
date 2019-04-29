@@ -48,7 +48,7 @@ export default class Player {
                 case 9: this.bag[index] = undefined; item.onEquip(this); break;
             }
 
-            this.calculateStats();
+            this.stats = this.calculateStats();
         }
     };
 

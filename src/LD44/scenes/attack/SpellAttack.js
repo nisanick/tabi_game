@@ -71,7 +71,7 @@ export default class SpellAttack {
             }
         } else {
             if (Tools.collision(this.spell, this.container.fightPlayer)){
-                if (!this.container.fightEnemy.shield) {
+                if (!this.container.fightPlayer.shield) {
                     let damage = Tools.getRndInteger(this.spell.damageFrom, this.spell.damageTo);
                     if (Tools.getRndInteger(0, 100) > (100 - this.spell.critChance)) {
                         damage *= 2;

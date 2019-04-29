@@ -46,7 +46,8 @@ export default class SpellIcon extends PIXI.Sprite {
             type = 'shield';
             details = {
                 Absorb: '1 Attack',
-                Cost: '5 HP'
+                Cost: '5 HP',
+                Time: '5s'
             }
         }
 

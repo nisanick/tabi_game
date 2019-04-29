@@ -64,6 +64,10 @@ export default class FightPlayer extends FightFigure {
                 case "ť":
                     this.selectSpell(4);
                     break;
+                case "Escape":
+                case "Esc":
+                    this.container.enableReadyButton();
+                    break;
 
                 default:
                     break;

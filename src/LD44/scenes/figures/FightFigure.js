@@ -341,7 +341,7 @@ export default class FightFigure {
     };
 
     checkShield = () => {
-        if (this.shieldCounter >= 100){
+        if (this.shieldCounter >= 260){
             this.removeShield();
         } else {
             this.selectedSpell[this.selectedSpellIndex - 1].showShield(this.hitArea.x, this.hitArea.y);
