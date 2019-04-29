@@ -3,6 +3,7 @@ import BasicScene from "./BasicScene";
 import TileBuffer from "../tools/TileBuffer";
 import StatusBar from "../objects/StatusBar";
 import Animation from "./Animation";
+import Window from "./Window";
 
 export default class World extends BasicScene {
     constructor(loader, game) {
@@ -55,8 +56,12 @@ export default class World extends BasicScene {
 
         this.animWalk = new Animation(this.loader, 'player', 'walk', this, this.animBounds, true);
         this.animWalk.init();
-
         this.addChild(this.player);
+
+        this.attackWindow = new Window(loader, this, "You were attacked!", 30);
+        this.windowCounter = 0;
+        this.windowDisplayed = false;
+
         this.addChild(this.ui);
         loader.app.stage.addChild(this);
     }
@@ -106,17 +111,28 @@ export default class World extends BasicScene {
         // x = x % 1000;
         // y = y % 1000;
 
-        if (((this.finalPoisiton.x - player.x) !== 0) || ((this.finalPoisiton.y - player.y) !== 0)) {
-            if (this.skipFrame) {
-                this.skipFrame = false;
+        if (!this.windowDisplayed) {
+            if (((this.finalPoisiton.x - player.x) !== 0) || ((this.finalPoisiton.y - player.y) !== 0)) {
+                if (this.skipFrame) {
+                    this.skipFrame = false;
+                } else {
+                    this.checkMoves();
+                    this.skipFrame = false;
+                }
+                this.cross.visible = true;
             } else {
-                this.checkMoves();
-                this.skipFrame = false;
+                this.moving = false;
+                this.cross.visible = false;
             }
-            this.cross.visible = true;
         } else {
-            this.moving = false;
-            this.cross.visible = false;
+            if (this.windowCounter === 120){
+                this.attackWindow.hideWindow();
+                this.windowDisplayed = false;
+                this.windowCounter = 0;
+                this.loader.setScene(2);
+            } else {
+                this.windowCounter++;
+            }
         }
         if (this.repaint) {
             this.goldText.text = this.game.player.gold.toLocaleString();
@@ -231,7 +247,8 @@ export default class World extends BasicScene {
                     this.stopAnimate();
                 }
                 if (action === 3){
-                    this.loader.setScene(2);
+                    this.attackWindow.showWindow();
+                    this.windowDisplayed = true;
                     this.stopAnimate();
                 }
             }

@@ -26,9 +26,9 @@ export default class Fight extends BasicScene {
         this.enemyHealthBar = {};
         this.playerHealthBar = {};
         this.selectedSpells = [];
-        this.winWindowEmpty = new Window(loader, this.windowContainer, 'You Won\nLoot is empty');
-        this.winWindowLoot = new Window(loader, this.windowContainer, 'You Won\nYou got something!');
-        this.loseWindow = new Window(loader, this.windowContainer, 'You Lose');
+        this.winWindowEmpty = new Window(loader, this.windowContainer, 'You Won\nLoot is empty', 30);
+        this.winWindowLoot = new Window(loader, this.windowContainer, 'You Won\nYou got something!', 30);
+        this.loseWindow = new Window(loader, this.windowContainer, 'You Lose', 30);
     }
 
     init = () => {

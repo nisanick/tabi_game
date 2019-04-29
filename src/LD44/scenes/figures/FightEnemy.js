@@ -74,7 +74,7 @@ export default class FightEnemy extends FightFigure {
             }
 
             if (!this.stay) {
-                this.stay = Tools.getRndInteger(0, 10) > 9;
+                this.stay = Tools.getRndInteger(0, 10) > 8;
                 if (this.stay) {
                     this.holdCounter = 0;
                 }

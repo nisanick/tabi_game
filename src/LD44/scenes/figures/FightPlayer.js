@@ -8,6 +8,7 @@ export default class FightPlayer extends FightFigure {
         window.addEventListener("keyup", this.handleKeyUp);
         this.container.interactive = true;
         this.container.on('click', this.onClick);
+        this.moveConstant = 3;
     }
 
     handleKeyDown = (event) => {

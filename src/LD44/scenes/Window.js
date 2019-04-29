@@ -1,8 +1,7 @@
 import * as PIXI from "pixi.js"
 
 export default class Window {
-    constructor(loader, container, text) {
-        let size = text.includes("\n") ? 30 : 60;
+    constructor(loader, container, text, size) {
         this.text = new PIXI.Text(text, new PIXI.TextStyle({fill: "#AB9117", align: 'center', fontSize: size, fontWeight: 'bold', fontFamily: "Linepixels"}));
         this.loader = loader;
         this.gWindow = this.loader.getGameSprite('window');

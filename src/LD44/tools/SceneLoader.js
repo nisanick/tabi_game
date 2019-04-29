@@ -66,7 +66,7 @@ export default class SceneLoader {
         window.setTimeout(() => {
             this.game.init();
             this.setScene(3);
-        }, 50);
+        }, 60);
     };
 
     started = () => {
