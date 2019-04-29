@@ -20,13 +20,13 @@ export default class Item {
         this.name = name;
 
         let rarity = Math.floor(Math.random() * 100);
-        if (rarity < 49) {
+        if (rarity < 55) {
             rarity = 1;
-        } else if (rarity < 74) {
+        } else if (rarity < 82) {
             rarity = 2;
-        } else if (rarity < 89) {
+        } else if (rarity < 94) {
             rarity = 3;
-        } else if (rarity < 96) {
+        } else if (rarity < 98) {
             rarity = 4;
         } else {
             rarity = 5;

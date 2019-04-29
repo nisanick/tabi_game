@@ -8,7 +8,7 @@ export default class Player {
         this.health = 100;
         this.maxHealth = 100;
 
-        this.head = new Item('default_helm', 1, 'Crimson Cowl', {defense: 5}, 1);
+        this.head = new Item('default_helm', 1, 'Crimson Cowl', {}, 1);
         this.shoulder = new Item('default_shoulder', 2, 'Crimson Shoulders', {}, 1);
         this.chest = new Item('default_chest', 3, "Crimson Robers", {}, 1);
         this.hands = new Item('default_hands', 4, "Crimson Gloves", {}, 1);

@@ -85,6 +85,9 @@ export default class SpriteLoader extends PIXI.Loader {
             .add("default_shoulder", "assets/images/items/default/shoulders_cl_b_01.PNG")
             .add("default_weapon1", "assets/images/items/default/staff_cl_b_01.PNG")
             .add("coins", "assets/images/items/junk/coins_b_03.png")
+            .add("gloves1", "assets/images/items/gloves/gl_b_01.PNG")
+            .add("gloves2", "assets/images/items/gloves/gl_b_05.png")
+            .add("gloves3", "assets/images/items/gloves/gl_b_07.png")
             .load(started);
     };
 }

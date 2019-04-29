@@ -119,7 +119,7 @@ export default class Status extends BasicScene {
         for (let i = 0; i < inventory.length; i++) {
             let slot = new ItemSlot(inventory[i], this.loader);
             let row = Math.floor(i/8);
-            let x = (i - 8*row) * slot.width + (i - 8*row) * 2 - 4;
+            let x = (i - 8*row) * slot.width + (i - 8*row) * 2 - 6;
             let y = row * slot.height + row*2 - 4;
             slot.position.set(x, y);
             this.inventory.addChild(slot);
