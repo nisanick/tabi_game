@@ -88,6 +88,18 @@ export default class SpriteLoader extends PIXI.Loader {
             .add("gloves1", "assets/images/items/gloves/gl_b_01.PNG")
             .add("gloves2", "assets/images/items/gloves/gl_b_05.png")
             .add("gloves3", "assets/images/items/gloves/gl_b_07.png")
+            .add("chest1", "assets/images/items/chests/arm_b_03.PNG")
+            .add("chest2", "assets/images/items/chests/arm_b_06.PNG")
+            .add("chest3", "assets/images/items/chests/arm_b_07.PNG")
+            .add("shoulder1", "assets/images/items/shoulders/sh_b_04.png")
+            .add("shoulder2", "assets/images/items/shoulders/sh_b_05.png")
+            .add("shoulder3", "assets/images/items/shoulders/sh_b_06.png")
+            .add("mainhand1", "assets/images/items/mainhands/axe_b_06.png")
+            .add("mainhand2", "assets/images/items/mainhands/staff_b_01.png")
+            .add("mainhand3", "assets/images/items/mainhands/sword_b_05.png")
+            .add("helm1", "assets/images/items/helmets/hlm_b_03.png")
+            .add("helm2", "assets/images/items/helmets/hlm_b_07.png")
+            .add("helm3", "assets/images/items/helmets/hlm_b_10.png")
             .load(started);
     };
 }

@@ -26,5 +26,10 @@ export default class Menu extends BasicScene {
         let textStyle = new PIXI.TextStyle({fill: "black", fontSize: 30, fontFamily: "Linepixels"});
         this.btnStart = new Button("Start Game", x, y, width, height, this, sprite, sprite_clicked, textStyle);
         this.btnStart.onClick(this.loader.start.bind(this));
+
+        let text = new PIXI.Text("GAME NAME", new PIXI.TextStyle({fill: "black", fontSize: 100, fontFamily: "Linepixels"}));
+        text.x = (this.loader.app.renderer.width / 2) - (text.width / 2);
+        text.y = 70;
+        this.addChild(text);
     };
 }
