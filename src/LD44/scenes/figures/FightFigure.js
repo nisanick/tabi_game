@@ -53,7 +53,6 @@ export default class FightFigure {
         this.moveX = 0;
         this.moveY = 0;
         this.windowCounter = 0;
-        this.windowDisplayed = false;
         this.lootChance = 30;
 
         this.meleeAttack = new MeleeAttack(this);
@@ -165,6 +164,7 @@ export default class FightFigure {
     };
 
     showResultWindow = () => {
+        this.container.moveEnabled = false;
         let resultWindow;
         let showLoot = false;
         let lose = false;
@@ -195,7 +195,6 @@ export default class FightFigure {
                 this.loader.setScene(6);
             }
         } else {
-            this.windowDisplayed = true;
             resultWindow.showWindow();
             this.windowCounter++;
         }
@@ -203,7 +202,11 @@ export default class FightFigure {
 
     continue = () => {
         if (this.type === 'player') {
+            this.container.fightEnemy.hideEnemy();
+            this.container.fightEnemy.reset();
+            this.container.fightPlayer.reset();
             this.loader.setScene(6);
+            this.container.moveEnabled = true;
         }  else {
             this.hideEnemy();
             this.hideAllSpells();
@@ -212,17 +215,35 @@ export default class FightFigure {
             this.walking = false;
             this.shield = false;
             this.casting = false;
-            this.windowDisplayed = false;
             this.dying = false;
             this.meleeAttack.reset();
             this.spellAttack.reset();
-            this.bounds.x += this.initX;
-            this.bounds.y += this.initY;
-            this.hitArea.x += this.initX;
-            this.hitArea.y += this.initY;
-            this.staySprite.x += this.initX;
-            this.staySprite.y += this.initY;
+            this.bounds.x = this.initX;
+            this.bounds.y = this.initY;
+            this.hitArea.x = this.initX;
+            this.hitArea.y = this.initY;
+            this.staySprite.x = this.initX;
+            this.staySprite.y = this.initY;
+            this.container.moveEnabled = true;
+            this.container.fightPlayer.staySprite.visible = true;
         }
+        this.container.fightEnemy.reset();
+        this.container.fightPlayer.reset();
+    };
+
+    reset = () => {
+        this.attacking = false;
+        this.spellFlying = false;
+        this.spellAttack.done = true;
+        this.walking = false;
+        this.shield = false;
+        this.casting = false;
+        this.dying = false;
+        this.hideAllSpells();
+        this.meleeAttack.reset();
+        this.spellAttack.reset();
+        this.animAttack.stopAnimate();
+        this.animWalk.stopAnimate();
     };
 
     doAttack = () => {
@@ -240,44 +261,46 @@ export default class FightFigure {
     };
 
     doMove() {
-        if (!this.dead && !this.windowDisplayed) {
-            if (this.dying || this.getHealth() <= 0) {
-                this.stopWalk();
-                this.hideAllSpells();
-                this.attacking = false;
-                this.animAttack.stopAnimate();
-                this.staySprite.visible = false;
-                this.dying = true;
-                this.die();
-                if (this.animDie.isDone()) {
-                    this.dead = true;
-                    this.animDie.done = false;
-                }
-            } else if (this.attacking){
-                this.doAttack();
-            } else {
-                if (this.spellFlying) {
-                    this.doSpellAttack();
-                }
+        if (!this.dead) {
+            if (this.container.moveEnabled) {
+                if (this.dying || this.getHealth() <= 0) {
+                    this.stopWalk();
+                    this.hideAllSpells();
+                    this.attacking = false;
+                    this.animAttack.stopAnimate();
+                    this.staySprite.visible = false;
+                    this.dying = true;
+                    this.die();
+                    if (this.animDie.isDone()) {
+                        this.dead = true;
+                        this.animDie.done = false;
+                    }
+                } else if (this.attacking) {
+                    this.doAttack();
+                } else {
+                    if (this.spellFlying) {
+                        this.doSpellAttack();
+                    }
 
-                if (this.moveX !== 0 || this.moveY !== 0) {
-                    if (this.canMove()) {
-                        this.walk();
-                        this.walking = true;
-                        this.setBounds();
-                        this.staySprite.visible = false;
-                    } else {
+                    if (this.moveX !== 0 || this.moveY !== 0) {
+                        if (this.canMove()) {
+                            this.walk();
+                            this.walking = true;
+                            this.setBounds();
+                            this.staySprite.visible = false;
+                        } else {
+                            this.stopWalk();
+                            this.staySprite.visible = true;
+                        }
+                    } else if (this.walking) {
                         this.stopWalk();
                         this.staySprite.visible = true;
+                        this.walking = false;
                     }
-                } else if (this.walking) {
-                    this.stopWalk();
-                    this.staySprite.visible = true;
-                    this.walking = false;
-                }
 
-                if (this.shield) {
-                    this.checkShield();
+                    if (this.shield) {
+                        this.checkShield();
+                    }
                 }
             }
         } else {
