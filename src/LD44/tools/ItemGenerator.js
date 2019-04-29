@@ -288,7 +288,7 @@ export default class ItemGenerator {
 
     getPants = () => {
         let info = this.pants[Math.floor(Math.random() * this.pants.length)];
-        return new Item(info.icon, 6, info.name, info.stats);
+        return new Item(info.icon, 5, info.name, info.stats);
     };
 
     getWeapon2 = () => {

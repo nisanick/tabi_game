@@ -13,7 +13,15 @@ export default class NpcInventory {
 
         this.itemCount = Math.ceil(Math.random() * this.max/type / 2);
         for (let i = 0; i < this.itemCount; i++) {
-            this.inventory[i] = generator.getJunkItem();
+            let chance = Math.random()*100;
+            if(this.type === 2){
+                chance -= 25;
+            }
+            if(chance < 49){
+                this.inventory[i] = generator.getJunkItem();
+            } else {
+                this.inventory[i] = generator.getRandomEquipableItem();
+            }
         }
 
         if(this.type === 2){

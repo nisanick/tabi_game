@@ -114,7 +114,6 @@ export default class Status extends BasicScene {
 
     drawInventory = () => {
         let inventory = this.game.player.bag;
-        console.log(inventory);
 
         for (let i = 0; i < inventory.length; i++) {
             let slot = new ItemSlot(inventory[i], this.loader);
