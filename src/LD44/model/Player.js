@@ -45,7 +45,7 @@ export default class Player {
                 case 6: this.bag[index] = this.boots; this.boots = item; break;
                 case 7: this.bag[index] = this.weapon1; this.weapon1 = item; break;
                 case 8: this.bag[index] = this.weapon2; this.weapon2 = item; break;
-                case 9: this.bag[index] = undefined; item.onEquip(this); break;
+                case 9: this.bag[index] = undefined; item.onEquip(this); this.itemCount--; break;
             }
 
             this.stats = this.calculateStats();
