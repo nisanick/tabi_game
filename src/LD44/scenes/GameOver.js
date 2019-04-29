@@ -2,7 +2,7 @@ import BasicScene from "./BasicScene";
 import * as PIXI from "pixi.js";
 import Button from "../objects/Button";
 
-export default class Fight extends BasicScene {
+export default class GameOver extends BasicScene {
     constructor(/*SceneLoader*/ loader, game) {
         super(loader);
         this.loader = loader;

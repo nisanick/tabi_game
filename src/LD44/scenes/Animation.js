@@ -13,12 +13,15 @@ export default class Animation {
         this.bounds = bounds;
         this.done = false;
         this.repeat = repeat;
+        this.walk = false;
     }
 
     init = () => {
         let amount = 0;
-        if (this.action === 'walk')
+        if (this.action === 'walk') {
+            this.walk = true;
             amount = 8;
+        }
         else if (this.action === 'attack')
             amount = 3;
         else if (this.action === 'die')
@@ -43,6 +46,11 @@ export default class Animation {
     };
 
     animate = (bounds) => {
+        if (this.walk){
+            if (!this.loader.soundLoader.footStepSound.playing()) {
+                this.loader.soundLoader.footStepSound.play();
+            }
+        }
         if (this.counter === this.counterLimit) {
             this.hideSprites();
             this.sprite[this.spriteIndex].x = bounds.x;
@@ -98,6 +106,9 @@ export default class Animation {
 
     stopAnimate = () => {
         this.counter = this.counterLimit;
+        if (this.walk){
+            this.loader.soundLoader.footStepSound.stop();
+        }
         this.hideSprites();
     }
 }

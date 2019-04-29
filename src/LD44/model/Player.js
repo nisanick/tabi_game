@@ -18,7 +18,7 @@ export default class Player {
         this.weapon1 = new Item('default_weapon1', 7, "Twitching Eye of Zala'tix", {}, 1);
         this.weapon2 = new Item('default_weapon2', 8, "Grimoire of Blood", {}, 1);
 
-        this.max = 8*3;
+        this.max = 8 * 3;
         this.bag = new Array(this.max);
         this.stats = this.calculateStats();
 
@@ -29,7 +29,8 @@ export default class Player {
     }
 
     getHealth = () => {
-          return parseInt((this.health * 100) / this.maxHealth);
+        let health = Math.floor((this.health * 100) / this.maxHealth);
+        return health;
     };
 
     equip = (index) => {
@@ -46,35 +47,44 @@ export default class Player {
                 case 8: this.bag[index] = this.weapon2; this.weapon2 = item; break;
                 case 9: this.bag[index] = undefined; item.onEquip(this); break;
             }
+
+            this.calculateStats();
         }
     };
 
     calculateStats = () => {
         let stats = new Stats();
-        Object.keys(this.head).forEach((key) => {
-            stats[key] += this.head[key];
+        Object.keys(this.head.stats).forEach((key) => {
+            stats[key] += parseFloat(this.head.stats[key]);
         });
-        Object.keys(this.shoulder).forEach((key) => {
-            stats[key] += this.shoulder[key];
+        Object.keys(this.shoulder.stats).forEach((key) => {
+            stats[key] += parseFloat(this.shoulder.stats[key]);
         });
-        Object.keys(this.chest).forEach((key) => {
-            stats[key] += this.chest[key];
+        Object.keys(this.chest.stats).forEach((key) => {
+            stats[key] += parseFloat(this.chest.stats[key]);
         });
-        Object.keys(this.hands).forEach((key) => {
-            stats[key] += this.hands[key];
+        Object.keys(this.hands.stats).forEach((key) => {
+            stats[key] += parseFloat(this.hands.stats[key]);
         });
-        Object.keys(this.legs).forEach((key) => {
-            stats[key] += this.legs[key];
+        Object.keys(this.legs.stats).forEach((key) => {
+            stats[key] += parseFloat(this.legs.stats[key]);
         });
-        Object.keys(this.boots).forEach((key) => {
-            stats[key] += this.boots[key];
+        Object.keys(this.boots.stats).forEach((key) => {
+            stats[key] += parseFloat(this.boots.stats[key]);
         });
-        Object.keys(this.weapon1).forEach((key) => {
-            stats[key] += this.weapon1[key];
+        Object.keys(this.weapon1.stats).forEach((key) => {
+            stats[key] += parseFloat(this.weapon1.stats[key]);
         });
-        Object.keys(this.weapon2).forEach((key) => {
-            stats[key] += this.weapon2[key];
+        Object.keys(this.weapon2.stats).forEach((key) => {
+            stats[key] += parseFloat(this.weapon2.stats[key]);
         });
+
+        console.log(stats);
+        this.maxHealth = this.maxHealth + (this.maxHealth * (stats.health / 100));
+        if (this.health > this.maxHealth){
+            this.health = this.maxHealth;
+        }
+        console.log(this.maxHealth);
         return stats;
     };
 
@@ -84,7 +94,7 @@ export default class Player {
 
     addGold = (gold) => {
         this.gold += Math.floor(gold);
-        if(this.gold > 9999999999){
+        if (this.gold > 9999999999) {
             this.gold = 9999999999;
         }
     };
@@ -97,7 +107,7 @@ export default class Player {
     addItem = (item) => {
         let empty;
         for (let i = 0; i < this.max; i++) {
-            if(this.bag[i] === undefined){
+            if (this.bag[i] === undefined) {
                 empty = i;
                 break;
             }

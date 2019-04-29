@@ -165,6 +165,7 @@ export default class FightFigure {
 
     showResultWindow = () => {
         this.container.moveEnabled = false;
+        this.stopWalkAnimation();
         let resultWindow;
         let showLoot = false;
         let lose = false;
@@ -198,6 +199,11 @@ export default class FightFigure {
             resultWindow.showWindow();
             this.windowCounter++;
         }
+    };
+
+    stopWalkAnimation = () => {
+        this.container.fightPlayer.animWalk.stopAnimate();
+        this.container.fightEnemy.animWalk.stopAnimate();
     };
 
     continue = () => {

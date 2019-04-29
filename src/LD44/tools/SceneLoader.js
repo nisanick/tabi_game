@@ -9,6 +9,7 @@ import Status from "../scenes/Status";
 import Merchant from "../scenes/Merchant";
 import Tooltip from "../objects/Tooltip";
 import GameOver from "../scenes/GameOver";
+import SoundLoader from "./SoundLoader";
 
 export default class SceneLoader {
     constructor(/* PIXI.Application */ app) {
@@ -20,6 +21,7 @@ export default class SceneLoader {
         this.loader = new PIXI.Loader();
         this.game;
         this.loading = 0;
+        this.soundLoader = new SoundLoader();
 
         this.count = 0;
     }
@@ -112,6 +114,19 @@ export default class SceneLoader {
         this.scenes.forEach((el) => { el.visible = false});
         if(window.gameDebugMode) {
             console.log("changing scene to " + index);
+        }
+        if (this.activeScene === 3){
+            if (!this.soundLoader.mapSceneSound.playing()) {
+                this.soundLoader.mapSceneSound.play();
+                this.soundLoader.fightSceneSound.stop();
+            }
+        } else if (this.activeScene === 2){
+            this.soundLoader.mapSceneSound.pause();
+            this.soundLoader.fightSceneSound.play();
+        } else if (this.activeScene === 6){
+            this.soundLoader.mapSceneSound.stop();
+        } else {
+            this.soundLoader.footStepSound.stop();
         }
     };
 
