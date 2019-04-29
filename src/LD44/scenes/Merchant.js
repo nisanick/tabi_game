@@ -128,8 +128,8 @@ export default class Merchant extends BasicScene {
         for (let i = 0; i < inventory.length; i++) {
             let slot = new ItemSlot(inventory[i], this.loader);
             let row = Math.floor(i / 3);
-            let x = (i - 3 * row) * slot.width;
-            let y = row * slot.height;
+            let x = (i - 3 * row) * slot.width + (i - 3*row) * 2;
+            let y = row * slot.height + row*2 - 4;
             slot.position.set(x, y);
             buffer.addChild(slot);
         }

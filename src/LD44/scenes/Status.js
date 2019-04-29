@@ -33,6 +33,7 @@ export default class Status extends BasicScene {
 
         this.cross.on("click", () => {
             this.loader.setScene(3);
+            this.shown = 0;
         });
 
         this.addChild(this.cross);
@@ -113,12 +114,13 @@ export default class Status extends BasicScene {
 
     drawInventory = () => {
         let inventory = this.game.player.bag;
+        console.log(inventory);
 
         for (let i = 0; i < inventory.length; i++) {
             let slot = new ItemSlot(inventory[i], this.loader);
             let row = Math.floor(i/8);
-            let x = (i - 8*row) * slot.width;
-            let y = row * slot.height;
+            let x = (i - 8*row) * slot.width + (i - 8*row) * 2 - 4;
+            let y = row * slot.height + row*2 - 4;
             slot.position.set(x, y);
             this.inventory.addChild(slot);
         }
