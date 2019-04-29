@@ -19,6 +19,7 @@ export default class Fight extends BasicScene {
         this.fightPlayer = {};
         this.fightEnemy = {};
         this.area = {};
+        this.moveEnabled = true;
 
         this.imgContainer = new PIXI.Container();
         this.windowContainer = new PIXI.Container();
@@ -26,8 +27,8 @@ export default class Fight extends BasicScene {
         this.enemyHealthBar = {};
         this.playerHealthBar = {};
         this.selectedSpells = [];
-        this.winWindowEmpty = new Window(loader, this.windowContainer, 'You Won\nLoot is empty', 30);
-        this.winWindowLoot = new Window(loader, this.windowContainer, 'You Won\nYou got something!', 30);
+        this.winWindowEmpty = new Window(loader, this.windowContainer, 'You Won', 30);
+        this.winWindowLoot = new Window(loader, this.windowContainer, 'You Won\nYou find loot!', 30);
         this.loseWindow = new Window(loader, this.windowContainer, 'You Lose', 30);
     }
 
