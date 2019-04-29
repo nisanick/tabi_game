@@ -22,6 +22,10 @@ export default class NpcInventory {
         }
     }
 
+    isGold = (index) => {
+        return this.inventory[index].slot === 0;
+    };
+
     haveSpace = () => {
         return this.itemCount < this.max;
     };

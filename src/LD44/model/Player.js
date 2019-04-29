@@ -8,14 +8,14 @@ export default class Player {
         this.health = 100;
         this.maxHealth = 100;
 
-        this.head = new Item('default_helm', 1, 'Crimson Cowl');
-        this.shoulder = new Item('default_shoulder', 2, 'Crimson Shoulders');
-        this.chest = new Item('default_chest', 3, "Crimson Robers");
-        this.hands = new Item('default_hands', 4, "Crimson Gloves");
-        this.legs = new Item('default_legs', 5, "Crimson Skirt");
-        this.boots = new Item('default_boots', 6, "Crimson Boots");
-        this.weapon1 = new Item('default_weapon1', 7, "Twitching Eye of Zala'tix");
-        this.weapon2 = new Item('default_weapon2', 8, "Grimoire of Blood");
+        this.head = new Item('default_helm', 1, 'Crimson Cowl', {defense: 5}, 1);
+        this.shoulder = new Item('default_shoulder', 2, 'Crimson Shoulders', {}, 1);
+        this.chest = new Item('default_chest', 3, "Crimson Robers", {}, 1);
+        this.hands = new Item('default_hands', 4, "Crimson Gloves", {}, 1);
+        this.legs = new Item('default_legs', 5, "Crimson Skirt", {}, 1);
+        this.boots = new Item('default_boots', 6, "Crimson Boots", {}, 1);
+        this.weapon1 = new Item('default_weapon1', 7, "Twitching Eye of Zala'tix", {}, 1);
+        this.weapon2 = new Item('default_weapon2', 8, "Grimoire of Blood", {}, 1);
 
         this.max = 8*3;
         this.bag = new Array(this.max);

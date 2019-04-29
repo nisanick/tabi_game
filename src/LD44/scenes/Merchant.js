@@ -27,9 +27,9 @@ export default class Merchant extends BasicScene {
         this.goldPlayer = new PIXI.Container();
         let goldbg = new PIXI.Graphics();
         goldbg.beginFill(0x5D412C);
-        goldbg.drawRect(0,0,269,55);
+        goldbg.drawRect(0,0,273,55);
         this.goldPlayer.addChild(goldbg);
-        this.goldPlayer.position.set(110,772);
+        this.goldPlayer.position.set(110,784);
 
         this.textPlayer = new PIXI.Text(this.game.player.gold.toLocaleString(), new PIXI.TextStyle({fill: "white", fontSize: 30, fontFamily: "Linepixels"}));
         this.textPlayer.position.set(50,10);
@@ -44,9 +44,9 @@ export default class Merchant extends BasicScene {
         this.goldNpc = new PIXI.Container();
         goldbg = new PIXI.Graphics();
         goldbg.beginFill(0x5D412C);
-        goldbg.drawRect(0,0,269,55);
+        goldbg.drawRect(0,0,273,55);
         this.goldNpc.addChild(goldbg);
-        this.goldNpc.position.set(525,772);
+        this.goldNpc.position.set(525,784);
 
         this.textNPC = new PIXI.Text("0", new PIXI.TextStyle({fill: "white", fontSize: 30, fontFamily: "Linepixels"}));
         this.textNPC.position.set(50,10);
@@ -174,7 +174,7 @@ export default class Merchant extends BasicScene {
 
         let index = y * 3 + x;
         if (this.clickTimeRight + 500 > Date.now() && this.clickedRight === index) {
-            if (this.game.player.haveSpace()) {
+            if (this.game.player.haveSpace() || this.inventory.isGold(index)) {
                 let item = this.inventory.removeItem(index);
                 if(item !== undefined) {
                     if(this.inventory.type === 1){

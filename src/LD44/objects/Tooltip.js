@@ -8,8 +8,9 @@ export default class Tooltip extends PIXI.Container{
         this.bg.beginFill(0x5D412C);
         this.bg.lineStyle(3, 0xa3a3a3, 1);
         this.bg.drawRoundedRect(0,0, 200,200,5);
+        this.titleStyle = new PIXI.TextStyle({fill: "white", fontSize: 24, fontFamily: "Linepixels"});
 
-        this.title = new PIXI.Text('Test',  new PIXI.TextStyle({fill: "white", fontSize: 24, fontFamily: "Linepixels"}));
+        this.title = new PIXI.Text('Test', this.titleStyle);
         this.type = new PIXI.Text('test',  new PIXI.TextStyle({fill: "white", fontSize: 14, fontFamily: "Linepixels"}));
         this.addChild(this.bg);
         this.addChild(this.title);
@@ -19,6 +20,19 @@ export default class Tooltip extends PIXI.Container{
     repaintTooltip = (info) => {
         this.removeChildren(0, this.children.length);
         this.title.text = info.name;
+
+        let color = "white";
+        if(info.rarity){
+            switch (info.rarity) {
+                default:
+                case 1: color = "white"; break;
+                case 2: color = 0x26E118; break;
+                case 3: color = 0x1DA2E1; break;
+                case 4: color = 0xB24EE1; break;
+                case 5: color = 0xE17A1F; break;
+            }
+        }
+        this.titleStyle.fill = color;
 
         let width = this.title.width + 40;
 
