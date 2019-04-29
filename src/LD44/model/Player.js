@@ -79,12 +79,10 @@ export default class Player {
             stats[key] += parseFloat(this.weapon2.stats[key]);
         });
 
-        console.log(stats);
-        this.maxHealth = this.maxHealth + (this.maxHealth * (stats.health / 100));
+        this.maxHealth = 100 + (100 * (stats.health / 100));
         if (this.health > this.maxHealth){
             this.health = this.maxHealth;
         }
-        console.log(this.maxHealth);
         return stats;
     };
 
