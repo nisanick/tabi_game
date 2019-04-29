@@ -115,17 +115,17 @@ export default class Status extends BasicScene {
         this.stats.addChild(healthText);
 
 
-        let defenseText = new PIXI.Text("Defense: " + playerStats.defense, new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
+        let defenseText = new PIXI.Text("Defense: " + playerStats.defense.toFixed(2), new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
         defenseText.position.set(0, 40);
         this.stats.addChild(defenseText);
 
 
-        let spellCostText = new PIXI.Text("Spell Cost: " + (Number(playerStats.cost) * -1), new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
+        let spellCostText = new PIXI.Text("Spell Cost: " + (Number(playerStats.cost) * -1).toFixed(2), new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
         spellCostText.position.set(0, 80);
         this.stats.addChild(spellCostText);
 
 
-        let damageText = new PIXI.Text("Damage: " + playerStats.damage, new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
+        let damageText = new PIXI.Text("Damage: " + playerStats.damage.toFixed(2), new PIXI.TextStyle({fill: "black", fontSize: 34, fontFamily: "Linepixels"}));
         damageText.position.set(0, 120);
         this.stats.addChild(damageText);
 

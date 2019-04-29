@@ -170,9 +170,11 @@ export default class FightFigure {
         let showLoot = false;
         let lose = false;
         if (this.type === 'player') {
+            this.container.fightEnemy.staySprite.visible = true;
             resultWindow = this.container.loseWindow;
             lose = true;
         }  else {
+            this.container.fightPlayer.staySprite.visible = true;
             if (this.game.getEnemy().inventory !== undefined) {
                 resultWindow = this.container.winWindowLoot;
                 showLoot = true;
@@ -224,17 +226,17 @@ export default class FightFigure {
             this.dying = false;
             this.meleeAttack.reset();
             this.spellAttack.reset();
-            this.bounds.x = this.initX;
-            this.bounds.y = this.initY;
-            this.hitArea.x = this.initX;
-            this.hitArea.y = this.initY;
-            this.staySprite.x = this.initX;
-            this.staySprite.y = this.initY;
             this.container.moveEnabled = true;
             this.container.fightPlayer.staySprite.visible = true;
         }
         this.container.fightEnemy.reset();
         this.container.fightPlayer.reset();
+        this.container.fightPlayer.hitArea.x = this.container.fightPlayer.initX + 60;
+        this.container.fightPlayer.hitArea.y = this.container.fightPlayer.initY + 55;
+        this.container.fightPlayer.staySprite.x = this.container.fightPlayer.initX;
+        this.container.fightPlayer.staySprite.y = this.container.fightPlayer.initY;
+        this.container.fightPlayer.bounds.x = this.container.fightPlayer.initX;
+        this.container.fightPlayer.bounds.y = this.container.fightPlayer.initY;
     };
 
     reset = () => {
