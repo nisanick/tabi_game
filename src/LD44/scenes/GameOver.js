@@ -33,6 +33,12 @@ export default class GameOver extends BasicScene {
         text.x = (this.loader.app.renderer.width / 2) - (text.width / 2);
         text.y = 70;
         this.addChild(text);
+
+        let logo = this.loader.getSprite('logo');
+        logo.x = 400;
+        logo.y = 700;
+        logo.scale.set(0.5);
+        this.addChild(logo);
     };
 
 

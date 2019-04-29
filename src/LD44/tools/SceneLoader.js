@@ -41,6 +41,7 @@ export default class SceneLoader {
         this.loader.add("btn_normal", "assets/images/menu/btn_normal.png")
             .add("btn_clicked", "assets/images/menu/btn_clicked.png")
             .add("bgMenu", "assets/images/menu/background_02.png")
+            .add("logo", "assets/images/logo.png")
             .load(this.setup);
 
     };
